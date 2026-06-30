@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: '2026前端八股文学习文档',
   description: '前端面试八股文完整版',
-  base: '/2026-frontend-interview/',
+  base: '/qianduanmianshimd/',
   ignoreDeadLinks: true,
   vue: {
     template: {
