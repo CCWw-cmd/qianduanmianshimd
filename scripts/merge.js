@@ -76,29 +76,29 @@ function removeCopyright(content) {
 
 // 转义所有 HTML 标签和 Vue 插值语法，防止 VitePress 解析错误
 function escapeHtmlTags(content) {
-  // 先提取并暂时替换代码块
   const codeBlocks = [];
   const inlineCodes = [];
   
   let result = content;
   
-  // 提取并暂时替换代码块
   result = result.replace(/```[\s\S]*?```/g, (match) => {
     const idx = codeBlocks.length;
-    codeBlocks.push(match);
+    const escaped = match
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\{\{/g, '&lbrace;&lbrace;')
+      .replace(/\}\}/g, '&rbrace;&rbrace;');
+    codeBlocks.push(escaped);
     return `__CODE_BLOCK_${idx}__`;
   });
   
-  // 提取并暂时替换行内代码
   result = result.replace(/`[^`]*`/g, (match) => {
     const idx = inlineCodes.length;
-    // 对行内代码中的 {{ 和 }} 进行转义，防止被 Vue 解析
     const escaped = match.replace(/\{\{/g, '&lbrace;&lbrace;').replace(/\}\}/g, '&rbrace;&rbrace;');
     inlineCodes.push(escaped);
     return `__INLINE_CODE_${idx}__`;
   });
   
-  // 转义 HTML 标签
   result = result
     .replace(/<script/gi, '&lt;script')
     .replace(/<\/script>/gi, '&lt;/script&gt;')
@@ -108,16 +108,13 @@ function escapeHtmlTags(content) {
     .replace(/<\/style>/gi, '&lt;/style&gt;')
     .replace(/<(\w+)/g, '&lt;$1')
     .replace(/<\/(\w+)>/g, '&lt;/$1&gt;')
-    // 转义 Vue 插值语法
     .replace(/\{\{/g, '&lbrace;&lbrace;')
     .replace(/\}\}/g, '&rbrace;&rbrace;');
   
-  // 恢复行内代码（使用索引方式）
   for (let i = 0; i < inlineCodes.length; i++) {
     result = result.split(`__INLINE_CODE_${i}__`).join(inlineCodes[i]);
   }
   
-  // 恢复代码块（使用索引方式）
   for (let i = 0; i < codeBlocks.length; i++) {
     result = result.split(`__CODE_BLOCK_${i}__`).join(codeBlocks[i]);
   }

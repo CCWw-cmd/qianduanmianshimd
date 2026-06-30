@@ -48,10 +48,10 @@ _jsx(
 
 // JSX 写法
 const element = (
-    <div className="container">
-        <h1 id="title">Hello</h1>
-        <p>这是一段文字</p>
-    </div>
+    &lt;div className="container"&gt;
+        &lt;h1 id="title"&gt;Hello&lt;/h1&gt;
+        &lt;p&gt;这是一段文字&lt;/p&gt;
+    &lt;/div&gt;
 );
 
 // React 17 之前编译结果（经典转换）
@@ -128,18 +128,18 @@ React 17 的新 JSX 转换（jsx-runtime）做了几个改变：编译器自动�
 
 // 组件作为 type
 function Welcome({ name }) {
-    return <h1>Hello, {name}</h1>;
+    return &lt;h1&gt;Hello, {name}&lt;/h1&gt;;
 }
 
-const app = <Welcome name="张三" />;
+const app = &lt;Welcome name="张三" /&gt;;
 // 编译为：_jsx(Welcome, { name: "张三" })
 // type 是组件函数引用，不是字符串
 
 // 条件渲染
 const content = (
-    <div>
-        {isLoggedIn ? <Welcome name={user.name} /> : <LoginButton />}
-    </div>
+    &lt;div&gt;
+        {isLoggedIn ? &lt;Welcome name={user.name} /&gt; : &lt;LoginButton /&gt;}
+    &lt;/div&gt;
 );
 // 三元表达式直接保留在编译结果中
 // _jsx("div", {
@@ -150,11 +150,11 @@ const content = (
 
 // 列表渲染
 const list = (
-    <ul>
-        {items.map(item => (
-            <li key={item.id}>{item.name}</li>
+    &lt;ul&gt;
+        {items.map(item =&gt; (
+            &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
         ))}
-    </ul>
+    &lt;/ul&gt;
 );
 // key 从 props 中提取出来，放到 ReactElement 的顶层 key 属性
 ```
@@ -187,12 +187,12 @@ const list = (
 
 ```jsx
 // 错误写法：小写开头被当作 HTML 标签
-// function myComponent() { return <div>Hello</div>; }
-// <myComponent />  →  createElement("myComponent", null) → 浏览器不认识
+// function myComponent() { return &lt;div&gt;Hello&lt;/div&gt;; }
+// &lt;myComponent /&gt;  →  createElement("myComponent", null) → 浏览器不认识
 
 // 正确写法：组件名大写开头
-function MyComponent() { return <div>Hello</div>; }
-<MyComponent />  // → createElement(MyComponent, null) → 正确调用组件函数
+function MyComponent() { return &lt;div&gt;Hello&lt;/div&gt;; }
+&lt;MyComponent /&gt;  // → createElement(MyComponent, null) → 正确调用组件函数
 ```
 
 #### JSX 表达式必须有一个根元素
@@ -206,16 +206,16 @@ function MyComponent() { return <div>Hello</div>; }
 ```jsx
 // 错误写法
 // return (
-//     <h1>标题</h1>
-//     <p>段落</p>
+//     &lt;h1&gt;标题&lt;/h1&gt;
+//     &lt;p&gt;段落&lt;/p&gt;
 // );
 
 // 正确写法：用 Fragment 包裹
 return (
-    <>
-        <h1>标题</h1>
-        <p>段落</p>
-    </>
+    &lt;&gt;
+        &lt;h1&gt;标题&lt;/h1&gt;
+        &lt;p&gt;段落&lt;/p&gt;
+    &lt;/&gt;
 );
 ```
 
@@ -258,35 +258,35 @@ function ExpressionDemo() {
     const skills = ["React", "TypeScript", "Node.js"];
 
     return (
-        <div>
+        &lt;div&gt;
             {/* 变量引用 */}
-            <h1>用户: {name}</h1>
+            &lt;h1&gt;用户: {name}&lt;/h1&gt;
 
             {/* 算术表达式 */}
-            <p>出生年份: {2025 - age}</p>
+            &lt;p&gt;出生年份: {2025 - age}&lt;/p&gt;
 
             {/* 函数调用 */}
-            <p>大写名字: {name.toUpperCase()}</p>
+            &lt;p&gt;大写名字: {name.toUpperCase()}&lt;/p&gt;
 
             {/* 三元表达式（条件渲染） */}
-            <p>身份: {isVip ? "VIP 会员" : "普通用户"}</p>
+            &lt;p&gt;身份: {isVip ? "VIP 会员" : "普通用户"}&lt;/p&gt;
 
             {/* 逻辑与短路（条件渲染） */}
-            {isVip && <span>VIP 专属标识</span>}
+            {isVip && &lt;span&gt;VIP 专属标识&lt;/span&gt;}
 
             {/* 数组 map（列表渲染） */}
-            <ul>
-                {skills.map((skill, index) => (
-                    <li key={index}>{skill}</li>
+            &lt;ul&gt;
+                {skills.map((skill, index) =&gt; (
+                    &lt;li key={index}&gt;{skill}&lt;/li&gt;
                 ))}
-            </ul>
+            &lt;/ul&gt;
 
             {/* 模板字符串 */}
-            <p>{`${name} 今年 ${age} 岁`}</p>
+            &lt;p&gt;{`${name} 今年 ${age} 岁`}&lt;/p&gt;
 
             {/* 对象属性访问 */}
-            <p>技能数量: {skills.length}</p>
-        </div>
+            &lt;p&gt;技能数量: {skills.length}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -303,7 +303,7 @@ export default ExpressionDemo;
 
 ```javascript
 // JSX
-<p>年龄: {age}</p>
+&lt;p&gt;年龄: {age}&lt;/p&gt;
 
 // 编译后：age 变量的值直接作为 children
 _jsx("p", { children: ["年龄: ", age] });
@@ -345,14 +345,14 @@ React 对花括号中表达式的返回值有明确的渲染规则：string 和 
 
 ```jsx
 // 错误写法：count 为 0 时显示 "0"
-{count && <ItemList />}
+{count && &lt;ItemList /&gt;}
 
 // 正确写法：转为布尔值
-{count > 0 && <ItemList />}
+{count &gt; 0 && &lt;ItemList /&gt;}
 // 或
-{!!count && <ItemList />}
+{!!count && &lt;ItemList /&gt;}
 // 或用三元
-{count ? <ItemList /> : null}
+{count ? &lt;ItemList /&gt; : null}
 ```
 
 #### 对象不能直接渲染
@@ -367,13 +367,13 @@ React 对花括号中表达式的返回值有明确的渲染规则：string 和 
 const user = { name: "张三", age: 25 };
 
 // 错误写法
-// <p>{user}</p>  // 报错
+// &lt;p&gt;{user}&lt;/p&gt;  // 报错
 
 // 正确写法：访问对象的具体属性
-<p>{user.name}</p>
+&lt;p&gt;{user.name}&lt;/p&gt;
 
 // 或转为 JSON 字符串（调试用）
-<pre>{JSON.stringify(user, null, 2)}</pre>
+&lt;pre&gt;{JSON.stringify(user, null, 2)}&lt;/pre&gt;
 ```
 
 ### 注意事项
@@ -410,11 +410,11 @@ import React from "react";
 // 基本展开：将对象属性传递给组件
 function UserCard({ name, age, email }) {
     return (
-        <div>
-            <h2>{name}</h2>
-            <p>年龄: {age}</p>
-            <p>邮箱: {email}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+            &lt;p&gt;邮箱: {email}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -426,7 +426,7 @@ function App() {
     };
 
     // 展开传递：等价于 name="张三" age={25} email="zhangsan@example.com"
-    return <UserCard {...userProps} />;
+    return &lt;UserCard {...userProps} /&gt;;
 }
 
 // 展开与显式属性混合使用
@@ -434,7 +434,7 @@ function App2() {
     const baseProps = { name: "张三", age: 25 };
 
     // 显式属性会覆盖展开的同名属性
-    return <UserCard {...baseProps} age={30} email="new@example.com" />;
+    return &lt;UserCard {...baseProps} age={30} email="new@example.com" /&gt;;
     // 最终：name="张三" age={30} email="new@example.com"
 }
 
@@ -449,7 +449,7 @@ export default App;
 
 ```javascript
 // JSX
-<UserCard {...userProps} age={30} />
+&lt;UserCard {...userProps} age={30} /&gt;
 
 // 编译为（新 JSX 转换）
 _jsx(UserCard, {
@@ -477,16 +477,16 @@ function CustomButton({ variant, children, ...rest }) {
     const className = variant === "primary" ? "btn-primary" : "btn-default";
 
     return (
-        <button className={className} {...rest}>
+        &lt;button className={className} {...rest}&gt;
             {children}
-        </button>
+        &lt;/button&gt;
     );
 }
 
 // 使用时：onClick、disabled 等属性自动透传给内部 button
-<CustomButton variant="primary" onClick={handleClick} disabled={isLoading}>
+&lt;CustomButton variant="primary" onClick={handleClick} disabled={isLoading}&gt;
     提交
-</CustomButton>
+&lt;/CustomButton&gt;
 ```
 
 ### 适用场景
@@ -509,15 +509,15 @@ function CustomButton({ variant, children, ...rest }) {
 ```jsx
 // 错误写法：customProp 传递到了 div 上
 function Card({ customProp, ...rest }) {
-    return <div {...rest} />;  // customProp 已被解构出去，不会传到 div
+    return &lt;div {...rest} /&gt;;  // customProp 已被解构出去，不会传到 div
 }
 
 // 如果不小心透传了所有属性
-// <div {...allProps} />  // 可能包含非 DOM 属性
+// &lt;div {...allProps} /&gt;  // 可能包含非 DOM 属性
 
 // 正确写法：先解构出自定义属性，再展开剩余属性
 function Card({ variant, onCustomEvent, ...htmlProps }) {
-    return <div {...htmlProps} />;  // 只传递合法的 HTML 属性
+    return &lt;div {...htmlProps} /&gt;;  // 只传递合法的 HTML 属性
 }
 ```
 
@@ -556,41 +556,41 @@ import React from "react";
 // 接收 children 的容器组件
 function Card({ title, children }) {
     return (
-        <div className="card">
-            <h2>{title}</h2>
-            <div className="card-body">
+        &lt;div className="card"&gt;
+            &lt;h2&gt;{title}&lt;/h2&gt;
+            &lt;div className="card-body"&gt;
                 {children}
-            </div>
-        </div>
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 function App() {
     return (
-        <div>
+        &lt;div&gt;
             {/* 字符串 children */}
-            <Card title="问候">Hello World</Card>
+            &lt;Card title="问候"&gt;Hello World&lt;/Card&gt;
 
             {/* JSX 元素 children */}
-            <Card title="用户信息">
-                <p>姓名: 张三</p>
-                <p>年龄: 25</p>
-            </Card>
+            &lt;Card title="用户信息"&gt;
+                &lt;p&gt;姓名: 张三&lt;/p&gt;
+                &lt;p&gt;年龄: 25&lt;/p&gt;
+            &lt;/Card&gt;
 
             {/* 混合 children：文本 + 元素 */}
-            <Card title="混合">
+            &lt;Card title="混合"&gt;
                 欢迎使用
-                <strong>React</strong>
+                &lt;strong&gt;React&lt;/strong&gt;
                 框架
-            </Card>
+            &lt;/Card&gt;
 
             {/* 表达式 children */}
-            <Card title="列表">
-                {["苹果", "香蕉", "橘子"].map((fruit, i) => (
-                    <p key={i}>{fruit}</p>
+            &lt;Card title="列表"&gt;
+                {["苹果", "香蕉", "橘子"].map((fruit, i) =&gt; (
+                    &lt;p key={i}&gt;{fruit}&lt;/p&gt;
                 ))}
-            </Card>
-        </div>
+            &lt;/Card&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -605,7 +605,7 @@ export default App;
 
 ```javascript
 // JSX
-<Card title="问候">Hello World</Card>
+&lt;Card title="问候"&gt;Hello World&lt;/Card&gt;
 
 // 编译后（新 JSX 转换）
 _jsx(Card, {
@@ -614,10 +614,10 @@ _jsx(Card, {
 });
 
 // 多个子元素
-<Card title="信息">
-    <p>第一行</p>
-    <p>第二行</p>
-</Card>
+&lt;Card title="信息"&gt;
+    &lt;p&gt;第一行&lt;/p&gt;
+    &lt;p&gt;第二行&lt;/p&gt;
+&lt;/Card&gt;
 
 // 编译后
 _jsxs(Card, {
@@ -654,21 +654,21 @@ _jsxs(Card, {
 // 错误写法：单个 children 不是数组
 function List({ children }) {
     // 当只有一个子元素时，children 不是数组，.map 报错
-    // return children.map((child, i) => <div key={i}>{child}</div>);
+    // return children.map((child, i) =&gt; &lt;div key={i}&gt;{child}&lt;/div&gt;);
     return null;
 }
 
 // 正确写法：使用 React.Children.map
 function List({ children }) {
-    return React.Children.map(children, (child, i) => (
-        <div key={i}>{child}</div>
+    return React.Children.map(children, (child, i) =&gt; (
+        &lt;div key={i}&gt;{child}&lt;/div&gt;
     ));
 }
 
 // 或转为数组
 function List({ children }) {
     const childArray = React.Children.toArray(children);
-    return childArray.map((child, i) => <div key={i}>{child}</div>);
+    return childArray.map((child, i) =&gt; &lt;div key={i}&gt;{child}&lt;/div&gt;);
 }
 ```
 
@@ -706,33 +706,33 @@ function FormDemo() {
     const isSubmitting = true;
 
     return (
-        <form>
+        &lt;form&gt;
             {/* 布尔属性省略值，等价于 disabled={true} */}
-            <input type="text" disabled />
+            &lt;input type="text" disabled /&gt;
 
             {/* 显式传递布尔值 */}
-            <input type="text" disabled={true} />
-            <input type="text" disabled={false} />
+            &lt;input type="text" disabled={true} /&gt;
+            &lt;input type="text" disabled={false} /&gt;
 
             {/* 动态布尔属性 */}
-            <button disabled={isSubmitting}>
+            &lt;button disabled={isSubmitting}&gt;
                 {isSubmitting ? "提交中..." : "提交"}
-            </button>
+            &lt;/button&gt;
 
             {/* 多个布尔属性 */}
-            <input
+            &lt;input
                 type="checkbox"
                 checked
                 readOnly
-            />
+            /&gt;
 
             {/* 条件性传递属性：属性值为 undefined 时等于不传该属性 */}
-            <input
+            &lt;input
                 type="text"
                 placeholder="请输入"
                 disabled={isSubmitting ? true : undefined}
-            />
-        </form>
+            /&gt;
+        &lt;/form&gt;
     );
 }
 
@@ -747,13 +747,13 @@ export default FormDemo;
 
 ```javascript
 // JSX
-<input disabled />
+&lt;input disabled /&gt;
 
 // 编译后：省略值等于 true
 _jsx("input", { disabled: true });
 
 // JSX
-<input disabled={false} />
+&lt;input disabled={false} /&gt;
 
 // 编译后：false 时 React 不会将该属性渲染到 DOM
 _jsx("input", { disabled: false });
@@ -782,12 +782,12 @@ _jsx("input", { disabled: false });
 
 ```jsx
 // 错误写法：字符串 "false" 仍然禁用
-// <input disabled="false" />
+// &lt;input disabled="false" /&gt;
 
 // 正确写法：用布尔值
-<input disabled={false} />
+&lt;input disabled={false} /&gt;
 // 或不传该属性
-<input />
+&lt;input /&gt;
 ```
 
 ### 注意事项
@@ -825,32 +825,32 @@ import React from "react";
 // 没有 Fragment 时：需要多余的 div 包裹
 function TableRowOld() {
     return (
-        <div>  {/* 多余的 div 破坏了 table 结构 */}
-            <td>姓名</td>
-            <td>年龄</td>
-        </div>
+        &lt;div&gt;  {/* 多余的 div 破坏了 table 结构 */}
+            &lt;td&gt;姓名&lt;/td&gt;
+            &lt;td&gt;年龄&lt;/td&gt;
+        &lt;/div&gt;
     );
 }
 
 // 使用 Fragment 短语法：没有多余的 DOM 节点
 function TableRow() {
     return (
-        <>
-            <td>张三</td>
-            <td>25</td>
-        </>
+        &lt;&gt;
+            &lt;td&gt;张三&lt;/td&gt;
+            &lt;td&gt;25&lt;/td&gt;
+        &lt;/&gt;
     );
 }
 
 function Table() {
     return (
-        <table>
-            <tbody>
-                <tr>
-                    <TableRow />  {/* DOM 中直接是 td，没有多余包裹 */}
-                </tr>
-            </tbody>
-        </table>
+        &lt;table&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;TableRow /&gt;  {/* DOM 中直接是 td，没有多余包裹 */}
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
     );
 }
 
@@ -865,10 +865,10 @@ export default Table;
 
 ```javascript
 // JSX 短语法
-<>
-    <p>第一段</p>
-    <p>第二段</p>
-</>
+&lt;&gt;
+    &lt;p&gt;第一段&lt;/p&gt;
+    &lt;p&gt;第二段&lt;/p&gt;
+&lt;/&gt;
 
 // 编译后
 _jsxs(Fragment, {
@@ -904,19 +904,19 @@ Fragment 在 Fiber 树中仍然存在一个 Fiber 节点（tag 为 Fragment）�
 
 ```jsx
 // 错误写法：短语法不能传 key
-// {items.map(item => (
-//     <key={item.id}>  // 语法错误
-//         <dt>{item.term}</dt>
-//         <dd>{item.desc}</dd>
-//     </>
+// {items.map(item =&gt; (
+//     &lt;key={item.id}&gt;  // 语法错误
+//         &lt;dt&gt;{item.term}&lt;/dt&gt;
+//         &lt;dd&gt;{item.desc}&lt;/dd&gt;
+//     &lt;/&gt;
 // ))}
 
 // 正确写法：使用显式 Fragment
-{items.map(item => (
-    <React.Fragment key={item.id}>
-        <dt>{item.term}</dt>
-        <dd>{item.desc}</dd>
-    </React.Fragment>
+{items.map(item =&gt; (
+    &lt;React.Fragment key={item.id}&gt;
+        &lt;dt&gt;{item.term}&lt;/dt&gt;
+        &lt;dd&gt;{item.desc}&lt;/dd&gt;
+    &lt;/React.Fragment&gt;
 ))}
 ```
 
@@ -949,9 +949,9 @@ key 是 React Diff 算法识别列表元素身份的依据。即使是 Fragment 
 
 ```typescript
 // 显式 Fragment 用法
-<React.Fragment key={uniqueKey}>
+&lt;React.Fragment key={uniqueKey}&gt;
     {children}
-</React.Fragment>
+&lt;/React.Fragment&gt;
 ```
 
 | 参数 | 类型 | 是否必填 | 说明 |
@@ -975,15 +975,15 @@ const glossary = [
 
 function Glossary() {
     return (
-        <dl>
-            {glossary.map(item => (
+        &lt;dl&gt;
+            {glossary.map(item =&gt; (
                 // 显式 Fragment：支持 key 属性
-                <React.Fragment key={item.id}>
-                    <dt>{item.term}</dt>
-                    <dd>{item.desc}</dd>
-                </React.Fragment>
+                &lt;React.Fragment key={item.id}&gt;
+                    &lt;dt&gt;{item.term}&lt;/dt&gt;
+                    &lt;dd&gt;{item.desc}&lt;/dd&gt;
+                &lt;/React.Fragment&gt;
             ))}
-        </dl>
+        &lt;/dl&gt;
     );
 }
 
@@ -1036,13 +1036,13 @@ Fragment (key="3") → dt("State") + dd("组件的内部状态")
 
 ```jsx
 // 错误写法：Fragment 不支持 className
-// <React.Fragment className="group">...</React.Fragment>
+// &lt;React.Fragment className="group"&gt;...&lt;/React.Fragment&gt;
 
 // 正确写法：需要属性就用 div 等实际 DOM 元素
-<div className="group">
-    <dt>{item.term}</dt>
-    <dd>{item.desc}</dd>
-</div>
+&lt;div className="group"&gt;
+    &lt;dt&gt;{item.term}&lt;/dt&gt;
+    &lt;dd&gt;{item.desc}&lt;/dd&gt;
+&lt;/div&gt;
 ```
 
 ### 注意事项
@@ -1074,11 +1074,11 @@ Fragment (key="3") → dt("State") + dd("组件的内部状态")
 
 ```typescript
 // 函数组件的 TypeScript 类型签名
-type FC<P = {}> = (props: P) => React.ReactElement | null;
+type FC&lt;P = {}&gt; = (props: P) =&gt; React.ReactElement | null;
 
 // 实际声明方式（推荐直接标注 props 类型）
 function ComponentName(props: PropsType): JSX.Element {
-    return <div>...</div>;
+    return &lt;div&gt;...&lt;/div&gt;;
 }
 ```
 
@@ -1105,43 +1105,43 @@ interface UserCardProps {
 // 方式1：函数声明（推荐）
 function UserCard(props: UserCardProps) {
     return (
-        <div className="user-card">
-            <h2>{props.name}</h2>
-            <p>年龄: {props.age}</p>
-            {props.email && <p>邮箱: {props.email}</p>}
-        </div>
+        &lt;div className="user-card"&gt;
+            &lt;h2&gt;{props.name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {props.age}&lt;/p&gt;
+            {props.email && &lt;p&gt;邮箱: {props.email}&lt;/p&gt;}
+        &lt;/div&gt;
     );
 }
 
 // 方式2：解构 Props（最常用）
 function UserCardDestructured({ name, age, email }: UserCardProps) {
     return (
-        <div className="user-card">
-            <h2>{name}</h2>
-            <p>年龄: {age}</p>
-            {email && <p>邮箱: {email}</p>}
-        </div>
+        &lt;div className="user-card"&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+            {email && &lt;p&gt;邮箱: {email}&lt;/p&gt;}
+        &lt;/div&gt;
     );
 }
 
 // 方式3：箭头函数
-const UserCardArrow = ({ name, age, email }: UserCardProps) => {
+const UserCardArrow = ({ name, age, email }: UserCardProps) =&gt; {
     return (
-        <div className="user-card">
-            <h2>{name}</h2>
-            <p>年龄: {age}</p>
-            {email && <p>邮箱: {email}</p>}
-        </div>
+        &lt;div className="user-card"&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+            {email && &lt;p&gt;邮箱: {email}&lt;/p&gt;}
+        &lt;/div&gt;
     );
 };
 
 // 使用组件
 function App() {
     return (
-        <div>
-            <UserCard name="张三" age={25} email="z@example.com" />
-            <UserCardDestructured name="李四" age={30} />
-        </div>
+        &lt;div&gt;
+            &lt;UserCard name="张三" age={25} email="z@example.com" /&gt;
+            &lt;UserCardDestructured name="李四" age={30} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -1200,7 +1200,7 @@ React 不会对 props 做深冻结，但在概念上 props 是不可变的。组
 
 ```tsx
 // 不推荐：React.FC
-const MyComponent: React.FC<Props> = (props) => { ... };
+const MyComponent: React.FC&lt;Props&gt; = (props) =&gt; { ... };
 
 // 推荐：直接标注 props 类型
 function MyComponent(props: Props) { ... }
@@ -1255,23 +1255,23 @@ function Button({
     const className = `btn btn-${variant} btn-${size}`;
 
     return (
-        <button className={className} disabled={disabled}>
+        &lt;button className={className} disabled={disabled}&gt;
             {text}
-        </button>
+        &lt;/button&gt;
     );
 }
 
 // 使用组件
 function App() {
     return (
-        <div>
+        &lt;div&gt;
             {/* 使用所有默认值 */}
-            <Button text="默认按钮" />
+            &lt;Button text="默认按钮" /&gt;
             {/* variant="primary", size="medium", disabled=false */}
 
             {/* 覆盖部分默认值 */}
-            <Button text="危险操作" variant="danger" size="large" />
-        </div>
+            &lt;Button text="危险操作" variant="danger" size="large" /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -1328,7 +1328,7 @@ Button({ size: null });        // null - null 不触发默认值
 // 问题写法：每次渲染创建新对象
 function Card({ style = {}, items = [] }: Props) {
     // style 和 items 每次渲染都是新引用
-    return <div style={style}>...</div>;
+    return &lt;div style={style}&gt;...&lt;/div&gt;;
 }
 
 // 正确写法：将默认值提取为模块级常量
@@ -1337,7 +1337,7 @@ const DEFAULT_ITEMS: string[] = [];
 
 function Card({ style = DEFAULT_STYLE, items = DEFAULT_ITEMS }: Props) {
     // 默认值引用稳定，不会触发不必要的重渲染
-    return <div style={style}>...</div>;
+    return &lt;div style={style}&gt;...&lt;/div&gt;;
 }
 ```
 
@@ -1381,7 +1381,7 @@ type ReactNode =
     | boolean
     | null
     | undefined
-    | Iterable<ReactNode>;
+    | Iterable&lt;ReactNode&gt;;
 ```
 
 ### 基本示例
@@ -1393,13 +1393,13 @@ import React from "react";
 
 // 返回 JSX 元素（最常见）
 function NormalComponent(): JSX.Element {
-    return <div>Hello</div>;
+    return &lt;div&gt;Hello&lt;/div&gt;;
 }
 
 // 返回 null（不渲染任何内容）
 function ConditionalComponent({ show }: { show: boolean }) {
     if (!show) return null;  // 合法：不渲染
-    return <div>内容</div>;
+    return &lt;div&gt;内容&lt;/div&gt;;
 }
 
 // 返回字符串（React 16+ 支持）
@@ -1410,18 +1410,18 @@ function StringComponent(): React.ReactNode {
 // 返回数组（需要给每个元素加 key）
 function ArrayComponent(): React.ReactNode {
     return [
-        <p key="1">第一段</p>,
-        <p key="2">第二段</p>,
+        &lt;p key="1"&gt;第一段&lt;/p&gt;,
+        &lt;p key="2"&gt;第二段&lt;/p&gt;,
     ];
 }
 
 // 返回 Fragment
 function FragmentComponent() {
     return (
-        <>
-            <p>第一段</p>
-            <p>第二段</p>
-        </>
+        &lt;&gt;
+            &lt;p&gt;第一段&lt;/p&gt;
+            &lt;p&gt;第二段&lt;/p&gt;
+        &lt;/&gt;
     );
 }
 ```
@@ -1512,15 +1512,15 @@ React 官方从 React 16.8 开始推荐函数组件 + Hooks，类组件不再是
 
 ```typescript
 // React.Component 的泛型签名
-class Component<P = {}, S = {}, SS = any> {
+class Component&lt;P = {}, S = {}, SS = any&gt; {
     constructor(props: P);
-    readonly props: Readonly<P>;
-    state: Readonly<S>;
+    readonly props: Readonly&lt;P&gt;;
+    state: Readonly&lt;S&gt;;
     setState(
-        state: S | ((prevState: S, props: P) => S | null) | null,
-        callback?: () => void
+        state: S | ((prevState: S, props: P) =&gt; S | null) | null,
+        callback?: () =&gt; void
     ): void;
-    forceUpdate(callback?: () => void): void;
+    forceUpdate(callback?: () =&gt; void): void;
     render(): React.ReactNode;
 }
 ```
@@ -1549,7 +1549,7 @@ interface CounterState {
 }
 
 // 类组件声明
-class Counter extends Component<CounterProps, CounterState> {
+class Counter extends Component&lt;CounterProps, CounterState&gt; {
     // 构造函数：初始化 state
     constructor(props: CounterProps) {
         super(props);  // 必须调用 super(props)
@@ -1559,16 +1559,16 @@ class Counter extends Component<CounterProps, CounterState> {
     }
 
     // 实例方法（需要绑定 this 或用箭头函数）
-    increment = () => {
+    increment = () =&gt; {
         const step = this.props.step ?? 1;
-        this.setState(prevState => ({
+        this.setState(prevState =&gt; ({
             count: prevState.count + step,
         }));
     };
 
-    decrement = () => {
+    decrement = () =&gt; {
         const step = this.props.step ?? 1;
-        this.setState(prevState => ({
+        this.setState(prevState =&gt; ({
             count: prevState.count - step,
         }));
     };
@@ -1576,11 +1576,11 @@ class Counter extends Component<CounterProps, CounterState> {
     // render 方法：返回 JSX
     render() {
         return (
-            <div>
-                <p>计数: {this.state.count}</p>
-                <button onClick={this.decrement}>-</button>
-                <button onClick={this.increment}>+</button>
-            </div>
+            &lt;div&gt;
+                &lt;p&gt;计数: {this.state.count}&lt;/p&gt;
+                &lt;button onClick={this.decrement}&gt;-&lt;/button&gt;
+                &lt;button onClick={this.increment}&gt;+&lt;/button&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -1639,7 +1639,7 @@ Component.prototype.forceUpdate = function(callback) {
 ```tsx
 class MyComponent extends Component {
     // 方式1：箭头函数类属性（推荐）
-    handleClick = () => {
+    handleClick = () =&gt; {
         console.log(this);  // 正确指向组件实例
     };
 
@@ -1653,7 +1653,7 @@ class MyComponent extends Component {
     }
 
     render() {
-        return <button onClick={this.handleClick}>点击</button>;
+        return &lt;button onClick={this.handleClick}&gt;点击&lt;/button&gt;;
     }
 }
 ```
@@ -1693,7 +1693,7 @@ interface Props {
     items: string[];
 }
 
-class Dashboard extends Component<Props> {
+class Dashboard extends Component&lt;Props&gt; {
     render() {
         const { isLoggedIn, items } = this.props;
 
@@ -1704,14 +1704,14 @@ class Dashboard extends Component<Props> {
 
         // 正常返回 JSX
         return (
-            <div className="dashboard">
-                <h1>控制台</h1>
-                <ul>
-                    {items.map((item, index) => (
-                        <li key={index}>{item}</li>
+            &lt;div className="dashboard"&gt;
+                &lt;h1&gt;控制台&lt;/h1&gt;
+                &lt;ul&gt;
+                    {items.map((item, index) =&gt; (
+                        &lt;li key={index}&gt;{item}&lt;/li&gt;
                     ))}
-                </ul>
-            </div>
+                &lt;/ul&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -1762,7 +1762,7 @@ render 在 React 18 的 Strict Mode 下会被调用两次（开发模式），�
 // 错误写法：render 中调用 setState
 // render() {
 //     this.setState({ count: 1 });  // 无限循环
-//     return <div>{this.state.count}</div>;
+//     return &lt;div&gt;{this.state.count}&lt;/div&gt;;
 // }
 
 // 正确写法：在生命周期或事件处理器中调用 setState
@@ -1770,11 +1770,11 @@ class MyComponent extends Component {
     componentDidMount() {
         this.setState({ count: 1 });  // 正确：在生命周期中
     }
-    handleClick = () => {
+    handleClick = () =&gt; {
         this.setState({ count: 1 });  // 正确：在事件处理器中
     };
     render() {
-        return <div onClick={this.handleClick}>{this.state.count}</div>;
+        return &lt;div onClick={this.handleClick}&gt;{this.state.count}&lt;/div&gt;;
     }
 }
 ```
@@ -1815,7 +1815,7 @@ import React, { Component } from "react";
 // Props 类型：从外部传入，只读
 interface UserFormProps {
     initialName: string;    // 初始值由父组件提供
-    onSubmit: (name: string) => void;  // 回调函数
+    onSubmit: (name: string) =&gt; void;  // 回调函数
 }
 
 // State 类型：组件内部维护
@@ -1824,7 +1824,7 @@ interface UserFormState {
     isDirty: boolean;       // 是否被修改过
 }
 
-class UserForm extends Component<UserFormProps, UserFormState> {
+class UserForm extends Component&lt;UserFormProps, UserFormState&gt; {
     constructor(props: UserFormProps) {
         super(props);
         // state 初始化：可以使用 props 作为初始值
@@ -1835,28 +1835,28 @@ class UserForm extends Component<UserFormProps, UserFormState> {
     }
 
     // 更新 state
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         this.setState({
             name: e.target.value,
             isDirty: true,
         });
     };
 
-    handleSubmit = () => {
+    handleSubmit = () =&gt; {
         // 通过 props 回调通知父组件
         this.props.onSubmit(this.state.name);
     };
 
     render() {
         return (
-            <div>
-                <input
+            &lt;div&gt;
+                &lt;input
                     value={this.state.name}
                     onChange={this.handleChange}
-                />
-                {this.state.isDirty && <span>已修改</span>}
-                <button onClick={this.handleSubmit}>提交</button>
-            </div>
+                /&gt;
+                {this.state.isDirty && &lt;span&gt;已修改&lt;/span&gt;}
+                &lt;button onClick={this.handleSubmit}&gt;提交&lt;/button&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -1878,7 +1878,7 @@ this.setState({ count: 1 });
 console.log(this.state.count);  // 可能还是旧值，因为 setState 是异步的
 
 // 需要基于前一个 state 更新时，用函数式 setState
-this.setState(prevState => ({
+this.setState(prevState =&gt; ({
     count: prevState.count + 1
 }));
 ```
@@ -1913,12 +1913,12 @@ React 会冻结 props 对象（开发模式下），直接修改 `this.props.xxx
 
 ```tsx
 // 方案1：用 key 强制重新挂载组件
-<UserForm key={userId} initialName={user.name} />
+&lt;UserForm key={userId} initialName={user.name} /&gt;
 // userId 变化时组件重新挂载，constructor 重新执行
 
 // 方案2：完全受控组件（不用 state，直接用 props）
 function UserForm({ name, onChange }) {
-    return <input value={name} onChange={onChange} />;
+    return &lt;input value={name} onChange={onChange} /&gt;;
 }
 ```
 
@@ -1956,49 +1956,49 @@ import React, { useState } from "react";
 
 // 父组件：拥有状态，通过 props 向下传递
 function Parent() {
-    const [items, setItems] = useState<string[]>(["React", "Vue"]);
+    const [items, setItems] = useState&lt;string[]&gt;(["React", "Vue"]);
 
     // 回调函数：子组件通过它间接修改父组件状态
-    const addItem = (newItem: string) => {
-        setItems(prev => [...prev, newItem]);
+    const addItem = (newItem: string) =&gt; {
+        setItems(prev =&gt; [...prev, newItem]);
     };
 
-    const removeItem = (index: number) => {
-        setItems(prev => prev.filter((_, i) => i !== index));
+    const removeItem = (index: number) =&gt; {
+        setItems(prev =&gt; prev.filter((_, i) =&gt; i !== index));
     };
 
     return (
-        <div>
-            <h1>技能列表 ({items.length})</h1>
+        &lt;div&gt;
+            &lt;h1&gt;技能列表 ({items.length})&lt;/h1&gt;
             {/* 数据向下流：items 通过 props 传给子组件 */}
-            <ItemList items={items} onRemove={removeItem} />
+            &lt;ItemList items={items} onRemove={removeItem} /&gt;
             {/* 回调向下传：addItem 通过 props 传给子组件 */}
-            <AddItemForm onAdd={addItem} />
-        </div>
+            &lt;AddItemForm onAdd={addItem} /&gt;
+        &lt;/div&gt;
     );
 }
 
 // 子组件：接收数据和回调，不直接修改父组件状态
 function ItemList({ items, onRemove }: {
     items: string[];
-    onRemove: (index: number) => void;
+    onRemove: (index: number) =&gt; void;
 }) {
     return (
-        <ul>
-            {items.map((item, index) => (
-                <li key={index}>
+        &lt;ul&gt;
+            {items.map((item, index) =&gt; (
+                &lt;li key={index}&gt;
                     {item}
-                    <button onClick={() => onRemove(index)}>删除</button>
-                </li>
+                    &lt;button onClick={() =&gt; onRemove(index)}&gt;删除&lt;/button&gt;
+                &lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 
-function AddItemForm({ onAdd }: { onAdd: (item: string) => void }) {
+function AddItemForm({ onAdd }: { onAdd: (item: string) =&gt; void }) {
     const [value, setValue] = useState("");
 
-    const handleSubmit = () => {
+    const handleSubmit = () =&gt; {
         if (value.trim()) {
             onAdd(value.trim());  // 通过回调通知父组件
             setValue("");
@@ -2006,10 +2006,10 @@ function AddItemForm({ onAdd }: { onAdd: (item: string) => void }) {
     };
 
     return (
-        <div>
-            <input value={value} onChange={e => setValue(e.target.value)} />
-            <button onClick={handleSubmit}>添加</button>
-        </div>
+        &lt;div&gt;
+            &lt;input value={value} onChange={e =&gt; setValue(e.target.value)} /&gt;
+            &lt;button onClick={handleSubmit}&gt;添加&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2066,25 +2066,25 @@ export default Parent;
 // 每一层都要传 user props
 
 // 方案1：Context API
-const UserContext = React.createContext<User | null>(null);
+const UserContext = React.createContext&lt;User | null&gt;(null);
 
 function App() {
-    const [user, setUser] = useState<User>(currentUser);
+    const [user, setUser] = useState&lt;User&gt;(currentUser);
     return (
-        <UserContext.Provider value={user}>
-            <Layout />  {/* 中间层不需要传 user */}
-        </UserContext.Provider>
+        &lt;UserContext.Provider value={user}&gt;
+            &lt;Layout /&gt;  {/* 中间层不需要传 user */}
+        &lt;/UserContext.Provider&gt;
     );
 }
 
 function Avatar() {
     const user = useContext(UserContext);  // 直接消费
-    return <img src={user?.avatar} />;
+    return &lt;img src={user?.avatar} /&gt;;
 }
 
 // 方案2：组件组合（将组件作为 props 传递）
 function Layout({ avatar }: { avatar: React.ReactNode }) {
-    return <div>{avatar}</div>;
+    return &lt;div&gt;{avatar}&lt;/div&gt;;
 }
 ```
 
@@ -2122,7 +2122,7 @@ import React, { useState } from "react";
 
 interface ItemProps {
     item: { name: string; count: number };
-    onUpdate: (newCount: number) => void;
+    onUpdate: (newCount: number) =&gt; void;
 }
 
 function ItemCard({ item, onUpdate }: ItemProps) {
@@ -2130,15 +2130,15 @@ function ItemCard({ item, onUpdate }: ItemProps) {
     // item.count = item.count + 1;  // TypeError: Cannot assign to read only property
 
     // 正确：通过回调通知父组件修改
-    const handleIncrement = () => {
+    const handleIncrement = () =&gt; {
         onUpdate(item.count + 1);
     };
 
     return (
-        <div>
-            <span>{item.name}: {item.count}</span>
-            <button onClick={handleIncrement}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;span&gt;{item.name}: {item.count}&lt;/span&gt;
+            &lt;button onClick={handleIncrement}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2146,12 +2146,12 @@ function ItemCard({ item, onUpdate }: ItemProps) {
 function App() {
     const [item, setItem] = useState({ name: "苹果", count: 0 });
 
-    const handleUpdate = (newCount: number) => {
+    const handleUpdate = (newCount: number) =&gt; {
         // 创建新对象，而不是修改原对象
-        setItem(prev => ({ ...prev, count: newCount }));
+        setItem(prev =&gt; ({ ...prev, count: newCount }));
     };
 
-    return <ItemCard item={item} onUpdate={handleUpdate} />;
+    return &lt;ItemCard item={item} onUpdate={handleUpdate} /&gt;;
 }
 
 export default App;
@@ -2208,8 +2208,8 @@ React.memo 和 shouldComponentUpdate 通过浅比较 props 来决定是否跳过
 // props.items.push(newItem);  // 不报错但行为不正确
 
 // 正确写法：在父组件中创建新数组
-const handleAdd = (newItem: string) => {
-    setItems(prev => [...prev, newItem]);  // 创建新数组
+const handleAdd = (newItem: string) =&gt; {
+    setItems(prev =&gt; [...prev, newItem]);  // 创建新数组
 };
 ```
 
@@ -2248,17 +2248,17 @@ interface UserProps {
     age: number;
     email?: string;
     className?: string;       // 常见：与 HTML 属性同名
-    onChange?: (value: string) => void;
+    onChange?: (value: string) =&gt; void;
 }
 
 // 基本解构：直接提取属性
 function UserCard({ name, age, email }: UserProps) {
     return (
-        <div>
-            <h2>{name}</h2>
-            <p>年龄: {age}</p>
-            {email && <p>邮箱: {email}</p>}
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+            {email && &lt;p&gt;邮箱: {email}&lt;/p&gt;}
+        &lt;/div&gt;
     );
 }
 
@@ -2266,10 +2266,10 @@ function UserCard({ name, age, email }: UserProps) {
 function StyledCard({ className: wrapperClass, name, age }: UserProps) {
     // className 被重命名为 wrapperClass，避免与内部变量冲突
     return (
-        <div className={wrapperClass}>
-            <h2 className="card-title">{name}</h2>
-            <p>年龄: {age}</p>
-        </div>
+        &lt;div className={wrapperClass}&gt;
+            &lt;h2 className="card-title"&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2281,10 +2281,10 @@ function ConfigCard({
     className: cssClass = "card",      // 重命名 + 默认值
 }: UserProps) {
     return (
-        <div className={cssClass}>
-            <h2>{name}</h2>
-            <p>联系邮箱: {contactEmail}</p>
-        </div>
+        &lt;div className={cssClass}&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;联系邮箱: {contactEmail}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2292,10 +2292,10 @@ function ConfigCard({
 function FlexibleCard({ name, age, ...rest }: UserProps) {
     // rest 包含 email、className、onChange 等剩余属性
     return (
-        <div {...rest}>
-            <h2>{name}</h2>
-            <p>年龄: {age}</p>
-        </div>
+        &lt;div {...rest}&gt;
+            &lt;h2&gt;{name}&lt;/h2&gt;
+            &lt;p&gt;年龄: {age}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2337,12 +2337,12 @@ interface Props {
 
 // 嵌套解构（可读性较差，不推荐深层嵌套）
 function Component({ user: { name, address: { city } } }: Props) {
-    return <p>{name} - {city}</p>;
+    return &lt;p&gt;{name} - {city}&lt;/p&gt;;
 }
 
 // 推荐：只解构第一层，深层用点号访问
 function ComponentBetter({ user }: Props) {
-    return <p>{user.name} - {user.address.city}</p>;
+    return &lt;p&gt;{user.name} - {user.address.city}&lt;/p&gt;;
 }
 ```
 
@@ -2382,47 +2382,47 @@ interface ButtonProps {
     label: string;
     variant: "primary" | "danger";
     isLoading: boolean;
-    onClick: () => void;
+    onClick: () =&gt; void;
 }
 
 // 风险1：自定义属性泄漏到 DOM
 function BadButton(props: ButtonProps) {
     // variant 和 isLoading 不是合法的 HTML 属性
-    // React 会在控制台输出警告：Unknown prop `variant` on <button> tag
-    return <button {...props}>{props.label}</button>;
+    // React 会在控制台输出警告：Unknown prop `variant` on &lt;button&gt; tag
+    return &lt;button {...props}&gt;{props.label}&lt;/button&gt;;
 }
 
 // 正确做法：先解构出自定义属性
 function GoodButton({ label, variant, isLoading, ...htmlProps }: ButtonProps) {
     const className = `btn btn-${variant}`;
     return (
-        <button className={className} disabled={isLoading} {...htmlProps}>
+        &lt;button className={className} disabled={isLoading} {...htmlProps}&gt;
             {isLoading ? "加载中..." : label}
-        </button>
+        &lt;/button&gt;
     );
 }
 
 // 风险2：意外覆盖内部属性
-function OverrideRisk(props: Record<string, unknown>) {
+function OverrideRisk(props: Record&lt;string, unknown&gt;) {
     // 如果 props 中包含 className，会覆盖组件自己的 className
-    return <div className="internal-style" {...props} />;
+    return &lt;div className="internal-style" {...props} /&gt;;
     // 正确顺序：展开在前，内部属性在后
-    // return <div {...props} className="internal-style" />;
+    // return &lt;div {...props} className="internal-style" /&gt;;
 }
 
 // 风险3：来源不清晰
-function DeepComponent(props: Record<string, unknown>) {
+function DeepComponent(props: Record&lt;string, unknown&gt;) {
     // 当 props 被层层展开传递时，很难追踪某个属性的来源
-    return <ChildComponent {...props} />;
+    return &lt;ChildComponent {...props} /&gt;;
 }
 
-function ChildComponent(props: Record<string, unknown>) {
-    return <GrandChildComponent {...props} />;
+function ChildComponent(props: Record&lt;string, unknown&gt;) {
+    return &lt;GrandChildComponent {...props} /&gt;;
     // GrandChildComponent 接收的 props 来源模糊
 }
 
 function GrandChildComponent(props: any) {
-    return <div>{String(props.name)}</div>;
+    return &lt;div&gt;{String(props.name)}&lt;/div&gt;;
 }
 
 export default GoodButton;
@@ -2450,7 +2450,7 @@ React 在渲染 HTML 元素时会检查属性是否是合法的 DOM 属性。不
 **解决方案：**
 
 ```tsx
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CardProps extends React.HTMLAttributes&lt;HTMLDivElement&gt; {
     variant: "elevated" | "outlined";
     loading: boolean;
 }
@@ -2458,12 +2458,12 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 // 安全的展开传递：解构出自定义属性，剩余的都是合法 HTML 属性
 function Card({ variant, loading, children, ...htmlProps }: CardProps) {
     return (
-        <div
+        &lt;div
             {...htmlProps}  // 只包含合法的 HTML 属性
             className={`card card-${variant} ${htmlProps.className ?? ""}`}
-        >
-            {loading ? <span>加载中...</span> : children}
-        </div>
+        &gt;
+            {loading ? &lt;span&gt;加载中...&lt;/span&gt; : children}
+        &lt;/div&gt;
     );
 }
 ```
@@ -2508,19 +2508,19 @@ interface CardProps {
 
 function Card({ title, children }: CardProps) {
     return (
-        <div style={{ border: "1px solid #ddd", borderRadius: 8, padding: 16 }}>
-            <h3 style={{ marginTop: 0 }}>{title}</h3>
-            <div className="card-body">
+        &lt;div style=&lbrace;&lbrace; border: "1px solid #ddd", borderRadius: 8, padding: 16 &rbrace;&rbrace;&gt;
+            &lt;h3 style=&lbrace;&lbrace; marginTop: 0 &rbrace;&rbrace;&gt;{title}&lt;/h3&gt;
+            &lt;div className="card-body"&gt;
                 {children}
-            </div>
-        </div>
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 // 通用对话框容器
 interface DialogProps {
     isOpen: boolean;
-    onClose: () => void;
+    onClose: () =&gt; void;
     children: ReactNode;
 }
 
@@ -2528,29 +2528,29 @@ function Dialog({ isOpen, onClose, children }: DialogProps) {
     if (!isOpen) return null;
 
     return (
-        <div className="dialog-overlay" onClick={onClose}>
-            <div className="dialog-content" onClick={e => e.stopPropagation()}>
+        &lt;div className="dialog-overlay" onClick={onClose}&gt;
+            &lt;div className="dialog-content" onClick={e =&gt; e.stopPropagation()}&gt;
                 {children}
-                <button onClick={onClose}>关闭</button>
-            </div>
-        </div>
+                &lt;button onClick={onClose}&gt;关闭&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 // 使用：调用方决定渲染什么内容
 function App() {
     return (
-        <div>
-            <Card title="用户信息">
-                <p>姓名: 张三</p>
-                <p>年龄: 25</p>
-            </Card>
+        &lt;div&gt;
+            &lt;Card title="用户信息"&gt;
+                &lt;p&gt;姓名: 张三&lt;/p&gt;
+                &lt;p&gt;年龄: 25&lt;/p&gt;
+            &lt;/Card&gt;
 
-            <Card title="操作面板">
-                <button>编辑</button>
-                <button>删除</button>
-            </Card>
-        </div>
+            &lt;Card title="操作面板"&gt;
+                &lt;button&gt;编辑&lt;/button&gt;
+                &lt;button&gt;删除&lt;/button&gt;
+            &lt;/Card&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2567,9 +2567,9 @@ children 是一个特殊的 prop，JSX 标签之间的内容自动成为 childre
 
 ```javascript
 // 调用方
-<Card title="标题">
-    <p>内容</p>
-</Card>
+&lt;Card title="标题"&gt;
+    &lt;p&gt;内容&lt;/p&gt;
+&lt;/Card&gt;
 
 // 等价于
 _jsx(Card, {
@@ -2577,7 +2577,7 @@ _jsx(Card, {
     children: _jsx("p", { children: "内容" })
 });
 
-// Card 组件内部：{children} 就是 <p>内容</p>
+// Card 组件内部：{children} 就是 &lt;p&gt;内容&lt;/p&gt;
 ```
 
 #### 组合 vs 继承
@@ -2619,7 +2619,7 @@ interface SingleChildProps {
 
 // 接受函数作为 children（Render Props 模式）
 interface RenderProps {
-    children: (data: { count: number }) => ReactNode;
+    children: (data: { count: number }) =&gt; ReactNode;
 }
 ```
 
@@ -2665,35 +2665,35 @@ interface PageLayoutProps {
 
 function PageLayout({ header, sidebar, children, footer }: PageLayoutProps) {
     return (
-        <div className="page-layout">
-            <header className="page-header">{header}</header>
-            <div className="page-body">
-                <aside className="page-sidebar">{sidebar}</aside>
-                <main className="page-content">{children}</main>
-            </div>
-            {footer && <footer className="page-footer">{footer}</footer>}
-        </div>
+        &lt;div className="page-layout"&gt;
+            &lt;header className="page-header"&gt;{header}&lt;/header&gt;
+            &lt;div className="page-body"&gt;
+                &lt;aside className="page-sidebar"&gt;{sidebar}&lt;/aside&gt;
+                &lt;main className="page-content"&gt;{children}&lt;/main&gt;
+            &lt;/div&gt;
+            {footer && &lt;footer className="page-footer"&gt;{footer}&lt;/footer&gt;}
+        &lt;/div&gt;
     );
 }
 
 // 使用：每个区域传入不同的内容
 function App() {
     return (
-        <PageLayout
-            header={<h1>网站标题</h1>}
+        &lt;PageLayout
+            header={&lt;h1&gt;网站标题&lt;/h1&gt;}
             sidebar={
-                <nav>
-                    <a href="/">首页</a>
-                    <a href="/about">关于</a>
-                </nav>
+                &lt;nav&gt;
+                    &lt;a href="/"&gt;首页&lt;/a&gt;
+                    &lt;a href="/about"&gt;关于&lt;/a&gt;
+                &lt;/nav&gt;
             }
-            footer={<p>版权信息 2025</p>}
-        >
-            <article>
-                <h2>文章标题</h2>
-                <p>文章正文内容...</p>
-            </article>
-        </PageLayout>
+            footer={&lt;p&gt;版权信息 2025&lt;/p&gt;}
+        &gt;
+            &lt;article&gt;
+                &lt;h2&gt;文章标题&lt;/h2&gt;
+                &lt;p&gt;文章正文内容...&lt;/p&gt;
+            &lt;/article&gt;
+        &lt;/PageLayout&gt;
     );
 }
 
@@ -2718,38 +2718,38 @@ interface ListItemProps {
 
 function ListItem({ icon, title, description, actions }: ListItemProps) {
     return (
-        <div style={{ display: "flex", alignItems: "center", padding: "12px 0" }}>
+        &lt;div style=&lbrace;&lbrace; display: "flex", alignItems: "center", padding: "12px 0" &rbrace;&rbrace;&gt;
             {/* 图标插槽 */}
-            {icon && <div style={{ marginRight: 12 }}>{icon}</div>}
+            {icon && &lt;div style=&lbrace;&lbrace; marginRight: 12 &rbrace;&rbrace;&gt;{icon}&lt;/div&gt;}
 
             {/* 内容区 */}
-            <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: "bold" }}>{title}</div>
-                {description && <div style={{ color: "#666" }}>{description}</div>}
-            </div>
+            &lt;div style=&lbrace;&lbrace; flex: 1 &rbrace;&rbrace;&gt;
+                &lt;div style=&lbrace;&lbrace; fontWeight: "bold" &rbrace;&rbrace;&gt;{title}&lt;/div&gt;
+                {description && &lt;div style=&lbrace;&lbrace; color: "#666" &rbrace;&rbrace;&gt;{description}&lt;/div&gt;}
+            &lt;/div&gt;
 
             {/* 操作插槽 */}
-            {actions && <div>{actions}</div>}
-        </div>
+            {actions && &lt;div&gt;{actions}&lt;/div&gt;}
+        &lt;/div&gt;
     );
 }
 
 // 使用
 function UserList() {
     return (
-        <div>
-            <ListItem
-                icon={<img src="/avatar.png" width={40} height={40} alt="" />}
+        &lt;div&gt;
+            &lt;ListItem
+                icon={&lt;img src="/avatar.png" width={40} height={40} alt="" /&gt;}
                 title="张三"
                 description="前端工程师"
                 actions={
-                    <>
-                        <button>编辑</button>
-                        <button>删除</button>
-                    </>
+                    &lt;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/&gt;
                 }
-            />
-        </div>
+            /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -2784,13 +2784,13 @@ export default UserList;
 // 当插槽过多时，将相关插槽内容提取为独立组件
 function App() {
     return (
-        <PageLayout
-            header={<AppHeader />}      // 提取为独立组件
-            sidebar={<AppSidebar />}
-            footer={<AppFooter />}
-        >
-            <PageContent />
-        </PageLayout>
+        &lt;PageLayout
+            header={&lt;AppHeader /&gt;}      // 提取为独立组件
+            sidebar={&lt;AppSidebar /&gt;}
+            footer={&lt;AppFooter /&gt;}
+        &gt;
+            &lt;PageContent /&gt;
+        &lt;/PageLayout&gt;
     );
 }
 ```
@@ -2830,15 +2830,15 @@ import React, { Component } from "react";
 // ===== 反模式：组件继承 =====
 
 // 基础按钮
-class BaseButton extends Component<{ onClick: () => void }> {
+class BaseButton extends Component&lt;{ onClick: () =&gt; void }&gt; {
     getClassName() {
         return "btn";
     }
     render() {
         return (
-            <button className={this.getClassName()} onClick={this.props.onClick}>
+            &lt;button className={this.getClassName()} onClick={this.props.onClick}&gt;
                 {this.renderContent()}
-            </button>
+            &lt;/button&gt;
         );
     }
     renderContent(): React.ReactNode {
@@ -2861,25 +2861,25 @@ class PrimaryButton extends BaseButton {
 interface ButtonProps {
     variant?: "default" | "primary" | "danger";
     children: React.ReactNode;
-    onClick: () => void;
+    onClick: () =&gt; void;
 }
 
 // 通用按钮：通过 props 控制变体
 function Button({ variant = "default", children, onClick }: ButtonProps) {
     const className = `btn btn-${variant}`;
     return (
-        <button className={className} onClick={onClick}>
+        &lt;button className={className} onClick={onClick}&gt;
             {children}
-        </button>
+        &lt;/button&gt;
     );
 }
 
 // 特化按钮：通过组合固定部分 props
-function PrimaryButtonComposed({ children, onClick }: Omit<ButtonProps, "variant">) {
+function PrimaryButtonComposed({ children, onClick }: Omit&lt;ButtonProps, "variant"&gt;) {
     return (
-        <Button variant="primary" onClick={onClick}>
+        &lt;Button variant="primary" onClick={onClick}&gt;
             {children}
-        </Button>
+        &lt;/Button&gt;
     );
 }
 
@@ -2913,13 +2913,13 @@ export { Button, PrimaryButtonComposed };
 
 ```tsx
 // 方案1：自定义 Hook（最推荐）
-function useFormValidation(initialValues: Record<string, string>) {
+function useFormValidation(initialValues: Record&lt;string, string&gt;) {
     const [values, setValues] = useState(initialValues);
-    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [errors, setErrors] = useState&lt;Record&lt;string, string&gt;&gt;({});
 
-    const validate = () => { /* 验证逻辑 */ };
-    const handleChange = (field: string, value: string) => {
-        setValues(prev => ({ ...prev, [field]: value }));
+    const validate = () =&gt; { /* 验证逻辑 */ };
+    const handleChange = (field: string, value: string) =&gt; {
+        setValues(prev =&gt; ({ ...prev, [field]: value }));
     };
 
     return { values, errors, validate, handleChange };
@@ -2928,20 +2928,20 @@ function useFormValidation(initialValues: Record<string, string>) {
 // 多个组件都可以使用这个 Hook
 function LoginForm() {
     const { values, errors, handleChange } = useFormValidation({ email: "", password: "" });
-    return <form>...</form>;
+    return &lt;form&gt;...&lt;/form&gt;;
 }
 
 function RegisterForm() {
     const { values, errors, handleChange } = useFormValidation({ name: "", email: "" });
-    return <form>...</form>;
+    return &lt;form&gt;...&lt;/form&gt;;
 }
 
 // 方案2：组合包装
 function withAuth(WrappedComponent: React.ComponentType) {
     return function AuthComponent(props: any) {
         const isAuthenticated = useAuth();
-        if (!isAuthenticated) return <LoginPage />;
-        return <WrappedComponent {...props} />;
+        if (!isAuthenticated) return &lt;LoginPage /&gt;;
+        return &lt;WrappedComponent {...props} /&gt;;
     };
 }
 ```
@@ -2976,7 +2976,7 @@ function withAuth(WrappedComponent: React.ComponentType) {
 ```typescript
 React.Children.map(
     children: React.ReactNode,
-    fn: (child: React.ReactNode, index: number) => React.ReactNode
+    fn: (child: React.ReactNode, index: number) =&gt; React.ReactNode
 ): React.ReactNode[]
 ```
 
@@ -3002,24 +3002,24 @@ interface SpacedListProps {
 
 function SpacedList({ gap = 8, children }: SpacedListProps) {
     return (
-        <div>
-            {React.Children.map(children, (child, index) => (
-                <div key={index} style={{ marginBottom: index < React.Children.count(children) - 1 ? gap : 0 }}>
+        &lt;div&gt;
+            {React.Children.map(children, (child, index) =&gt; (
+                &lt;div key={index} style=&lbrace;&lbrace; marginBottom: index &lt; React.Children.count(children) - 1 ? gap : 0 &rbrace;&rbrace;&gt;
                     {child}
-                </div>
+                &lt;/div&gt;
             ))}
-        </div>
+        &lt;/div&gt;
     );
 }
 
 // 使用：无论传入一个还是多个子元素都能正确处理
 function App() {
     return (
-        <SpacedList gap={16}>
-            <p>第一段</p>
-            <p>第二段</p>
-            <p>第三段</p>
-        </SpacedList>
+        &lt;SpacedList gap={16}&gt;
+            &lt;p&gt;第一段&lt;/p&gt;
+            &lt;p&gt;第二段&lt;/p&gt;
+            &lt;p&gt;第三段&lt;/p&gt;
+        &lt;/SpacedList&gt;
     );
 }
 
@@ -3043,7 +3043,7 @@ function childrenMap(children, fn) {
     if (children == null) return null;  // null/undefined 返回 null
     const result = [];
     // 内部展平嵌套数组和 Fragment
-    traverseAllChildren(children, (child, index) => {
+    traverseAllChildren(children, (child, index) =&gt; {
         result.push(fn(child, index));
     });
     return result;
@@ -3106,7 +3106,7 @@ React.Children.map 安全遍历 children，统一处理单元素、多元素和 
 ```typescript
 React.Children.forEach(
     children: React.ReactNode,
-    fn: (child: React.ReactNode, index: number) => void
+    fn: (child: React.ReactNode, index: number) =&gt; void
 ): void
 ```
 
@@ -3134,7 +3134,7 @@ function ChildStats({ children }: ChildStatsProps) {
     let textCount = 0;
 
     // forEach 不返回新数组，只做统计
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, (child) =&gt; {
         if (isValidElement(child)) {
             elementCount++;
         } else if (typeof child === "string" || typeof child === "number") {
@@ -3143,22 +3143,22 @@ function ChildStats({ children }: ChildStatsProps) {
     });
 
     return (
-        <div>
-            <p>React 元素数: {elementCount}</p>
-            <p>文本节点数: {textCount}</p>
-            <div>{children}</div>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;React 元素数: {elementCount}&lt;/p&gt;
+            &lt;p&gt;文本节点数: {textCount}&lt;/p&gt;
+            &lt;div&gt;{children}&lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 function App() {
     return (
-        <ChildStats>
-            <p>段落一</p>
+        &lt;ChildStats&gt;
+            &lt;p&gt;段落一&lt;/p&gt;
             纯文本
-            <p>段落二</p>
-            <span>行内元素</span>
-        </ChildStats>
+            &lt;p&gt;段落二&lt;/p&gt;
+            &lt;span&gt;行内元素&lt;/span&gt;
+        &lt;/ChildStats&gt;
     );
 }
 
@@ -3234,7 +3234,7 @@ interface ReversedProps {
 function Reversed({ children }: ReversedProps) {
     // 转为数组后可以用原生数组方法
     const childArray = React.Children.toArray(children);
-    return <>{childArray.reverse()}</>;
+    return &lt;&gt;{childArray.reverse()}&lt;/&gt;;
 }
 
 // 只保留前 N 个子元素
@@ -3245,33 +3245,33 @@ interface LimitProps {
 
 function Limit({ max, children }: LimitProps) {
     const childArray = React.Children.toArray(children);
-    return <>{childArray.slice(0, max)}</>;
+    return &lt;&gt;{childArray.slice(0, max)}&lt;/&gt;;
 }
 
 // 过滤特定类型的子元素
 function OnlyButtons({ children }: { children: ReactNode }) {
     const childArray = React.Children.toArray(children);
     const buttons = childArray.filter(
-        child => isValidElement(child) && child.type === "button"
+        child =&gt; isValidElement(child) && child.type === "button"
     );
-    return <div>{buttons}</div>;
+    return &lt;div&gt;{buttons}&lt;/div&gt;;
 }
 
 function App() {
     return (
-        <div>
-            <Reversed>
-                <p>第一段</p>
-                <p>第二段</p>
-                <p>第三段</p>
-            </Reversed>
+        &lt;div&gt;
+            &lt;Reversed&gt;
+                &lt;p&gt;第一段&lt;/p&gt;
+                &lt;p&gt;第二段&lt;/p&gt;
+                &lt;p&gt;第三段&lt;/p&gt;
+            &lt;/Reversed&gt;
 
-            <Limit max={2}>
-                <li>项目1</li>
-                <li>项目2</li>
-                <li>项目3</li>
-            </Limit>
-        </div>
+            &lt;Limit max={2}&gt;
+                &lt;li&gt;项目1&lt;/li&gt;
+                &lt;li&gt;项目2&lt;/li&gt;
+                &lt;li&gt;项目3&lt;/li&gt;
+            &lt;/Limit&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -3289,7 +3289,7 @@ export default App;
 function toArray(children) {
     const result = [];
     // 递归遍历，展平嵌套数组
-    traverseAllChildren(children, (child, nameSoFar) => {
+    traverseAllChildren(children, (child, nameSoFar) =&gt; {
         if (child != null && typeof child !== "boolean") {
             // 为每个元素生成基于路径的稳定 key
             // key 格式如 ".0", ".1", ".0.0"（基于嵌套层级）
@@ -3397,17 +3397,17 @@ function Tooltip({ text, children }: TooltipProps) {
 // 正确使用：传入一个子元素
 function App() {
     return (
-        <Tooltip text="这是提示信息">
-            <span>鼠标悬停查看提示</span>
-        </Tooltip>
+        &lt;Tooltip text="这是提示信息"&gt;
+            &lt;span&gt;鼠标悬停查看提示&lt;/span&gt;
+        &lt;/Tooltip&gt;
     );
 }
 
 // 错误使用：传入多个子元素会在运行时抛出错误
-// <Tooltip text="提示">
-//     <span>元素一</span>
-//     <span>元素二</span>
-// </Tooltip>
+// &lt;Tooltip text="提示"&gt;
+//     &lt;span&gt;元素一&lt;/span&gt;
+//     &lt;span&gt;元素二&lt;/span&gt;
+// &lt;/Tooltip&gt;
 // Error: React.Children.only expected to receive a single React element child.
 
 export default App;
@@ -3461,12 +3461,12 @@ only 的检查很简单：children 必须是一个 ReactElement（通过 isValid
 
 ```tsx
 // 错误：纯文本不通过
-// <Tooltip text="提示">纯文本</Tooltip>
+// &lt;Tooltip text="提示"&gt;纯文本&lt;/Tooltip&gt;
 
 // 正确：用元素包裹
-<Tooltip text="提示">
-    <span>文本内容</span>
-</Tooltip>
+&lt;Tooltip text="提示"&gt;
+    &lt;span&gt;文本内容&lt;/span&gt;
+&lt;/Tooltip&gt;
 ```
 
 ### 注意事项
@@ -3514,8 +3514,8 @@ React.isValidElement(object: any): object is React.ReactElement
 import React, { isValidElement, ReactNode, cloneElement } from "react";
 
 // 检查各种值
-console.log(isValidElement(<div />));           // true - JSX 元素
-console.log(isValidElement(<MyComponent />));   // true - 组件元素
+console.log(isValidElement(&lt;div /&gt;));           // true - JSX 元素
+console.log(isValidElement(&lt;MyComponent /&gt;));   // true - 组件元素
 console.log(isValidElement("hello"));           // false - 字符串
 console.log(isValidElement(42));                // false - 数字
 console.log(isValidElement(null));              // false - null
@@ -3528,8 +3528,8 @@ interface SmartContainerProps {
 
 function SmartContainer({ children }: SmartContainerProps) {
     return (
-        <div>
-            {React.Children.map(children, child => {
+        &lt;div&gt;
+            {React.Children.map(children, child =&gt; {
                 if (isValidElement(child)) {
                     // 是 React 元素：可以安全使用 cloneElement 注入 props
                     return cloneElement(child, {
@@ -3537,20 +3537,20 @@ function SmartContainer({ children }: SmartContainerProps) {
                     });
                 }
                 // 不是 React 元素（字符串、数字等）：用 span 包裹
-                return <span className="text-wrapper">{child}</span>;
+                return &lt;span className="text-wrapper"&gt;{child}&lt;/span&gt;;
             })}
-        </div>
+        &lt;/div&gt;
     );
 }
 
 function App() {
     return (
-        <SmartContainer>
-            <p>这是段落</p>
+        &lt;SmartContainer&gt;
+            &lt;p&gt;这是段落&lt;/p&gt;
             纯文本内容
-            <button>按钮</button>
+            &lt;button&gt;按钮&lt;/button&gt;
             {42}
-        </SmartContainer>
+        &lt;/SmartContainer&gt;
     );
 }
 
@@ -3613,7 +3613,7 @@ function isSpecificComponent(child: ReactNode, Component: React.ComponentType) {
 }
 
 // 使用
-React.Children.forEach(children, child => {
+React.Children.forEach(children, child =&gt; {
     if (isSpecificComponent(child, TabPanel)) {
         // 是 TabPanel 组件
     }
@@ -3651,10 +3651,10 @@ useState 是 React 16.8 引入的，它让函数组件拥有了和类组件 this
 ### API 签名与参数
 
 ```typescript
-function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
+function useState&lt;S&gt;(initialState: S | (() =&gt; S)): [S, Dispatch&lt;SetStateAction&lt;S&gt;&gt;];
 
-type SetStateAction<S> = S | ((prevState: S) => S);
-type Dispatch<A> = (value: A) => void;
+type SetStateAction&lt;S&gt; = S | ((prevState: S) =&gt; S);
+type Dispatch&lt;A&gt; = (value: A) =&gt; void;
 ```
 
 | 参数 | 类型 | 是否必填 | 说明 |
@@ -3677,14 +3677,14 @@ function Counter() {
     const [name, setName] = useState("张三");
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(count + 1)}>+1</button>
-            <button onClick={() => setCount(0)}>重置</button>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={() =&gt; setCount(0)}&gt;重置&lt;/button&gt;
 
-            <p>姓名: {name}</p>
-            <input value={name} onChange={e => setName(e.target.value)} />
-        </div>
+            &lt;p&gt;姓名: {name}&lt;/p&gt;
+            &lt;input value={name} onChange={e =&gt; setName(e.target.value)} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -3742,39 +3742,39 @@ interface FormData {
 }
 
 function UserForm() {
-    const [form, setForm] = useState<FormData>({
+    const [form, setForm] = useState&lt;FormData&gt;({
         username: "",
         email: "",
         age: 0,
     });
 
     // 更新对象的某个属性：必须创建新对象（不可变更新）
-    const updateField = (field: keyof FormData, value: string | number) => {
-        setForm(prev => ({
+    const updateField = (field: keyof FormData, value: string | number) =&gt; {
+        setForm(prev =&gt; ({
             ...prev,         // 展开旧对象
             [field]: value,  // 覆盖指定属性
         }));
     };
 
     return (
-        <div>
-            <input
+        &lt;div&gt;
+            &lt;input
                 value={form.username}
-                onChange={e => updateField("username", e.target.value)}
+                onChange={e =&gt; updateField("username", e.target.value)}
                 placeholder="用户名"
-            />
-            <input
+            /&gt;
+            &lt;input
                 value={form.email}
-                onChange={e => updateField("email", e.target.value)}
+                onChange={e =&gt; updateField("email", e.target.value)}
                 placeholder="邮箱"
-            />
-            <input
+            /&gt;
+            &lt;input
                 type="number"
                 value={form.age}
-                onChange={e => updateField("age", Number(e.target.value))}
+                onChange={e =&gt; updateField("age", Number(e.target.value))}
                 placeholder="年龄"
-            />
-        </div>
+            /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -3817,7 +3817,7 @@ const [user, setUser] = useState({ name: "张三", age: 25 });
 // 正确写法：创建新对象
 setUser({ ...user, age: 26 });
 // 或函数式更新
-setUser(prev => ({ ...prev, age: 26 }));
+setUser(prev =&gt; ({ ...prev, age: 26 }));
 ```
 
 #### 更新后立即读取状态值还是旧的
@@ -3871,7 +3871,7 @@ useState 是函数组件管理状态的基础 Hook，返回状态值和更新函
 const [state, setState] = useState(initialValue);
 
 // 惰性初始化（传入函数）
-const [state, setState] = useState(() => computeExpensiveValue());
+const [state, setState] = useState(() =&gt; computeExpensiveValue());
 ```
 
 | 传参方式 | 执行时机 | 适用场景 |
@@ -3898,25 +3898,25 @@ function getInitialTodos() {
 function TodoListBad() {
     // getInitialTodos() 每次渲染都执行，浪费性能
     const [todos, setTodos] = useState(getInitialTodos());
-    return <div>{todos.length} 个待办</div>;
+    return &lt;div&gt;{todos.length} 个待办&lt;/div&gt;;
 }
 
 // 正确做法：传入函数，只在首次渲染时执行
 function TodoListGood() {
     // 传入函数引用，React 只在首次渲染时调用它
-    const [todos, setTodos] = useState(() => getInitialTodos());
+    const [todos, setTodos] = useState(() =&gt; getInitialTodos());
     // 或直接传函数引用
     // const [todos, setTodos] = useState(getInitialTodos);
 
-    const addTodo = (text: string) => {
-        setTodos(prev => [...prev, { id: Date.now(), text }]);
+    const addTodo = (text: string) =&gt; {
+        setTodos(prev =&gt; [...prev, { id: Date.now(), text }]);
     };
 
     return (
-        <div>
-            <p>{todos.length} 个待办</p>
-            <button onClick={() => addTodo("新任务")}>添加</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;{todos.length} 个待办&lt;/p&gt;
+            &lt;button onClick={() =&gt; addTodo("新任务")}&gt;添加&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -3974,8 +3974,8 @@ const [state, setState] = useState(getInitialValue());  // fn 每次都执行
 // useState(fn)：传入函数引用，React 只在首次渲染时调用
 const [state, setState] = useState(getInitialValue);    // fn 只执行一次
 
-// useState(() => fn())：箭头函数包裹，同样只首次执行
-const [state, setState] = useState(() => getInitialValue());
+// useState(() =&gt; fn())：箭头函数包裹，同样只首次执行
+const [state, setState] = useState(() =&gt; getInitialValue());
 ```
 
 ### 注意事项
@@ -4017,28 +4017,28 @@ function BatchingDemo() {
     console.log("组件渲染了"); // 观察渲染次数
 
     // React 18：两次 setState 只触发一次渲染（自动批处理）
-    const handleClick = () => {
-        setCount(c => c + 1);  // 不会立即渲染
-        setFlag(f => !f);      // 不会立即渲染
+    const handleClick = () =&gt; {
+        setCount(c =&gt; c + 1);  // 不会立即渲染
+        setFlag(f =&gt; !f);      // 不会立即渲染
         // 两个更新合并，只触发一次渲染
     };
 
     // React 18：setTimeout 中也自动批处理
-    const handleAsync = () => {
-        setTimeout(() => {
-            setCount(c => c + 1);  // React 18：不会立即渲染
-            setFlag(f => !f);      // React 18：不会立即渲染
+    const handleAsync = () =&gt; {
+        setTimeout(() =&gt; {
+            setCount(c =&gt; c + 1);  // React 18：不会立即渲染
+            setFlag(f =&gt; !f);      // React 18：不会立即渲染
             // 合并为一次渲染
             // React 17：这里会触发两次渲染（不在批处理范围内）
         }, 0);
     };
 
     return (
-        <div>
-            <p>count: {count}, flag: {String(flag)}</p>
-            <button onClick={handleClick}>同步更新</button>
-            <button onClick={handleAsync}>异步更新</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}, flag: {String(flag)}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;同步更新&lt;/button&gt;
+            &lt;button onClick={handleAsync}&gt;异步更新&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4060,7 +4060,7 @@ function setState(update) {
     pendingUpdates.push(update);
     if (!isBatchingUpdates) {
         // 通过微任务调度，确保同步代码执行完后再统一处理
-        queueMicrotask(() => {
+        queueMicrotask(() =&gt; {
             isBatchingUpdates = true;
             // 一次性处理所有待更新
             flushUpdates(pendingUpdates);
@@ -4104,14 +4104,14 @@ import { flushSync } from "react-dom";
 
 function handleClick() {
     // flushSync 强制同步刷新，跳出批处理
-    flushSync(() => {
-        setCount(c => c + 1);
+    flushSync(() =&gt; {
+        setCount(c =&gt; c + 1);
     });
     // 这里 DOM 已经更新
     console.log(document.getElementById("count")?.textContent);
 
-    flushSync(() => {
-        setFlag(f => !f);
+    flushSync(() =&gt; {
+        setFlag(f =&gt; !f);
     });
     // 这里 DOM 再次更新
     // 总共触发两次渲染
@@ -4154,8 +4154,8 @@ function ClosureTrap() {
     const [count, setCount] = useState(0);
 
     // 闭包陷阱：setTimeout 中的 count 是创建回调时的值
-    const handleDelayedAlert = () => {
-        setTimeout(() => {
+    const handleDelayedAlert = () =&gt; {
+        setTimeout(() =&gt; {
             // 这里的 count 是点击按钮时的值，不是 3 秒后的最新值
             alert(`count 是: ${count}`);
         }, 3000);
@@ -4164,11 +4164,11 @@ function ClosureTrap() {
     // 3 秒后弹窗显示的是点击"延迟弹窗"时的 count 值，不是最新值
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <button onClick={handleDelayedAlert}>延迟3秒弹窗</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={handleDelayedAlert}&gt;延迟3秒弹窗&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4185,8 +4185,8 @@ export default ClosureTrap;
 // 第 1 次渲染：count = 0
 function ClosureTrap() {
     const count = 0;  // 这次渲染中 count 始终是 0
-    const handleClick = () => {
-        setTimeout(() => {
+    const handleClick = () =&gt; {
+        setTimeout(() =&gt; {
             alert(count);  // 永远弹出 0
         }, 3000);
     };
@@ -4215,34 +4215,34 @@ function SolutionDemo() {
     const countRef = useRef(count);
     countRef.current = count;  // 每次渲染同步最新值到 ref
 
-    const handleDelayedAlert1 = () => {
-        setTimeout(() => {
+    const handleDelayedAlert1 = () =&gt; {
+        setTimeout(() =&gt; {
             // ref.current 始终是最新值
             alert(`最新 count: ${countRef.current}`);
         }, 3000);
     };
 
     // 方案2：函数式更新获取最新值（适用于 setState 场景）
-    const handleTripleIncrement = () => {
+    const handleTripleIncrement = () =&gt; {
         // 错误：三次都基于同一个闭包中的 count，结果只 +1
         // setCount(count + 1);
         // setCount(count + 1);
         // setCount(count + 1);
 
         // 正确：函数式更新，每次基于最新的 prev 值
-        setCount(prev => prev + 1);
-        setCount(prev => prev + 1);
-        setCount(prev => prev + 1);
+        setCount(prev =&gt; prev + 1);
+        setCount(prev =&gt; prev + 1);
+        setCount(prev =&gt; prev + 1);
         // 结果 +3
     };
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <button onClick={handleDelayedAlert1}>ref方案弹窗</button>
-            <button onClick={handleTripleIncrement}>+3</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={handleDelayedAlert1}&gt;ref方案弹窗&lt;/button&gt;
+            &lt;button onClick={handleTripleIncrement}&gt;+3&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4261,27 +4261,27 @@ export default SolutionDemo;
 
 ```tsx
 // 错误：空依赖数组，interval 回调永远用初始 count = 0
-// useEffect(() => {
-//     const id = setInterval(() => {
+// useEffect(() =&gt; {
+//     const id = setInterval(() =&gt; {
 //         setCount(count + 1);  // 永远是 0 + 1 = 1
 //     }, 1000);
-//     return () => clearInterval(id);
+//     return () =&gt; clearInterval(id);
 // }, []);
 
 // 正确方案1：函数式更新
-useEffect(() => {
-    const id = setInterval(() => {
-        setCount(prev => prev + 1);  // 基于最新值 +1
+useEffect(() =&gt; {
+    const id = setInterval(() =&gt; {
+        setCount(prev =&gt; prev + 1);  // 基于最新值 +1
     }, 1000);
-    return () => clearInterval(id);
+    return () =&gt; clearInterval(id);
 }, []);
 
 // 正确方案2：把 count 加入依赖项（但每次都重新创建定时器）
-useEffect(() => {
-    const id = setInterval(() => {
+useEffect(() =&gt; {
+    const id = setInterval(() =&gt; {
         setCount(count + 1);
     }, 1000);
-    return () => clearInterval(id);
+    return () =&gt; clearInterval(id);
 }, [count]);
 ```
 
@@ -4324,7 +4324,7 @@ useEffect(() => {
 setState(newValue: S): void;
 
 // 函数式更新
-setState((prevState: S) => S): void;
+setState((prevState: S) =&gt; S): void;
 ```
 
 | 更新方式 | 语法 | 行为 |
@@ -4343,7 +4343,7 @@ function CounterDemo() {
     const [count, setCount] = useState(0);
 
     // 直接传值：三次调用结果都是 count + 1 = 1（基于同一个闭包中的 count）
-    const addThreeBad = () => {
+    const addThreeBad = () =&gt; {
         setCount(count + 1);  // 0 + 1 = 1
         setCount(count + 1);  // 0 + 1 = 1（count 还是 0）
         setCount(count + 1);  // 0 + 1 = 1（count 还是 0）
@@ -4351,19 +4351,19 @@ function CounterDemo() {
     };
 
     // 函数式更新：每次基于前一个值计算，正确 +3
-    const addThreeGood = () => {
-        setCount(prev => prev + 1);  // 0 + 1 = 1
-        setCount(prev => prev + 1);  // 1 + 1 = 2
-        setCount(prev => prev + 1);  // 2 + 1 = 3
+    const addThreeGood = () =&gt; {
+        setCount(prev =&gt; prev + 1);  // 0 + 1 = 1
+        setCount(prev =&gt; prev + 1);  // 1 + 1 = 2
+        setCount(prev =&gt; prev + 1);  // 2 + 1 = 3
         // 最终结果：3
     };
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={addThreeBad}>直接传值 +3（实际只+1）</button>
-            <button onClick={addThreeGood}>函数式更新 +3（正确）</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={addThreeBad}&gt;直接传值 +3（实际只+1）&lt;/button&gt;
+            &lt;button onClick={addThreeGood}&gt;函数式更新 +3（正确）&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4399,7 +4399,7 @@ function processUpdateQueue(queue, baseState) {
 // 三次直接传值 setCount(count + 1)：
 // queue: [1, 1, 1]  最终结果 1
 
-// 三次函数式更新 setCount(prev => prev + 1)：
+// 三次函数式更新 setCount(prev =&gt; prev + 1)：
 // queue: [fn, fn, fn]  fn(0)=1, fn(1)=2, fn(2)=3 最终结果 3
 ```
 
@@ -4424,40 +4424,40 @@ interface Todo {
 }
 
 function TodoApp() {
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const [todos, setTodos] = useState&lt;Todo[]&gt;([]);
 
     // 添加元素
-    const addTodo = (text: string) => {
-        setTodos(prev => [...prev, { id: Date.now(), text, done: false }]);
+    const addTodo = (text: string) =&gt; {
+        setTodos(prev =&gt; [...prev, { id: Date.now(), text, done: false }]);
     };
 
     // 删除元素
-    const removeTodo = (id: number) => {
-        setTodos(prev => prev.filter(todo => todo.id !== id));
+    const removeTodo = (id: number) =&gt; {
+        setTodos(prev =&gt; prev.filter(todo =&gt; todo.id !== id));
     };
 
     // 切换完成状态
-    const toggleTodo = (id: number) => {
-        setTodos(prev =>
-            prev.map(todo =>
+    const toggleTodo = (id: number) =&gt; {
+        setTodos(prev =&gt;
+            prev.map(todo =&gt;
                 todo.id === id ? { ...todo, done: !todo.done } : todo
             )
         );
     };
 
     return (
-        <div>
-            <button onClick={() => addTodo("新任务")}>添加</button>
-            {todos.map(todo => (
-                <div key={todo.id}>
-                    <span style={{ textDecoration: todo.done ? "line-through" : "none" }}>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; addTodo("新任务")}&gt;添加&lt;/button&gt;
+            {todos.map(todo =&gt; (
+                &lt;div key={todo.id}&gt;
+                    &lt;span style=&lbrace;&lbrace; textDecoration: todo.done ? "line-through" : "none" &rbrace;&rbrace;&gt;
                         {todo.text}
-                    </span>
-                    <button onClick={() => toggleTodo(todo.id)}>切换</button>
-                    <button onClick={() => removeTodo(todo.id)}>删除</button>
-                </div>
+                    &lt;/span&gt;
+                    &lt;button onClick={() =&gt; toggleTodo(todo.id)}&gt;切换&lt;/button&gt;
+                    &lt;button onClick={() =&gt; removeTodo(todo.id)}&gt;删除&lt;/button&gt;
+                &lt;/div&gt;
             ))}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -4474,9 +4474,9 @@ export default TodoApp;
 
 ```tsx
 // 规则：如果新值依赖旧值，用函数式更新
-setCount(prev => prev + 1);           // 依赖旧值，函数式
-setItems(prev => [...prev, newItem]); // 依赖旧值，函数式
-setFlag(prev => !prev);               // 依赖旧值，函数式
+setCount(prev =&gt; prev + 1);           // 依赖旧值，函数式
+setItems(prev =&gt; [...prev, newItem]); // 依赖旧值，函数式
+setFlag(prev =&gt; !prev);               // 依赖旧值，函数式
 
 // 规则：如果新值与旧值无关，直接传值即可
 setName("张三");                       // 不依赖旧值，直接传
@@ -4512,14 +4512,14 @@ useReducer 将状态更新逻辑从组件中抽离到独立的 reducer 函数中
 ### API 签名与参数
 
 ```typescript
-function useReducer<R extends Reducer<any, any>>(
+function useReducer&lt;R extends Reducer&lt;any, any&gt;&gt;(
     reducer: R,
-    initialArg: ReducerState<R>,
-    init?: (arg: ReducerState<R>) => ReducerState<R>
-): [ReducerState<R>, Dispatch<ReducerAction<R>>];
+    initialArg: ReducerState&lt;R&gt;,
+    init?: (arg: ReducerState&lt;R&gt;) =&gt; ReducerState&lt;R&gt;
+): [ReducerState&lt;R&gt;, Dispatch&lt;ReducerAction&lt;R&gt;&gt;];
 
 // Reducer 类型
-type Reducer<S, A> = (state: S, action: A) => S;
+type Reducer&lt;S, A&gt; = (state: S, action: A) =&gt; S;
 ```
 
 | 参数 | 类型 | 是否必填 | 说明 |
@@ -4571,13 +4571,13 @@ function Counter() {
     const [state, dispatch] = useReducer(counterReducer, { count: 0 });
 
     return (
-        <div>
-            <p>计数: {state.count}</p>
-            <button onClick={() => dispatch({ type: "increment" })}>+1</button>
-            <button onClick={() => dispatch({ type: "decrement" })}>-1</button>
-            <button onClick={() => dispatch({ type: "reset", payload: 0 })}>重置</button>
-            <button onClick={() => dispatch({ type: "set", payload: 100 })}>设为100</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {state.count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "increment" })}&gt;+1&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "decrement" })}&gt;-1&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "reset", payload: 0 })}&gt;重置&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "set", payload: 100 })}&gt;设为100&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4712,7 +4712,7 @@ type TodoAction =
 function createInitialState(initialTodos: string[]): TodoState {
     console.log("初始化函数执行"); // 只在首次渲染时执行
     return {
-        todos: initialTodos.map((text, i) => ({ id: i, text, done: false })),
+        todos: initialTodos.map((text, i) =&gt; ({ id: i, text, done: false })),
         filter: "all",
     };
 }
@@ -4727,7 +4727,7 @@ function todoReducer(state: TodoState, action: TodoAction): TodoState {
         case "toggle":
             return {
                 ...state,
-                todos: state.todos.map(t =>
+                todos: state.todos.map(t =&gt;
                     t.id === action.id ? { ...t, done: !t.done } : t
                 ),
             };
@@ -4751,13 +4751,13 @@ function TodoApp({ defaultTodos }: { defaultTodos: string[] }) {
     );
 
     return (
-        <div>
-            <p>待办数量: {state.todos.length}</p>
-            <button onClick={() => dispatch({ type: "add", text: "新任务" })}>
+        &lt;div&gt;
+            &lt;p&gt;待办数量: {state.todos.length}&lt;/p&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "add", text: "新任务" })}&gt;
                 添加
-            </button>
-            <button onClick={() => dispatch({ type: "reset" })}>重置</button>
-        </div>
+            &lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "reset" })}&gt;重置&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4828,7 +4828,7 @@ dispatch 函数的引用在组件的整个生命周期中保持稳定（referent
 ### API 签名与参数
 
 ```typescript
-type Dispatch<A> = (action: A) => void;
+type Dispatch&lt;A&gt; = (action: A) =&gt; void;
 
 // action 通常是一个包含 type 字段的对象
 interface Action {
@@ -4880,25 +4880,25 @@ function StepCounter() {
     const [state, dispatch] = useReducer(reducer, { count: 0, step: 1 });
 
     return (
-        <div>
-            <p>计数: {state.count}（步长: {state.step}）</p>
+        &lt;div&gt;
+            &lt;p&gt;计数: {state.count}（步长: {state.step}）&lt;/p&gt;
             {/* dispatch 不同类型的 action */}
-            <button onClick={() => dispatch({ type: "increment" })}>增加</button>
-            <button onClick={() => dispatch({ type: "decrement" })}>减少</button>
-            <button onClick={() => dispatch({ type: "reset" })}>重置</button>
+            &lt;button onClick={() =&gt; dispatch({ type: "increment" })}&gt;增加&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "decrement" })}&gt;减少&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "reset" })}&gt;重置&lt;/button&gt;
 
-            <label>
+            &lt;label&gt;
                 步长:
-                <input
+                &lt;input
                     type="number"
                     value={state.step}
-                    onChange={e => dispatch({
+                    onChange={e =&gt; dispatch({
                         type: "setStep",
                         payload: Number(e.target.value)
                     })}
-                />
-            </label>
-        </div>
+                /&gt;
+            &lt;/label&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -4954,7 +4954,7 @@ function updateReducer(reducer) {
 **解决方案：**
 
 ```tsx
-const handleClick = () => {
+const handleClick = () =&gt; {
     dispatch({ type: "increment" });
     // state.count 这里还是旧值
     // 需要在下一次渲染或 useEffect 中读取新值
@@ -4994,20 +4994,20 @@ useReducer 在管理复杂状态逻辑时优势明显。当一个组件的状态
 import React, { useReducer, useEffect } from "react";
 
 // 状态类型：包含多个关联字段
-interface FetchState<T> {
+interface FetchState&lt;T&gt; {
     data: T | null;
     loading: boolean;
     error: string | null;
 }
 
 // 动作类型
-type FetchAction<T> =
+type FetchAction&lt;T&gt; =
     | { type: "FETCH_START" }
     | { type: "FETCH_SUCCESS"; payload: T }
     | { type: "FETCH_ERROR"; payload: string };
 
 // 通用的数据请求 reducer
-function fetchReducer<T>(state: FetchState<T>, action: FetchAction<T>): FetchState<T> {
+function fetchReducer&lt;T&gt;(state: FetchState&lt;T&gt;, action: FetchAction&lt;T&gt;): FetchState&lt;T&gt; {
     switch (action.type) {
         case "FETCH_START":
             // 开始请求：设置 loading，清除旧错误
@@ -5029,31 +5029,31 @@ interface User {
 }
 
 function UserList() {
-    const [state, dispatch] = useReducer(fetchReducer<User[]>, {
+    const [state, dispatch] = useReducer(fetchReducer&lt;User[]&gt;, {
         data: null,
         loading: false,
         error: null,
     });
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         dispatch({ type: "FETCH_START" });
 
         fetch("/api/users")
-            .then(res => res.json())
-            .then(data => dispatch({ type: "FETCH_SUCCESS", payload: data }))
-            .catch(err => dispatch({ type: "FETCH_ERROR", payload: err.message }));
+            .then(res =&gt; res.json())
+            .then(data =&gt; dispatch({ type: "FETCH_SUCCESS", payload: data }))
+            .catch(err =&gt; dispatch({ type: "FETCH_ERROR", payload: err.message }));
     }, []);
 
-    if (state.loading) return <p>加载中...</p>;
-    if (state.error) return <p>错误: {state.error}</p>;
+    if (state.loading) return &lt;p&gt;加载中...&lt;/p&gt;;
+    if (state.error) return &lt;p&gt;错误: {state.error}&lt;/p&gt;;
     if (!state.data) return null;
 
     return (
-        <ul>
-            {state.data.map(user => (
-                <li key={user.id}>{user.name}</li>
+        &lt;ul&gt;
+            {state.data.map(user =&gt; (
+                &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 
@@ -5099,7 +5099,7 @@ interface CartState {
 }
 
 type CartAction =
-    | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> }
+    | { type: "ADD_ITEM"; payload: Omit&lt;CartItem, "quantity"&gt; }
     | { type: "REMOVE_ITEM"; payload: number }
     | { type: "UPDATE_QUANTITY"; payload: { id: number; quantity: number } }
     | { type: "APPLY_DISCOUNT"; payload: number }
@@ -5108,12 +5108,12 @@ type CartAction =
 function cartReducer(state: CartState, action: CartAction): CartState {
     switch (action.type) {
         case "ADD_ITEM": {
-            const existing = state.items.find(item => item.id === action.payload.id);
+            const existing = state.items.find(item =&gt; item.id === action.payload.id);
             if (existing) {
                 // 已存在：数量 +1
                 return {
                     ...state,
-                    items: state.items.map(item =>
+                    items: state.items.map(item =&gt;
                         item.id === action.payload.id
                             ? { ...item, quantity: item.quantity + 1 }
                             : item
@@ -5129,16 +5129,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         case "REMOVE_ITEM":
             return {
                 ...state,
-                items: state.items.filter(item => item.id !== action.payload),
+                items: state.items.filter(item =&gt; item.id !== action.payload),
             };
         case "UPDATE_QUANTITY":
             return {
                 ...state,
-                items: state.items.map(item =>
+                items: state.items.map(item =&gt;
                     item.id === action.payload.id
                         ? { ...item, quantity: Math.max(0, action.payload.quantity) }
                         : item
-                ).filter(item => item.quantity > 0),
+                ).filter(item =&gt; item.quantity &gt; 0),
             };
         case "APPLY_DISCOUNT":
             return { ...state, discount: action.payload };
@@ -5152,29 +5152,29 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 function ShoppingCart() {
     const [cart, dispatch] = useReducer(cartReducer, { items: [], discount: 0 });
 
-    const total = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = cart.items.reduce((sum, item) =&gt; sum + item.price * item.quantity, 0);
     const finalTotal = total * (1 - cart.discount / 100);
 
     return (
-        <div>
-            <h2>购物车</h2>
-            {cart.items.map(item => (
-                <div key={item.id}>
-                    <span>{item.name} x{item.quantity} = ¥{item.price * item.quantity}</span>
-                    <button onClick={() => dispatch({
+        &lt;div&gt;
+            &lt;h2&gt;购物车&lt;/h2&gt;
+            {cart.items.map(item =&gt; (
+                &lt;div key={item.id}&gt;
+                    &lt;span&gt;{item.name} x{item.quantity} = ¥{item.price * item.quantity}&lt;/span&gt;
+                    &lt;button onClick={() =&gt; dispatch({
                         type: "UPDATE_QUANTITY",
                         payload: { id: item.id, quantity: item.quantity - 1 }
-                    })}>-</button>
-                    <button onClick={() => dispatch({
+                    })}&gt;-&lt;/button&gt;
+                    &lt;button onClick={() =&gt; dispatch({
                         type: "UPDATE_QUANTITY",
                         payload: { id: item.id, quantity: item.quantity + 1 }
-                    })}>+</button>
-                    <button onClick={() => dispatch({ type: "REMOVE_ITEM", payload: item.id })}>删除</button>
-                </div>
+                    })}&gt;+&lt;/button&gt;
+                    &lt;button onClick={() =&gt; dispatch({ type: "REMOVE_ITEM", payload: item.id })}&gt;删除&lt;/button&gt;
+                &lt;/div&gt;
             ))}
-            <p>总计: ¥{finalTotal.toFixed(2)}</p>
-            <button onClick={() => dispatch({ type: "CLEAR_CART" })}>清空购物车</button>
-        </div>
+            &lt;p&gt;总计: ¥{finalTotal.toFixed(2)}&lt;/p&gt;
+            &lt;button onClick={() =&gt; dispatch({ type: "CLEAR_CART" })}&gt;清空购物车&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -5249,12 +5249,12 @@ Context 解决了 Props Drilling（逐层传递）问题，让深层嵌套的组
 
 ```typescript
 // 创建 Context
-const MyContext = React.createContext<T>(defaultValue);
+const MyContext = React.createContext&lt;T&gt;(defaultValue);
 
 // 提供值
-<MyContext.Provider value={contextValue}>
+&lt;MyContext.Provider value={contextValue}&gt;
     {children}
-</MyContext.Provider>
+&lt;/MyContext.Provider&gt;
 
 // 消费值
 const value = useContext(MyContext);
@@ -5278,24 +5278,24 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 // 定义 Context 类型
 interface ThemeContextType {
     theme: "light" | "dark";
-    toggleTheme: () => void;
+    toggleTheme: () =&gt; void;
 }
 
 // 创建 Context（默认值用于没有 Provider 时）
-const ThemeContext = createContext<ThemeContextType | null>(null);
+const ThemeContext = createContext&lt;ThemeContextType | null&gt;(null);
 
 // Provider 组件：封装 Context 提供逻辑
 function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<"light" | "dark">("light");
+    const [theme, setTheme] = useState&lt;"light" | "dark"&gt;("light");
 
-    const toggleTheme = () => {
-        setTheme(prev => prev === "light" ? "dark" : "light");
+    const toggleTheme = () =&gt; {
+        setTheme(prev =&gt; prev === "light" ? "dark" : "light");
     };
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        &lt;ThemeContext.Provider value=&lbrace;&lbrace; theme, toggleTheme &rbrace;&rbrace;&gt;
             {children}
-        </ThemeContext.Provider>
+        &lt;/ThemeContext.Provider&gt;
     );
 }
 
@@ -5312,20 +5312,20 @@ function useTheme() {
 function Header() {
     const { theme, toggleTheme } = useTheme();
     return (
-        <header style={{ background: theme === "dark" ? "#333" : "#fff" }}>
-            <button onClick={toggleTheme}>
+        &lt;header style=&lbrace;&lbrace; background: theme === "dark" ? "#333" : "#fff" &rbrace;&rbrace;&gt;
+            &lt;button onClick={toggleTheme}&gt;
                 当前主题: {theme}，点击切换
-            </button>
-        </header>
+            &lt;/button&gt;
+        &lt;/header&gt;
     );
 }
 
 // 应用根组件
 function App() {
     return (
-        <ThemeProvider>
-            <Header />
-        </ThemeProvider>
+        &lt;ThemeProvider&gt;
+            &lt;Header /&gt;
+        &lt;/ThemeProvider&gt;
     );
 }
 
@@ -5419,10 +5419,10 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface UserContextType {
     name: string;
-    setName: (name: string) => void;
+    setName: (name: string) =&gt; void;
 }
 
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext&lt;UserContextType | null&gt;(null);
 
 function UserProvider({ children }: { children: ReactNode }) {
     const [name, setName] = useState("张三");
@@ -5430,9 +5430,9 @@ function UserProvider({ children }: { children: ReactNode }) {
     // 每次 UserProvider 渲染，value 都是新对象
     // 所有消费 UserContext 的组件都会重新渲染
     return (
-        <UserContext.Provider value={{ name, setName }}>
+        &lt;UserContext.Provider value=&lbrace;&lbrace; name, setName &rbrace;&rbrace;&gt;
             {children}
-        </UserContext.Provider>
+        &lt;/UserContext.Provider&gt;
     );
 }
 
@@ -5440,22 +5440,22 @@ function UserProvider({ children }: { children: ReactNode }) {
 function UserDisplay() {
     const ctx = useContext(UserContext);
     console.log("UserDisplay 渲染了");
-    return <p>用户: {ctx?.name}</p>;
+    return &lt;p&gt;用户: {ctx?.name}&lt;/p&gt;;
 }
 
 // 即使用 React.memo 包裹，Context 变化时仍然会重新渲染
 const MemoizedDisplay = React.memo(function MemoDisplay() {
     const ctx = useContext(UserContext);
     console.log("MemoDisplay 也渲染了");
-    return <p>Memo用户: {ctx?.name}</p>;
+    return &lt;p&gt;Memo用户: {ctx?.name}&lt;/p&gt;;
 });
 
 function App() {
     return (
-        <UserProvider>
-            <UserDisplay />
-            <MemoizedDisplay />
-        </UserProvider>
+        &lt;UserProvider&gt;
+            &lt;UserDisplay /&gt;
+            &lt;MemoizedDisplay /&gt;
+        &lt;/UserProvider&gt;
     );
 }
 
@@ -5496,36 +5496,36 @@ import React, { createContext, useContext, useState, useMemo, useCallback, React
 
 interface AuthContextType {
     user: { name: string; role: string } | null;
-    login: (name: string) => void;
-    logout: () => void;
+    login: (name: string) =&gt; void;
+    logout: () =&gt; void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext&lt;AuthContextType | null&gt;(null);
 
 function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+    const [user, setUser] = useState&lt;{ name: string; role: string } | null&gt;(null);
 
     // 用 useCallback 稳定化函数引用
-    const login = useCallback((name: string) => {
+    const login = useCallback((name: string) =&gt; {
         setUser({ name, role: "user" });
     }, []);
 
-    const logout = useCallback(() => {
+    const logout = useCallback(() =&gt; {
         setUser(null);
     }, []);
 
     // 用 useMemo 稳定化 value 对象
     // 只有 user 变化时才创建新的 value 对象
-    const value = useMemo(() => ({
+    const value = useMemo(() =&gt; ({
         user,
         login,
         logout,
     }), [user, login, logout]);
 
     return (
-        <AuthContext.Provider value={value}>
+        &lt;AuthContext.Provider value={value}&gt;
             {children}
-        </AuthContext.Provider>
+        &lt;/AuthContext.Provider&gt;
     );
 }
 
@@ -5550,11 +5550,11 @@ export { AuthProvider, AuthContext };
 
 ```tsx
 // 错误：每次渲染创建新对象
-<MyContext.Provider value={{ name, setName }}>
+&lt;MyContext.Provider value=&lbrace;&lbrace; name, setName &rbrace;&rbrace;&gt;
 
 // 正确：用 useMemo 稳定化
-const value = useMemo(() => ({ name, setName }), [name]);
-<MyContext.Provider value={value}>
+const value = useMemo(() =&gt; ({ name, setName }), [name]);
+&lt;MyContext.Provider value={value}&gt;
 ```
 
 ### 注意事项
@@ -5597,36 +5597,36 @@ import React, { createContext, useContext, useState, useCallback, useMemo, React
 
 // Context 1：主题状态
 interface ThemeState { theme: "light" | "dark" }
-const ThemeStateContext = createContext<ThemeState>({ theme: "light" });
+const ThemeStateContext = createContext&lt;ThemeState&gt;({ theme: "light" });
 
 // Context 2：主题操作
-interface ThemeActions { toggleTheme: () => void }
-const ThemeActionsContext = createContext<ThemeActions>({ toggleTheme: () => {} });
+interface ThemeActions { toggleTheme: () =&gt; void }
+const ThemeActionsContext = createContext&lt;ThemeActions&gt;({ toggleTheme: () =&gt; {} });
 
 // Context 3：用户状态
 interface UserState { name: string; role: string }
-const UserStateContext = createContext<UserState>({ name: "", role: "" });
+const UserStateContext = createContext&lt;UserState&gt;({ name: "", role: "" });
 
 // Provider 组件：嵌套提供多个 Context
 function AppProvider({ children }: { children: ReactNode }) {
-    const [theme, setTheme] = useState<"light" | "dark">("light");
+    const [theme, setTheme] = useState&lt;"light" | "dark"&gt;("light");
     const [user] = useState({ name: "张三", role: "admin" });
 
-    const toggleTheme = useCallback(() => {
-        setTheme(prev => prev === "light" ? "dark" : "light");
+    const toggleTheme = useCallback(() =&gt; {
+        setTheme(prev =&gt; prev === "light" ? "dark" : "light");
     }, []);
 
     // 操作函数的 value 引用稳定
-    const actions = useMemo(() => ({ toggleTheme }), [toggleTheme]);
+    const actions = useMemo(() =&gt; ({ toggleTheme }), [toggleTheme]);
 
     return (
-        <ThemeStateContext.Provider value={{ theme }}>
-            <ThemeActionsContext.Provider value={actions}>
-                <UserStateContext.Provider value={user}>
+        &lt;ThemeStateContext.Provider value=&lbrace;&lbrace; theme &rbrace;&rbrace;&gt;
+            &lt;ThemeActionsContext.Provider value={actions}&gt;
+                &lt;UserStateContext.Provider value={user}&gt;
                     {children}
-                </UserStateContext.Provider>
-            </ThemeActionsContext.Provider>
-        </ThemeStateContext.Provider>
+                &lt;/UserStateContext.Provider&gt;
+            &lt;/ThemeActionsContext.Provider&gt;
+        &lt;/ThemeStateContext.Provider&gt;
     );
 }
 
@@ -5634,30 +5634,30 @@ function AppProvider({ children }: { children: ReactNode }) {
 function ThemeDisplay() {
     const { theme } = useContext(ThemeStateContext);
     console.log("ThemeDisplay 渲染");
-    return <p>当前主题: {theme}</p>;
+    return &lt;p&gt;当前主题: {theme}&lt;/p&gt;;
 }
 
 // 只消费操作函数的组件：theme 变化时不重渲染
 function ThemeToggle() {
     const { toggleTheme } = useContext(ThemeActionsContext);
     console.log("ThemeToggle 渲染");
-    return <button onClick={toggleTheme}>切换主题</button>;
+    return &lt;button onClick={toggleTheme}&gt;切换主题&lt;/button&gt;;
 }
 
 // 只消费用户状态的组件：theme 变化时不重渲染
 function UserDisplay() {
     const { name } = useContext(UserStateContext);
     console.log("UserDisplay 渲染");
-    return <p>用户: {name}</p>;
+    return &lt;p&gt;用户: {name}&lt;/p&gt;;
 }
 
 function App() {
     return (
-        <AppProvider>
-            <ThemeDisplay />
-            <ThemeToggle />
-            <UserDisplay />
-        </AppProvider>
+        &lt;AppProvider&gt;
+            &lt;ThemeDisplay /&gt;
+            &lt;ThemeToggle /&gt;
+            &lt;UserDisplay /&gt;
+        &lt;/AppProvider&gt;
     );
 }
 
@@ -5707,10 +5707,10 @@ ThemeActionsContext.value 不变 → 消费 ThemeActions 的组件不更新
 
 ```tsx
 // 用工具函数组合多个 Provider
-function composeProviders(...providers: React.FC<{ children: ReactNode }>[]) {
+function composeProviders(...providers: React.FC&lt;{ children: ReactNode }&gt;[]) {
     return function ComposedProvider({ children }: { children: ReactNode }) {
         return providers.reduceRight(
-            (child, Provider) => <Provider>{child}</Provider>,
+            (child, Provider) =&gt; &lt;Provider&gt;{child}&lt;/Provider&gt;,
             children
         );
     };
@@ -5724,9 +5724,9 @@ const AllProviders = composeProviders(
 
 function App() {
     return (
-        <AllProviders>
-            <MainContent />
-        </AllProviders>
+        &lt;AllProviders&gt;
+            &lt;MainContent /&gt;
+        &lt;/AllProviders&gt;
     );
 }
 ```
@@ -5764,49 +5764,49 @@ Context 拆分是解决 Context 导致过度重渲染的有效手段。将不相
 import React, { createContext, useContext } from "react";
 
 // 创建 Context，默认值为 "默认主题"
-const ThemeContext = createContext<string>("默认主题");
+const ThemeContext = createContext&lt;string&gt;("默认主题");
 
 // 场景1：没有 Provider → 使用默认值
 function NoProviderDemo() {
     const theme = useContext(ThemeContext);
-    return <p>主题: {theme}</p>;  // 输出: "默认主题"
+    return &lt;p&gt;主题: {theme}&lt;/p&gt;;  // 输出: "默认主题"
 }
 
 // 场景2：有 Provider 且传入了值 → 使用传入的值
 function WithProviderDemo() {
     return (
-        <ThemeContext.Provider value="暗色主题">
-            <ThemeConsumer />
-        </ThemeContext.Provider>
+        &lt;ThemeContext.Provider value="暗色主题"&gt;
+            &lt;ThemeConsumer /&gt;
+        &lt;/ThemeContext.Provider&gt;
     );
 }
 
 // 场景3：有 Provider 但 value 是 undefined → 拿到 undefined，不是默认值
 function UndefinedValueDemo() {
     return (
-        <ThemeContext.Provider value={undefined as any}>
-            <ThemeConsumer />
-        </ThemeContext.Provider>
+        &lt;ThemeContext.Provider value={undefined as any}&gt;
+            &lt;ThemeConsumer /&gt;
+        &lt;/ThemeContext.Provider&gt;
     );
 }
 
 function ThemeConsumer() {
     const theme = useContext(ThemeContext);
-    return <p>主题: {theme ?? "未定义"}</p>;
+    return &lt;p&gt;主题: {theme ?? "未定义"}&lt;/p&gt;;
 }
 
 function App() {
     return (
-        <div>
-            <h3>无 Provider</h3>
-            <NoProviderDemo />        {/* "默认主题" */}
+        &lt;div&gt;
+            &lt;h3&gt;无 Provider&lt;/h3&gt;
+            &lt;NoProviderDemo /&gt;        {/* "默认主题" */}
 
-            <h3>有 Provider</h3>
-            <WithProviderDemo />      {/* "暗色主题" */}
+            &lt;h3&gt;有 Provider&lt;/h3&gt;
+            &lt;WithProviderDemo /&gt;      {/* "暗色主题" */}
 
-            <h3>Provider value=undefined</h3>
-            <UndefinedValueDemo />    {/* undefined，不是 "默认主题" */}
-        </div>
+            &lt;h3&gt;Provider value=undefined&lt;/h3&gt;
+            &lt;UndefinedValueDemo /&gt;    {/* undefined，不是 "默认主题" */}
+        &lt;/div&gt;
     );
 }
 
@@ -5844,11 +5844,11 @@ import React, { createContext, useContext, ReactNode } from "react";
 
 interface AuthContextType {
     user: { name: string } | null;
-    logout: () => void;
+    logout: () =&gt; void;
 }
 
 // 用 null 作为默认值，明确表示"没有 Provider"
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext&lt;AuthContextType | null&gt;(null);
 
 // 自定义 Hook：统一处理 null 检查
 function useAuth(): AuthContextType {
@@ -5856,7 +5856,7 @@ function useAuth(): AuthContextType {
     if (context === null) {
         throw new Error(
             "useAuth 必须在 AuthProvider 内部使用。" +
-            "请确保组件被 <AuthProvider> 包裹。"
+            "请确保组件被 &lt;AuthProvider&gt; 包裹。"
         );
     }
     return context;
@@ -5866,12 +5866,12 @@ function useAuth(): AuthContextType {
 function AuthProvider({ children }: { children: ReactNode }) {
     const value: AuthContextType = {
         user: { name: "张三" },
-        logout: () => console.log("登出"),
+        logout: () =&gt; console.log("登出"),
     };
     return (
-        <AuthContext.Provider value={value}>
+        &lt;AuthContext.Provider value={value}&gt;
             {children}
-        </AuthContext.Provider>
+        &lt;/AuthContext.Provider&gt;
     );
 }
 
@@ -5904,7 +5904,7 @@ export { AuthProvider, useAuth };
 ```tsx
 // 方案1：null + 自定义 Hook 抛错（推荐）
 // 明确告诉开发者必须在 Provider 内使用
-const MyContext = createContext<MyType | null>(null);
+const MyContext = createContext&lt;MyType | null&gt;(null);
 
 // 方案2：有意义的默认值（适合组件库）
 // 即使没有 Provider 也能正常工作
@@ -5912,7 +5912,7 @@ const ThemeContext = createContext({ theme: "light", fontSize: 14 });
 
 // 方案3：空对象/空函数（不推荐）
 // 掩盖了缺少 Provider 的错误
-// const MyContext = createContext({ fn: () => {} });
+// const MyContext = createContext({ fn: () =&gt; {} });
 ```
 
 ### 注意事项
@@ -5943,10 +5943,10 @@ createContext 的默认值仅在组件没有被 Provider 包裹时使用，Provi
 ### API 签名与参数
 
 ```typescript
-function useSyncExternalStore<T>(
-    subscribe: (onStoreChange: () => void) => () => void,
-    getSnapshot: () => T,
-    getServerSnapshot?: () => T
+function useSyncExternalStore&lt;T&gt;(
+    subscribe: (onStoreChange: () =&gt; void) =&gt; () =&gt; void,
+    getSnapshot: () =&gt; T,
+    getServerSnapshot?: () =&gt; T
 ): T;
 ```
 
@@ -5966,11 +5966,11 @@ function useSyncExternalStore<T>(
 import React, { useSyncExternalStore } from "react";
 
 // 订阅函数：监听 online/offline 事件
-function subscribeOnlineStatus(callback: () => void) {
+function subscribeOnlineStatus(callback: () =&gt; void) {
     window.addEventListener("online", callback);
     window.addEventListener("offline", callback);
     // 返回取消订阅函数
-    return () => {
+    return () =&gt; {
         window.removeEventListener("online", callback);
         window.removeEventListener("offline", callback);
     };
@@ -5994,11 +5994,11 @@ function OnlineStatus() {
     );
 
     return (
-        <div>
-            <span style={{ color: isOnline ? "green" : "red" }}>
+        &lt;div&gt;
+            &lt;span style=&lbrace;&lbrace; color: isOnline ? "green" : "red" &rbrace;&rbrace;&gt;
                 {isOnline ? "在线" : "离线"}
-            </span>
-        </div>
+            &lt;/span&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -6037,22 +6037,22 @@ function useSyncExternalStore(subscribe, getSnapshot) {
 import { useSyncExternalStore } from "react";
 
 // 创建一个简单的外部 Store
-function createStore<T>(initialState: T) {
+function createStore&lt;T&gt;(initialState: T) {
     let state = initialState;
-    const listeners = new Set<() => void>();
+    const listeners = new Set&lt;() =&gt; void&gt;();
 
     return {
-        getSnapshot: () => state,
-        subscribe: (listener: () => void) => {
+        getSnapshot: () =&gt; state,
+        subscribe: (listener: () =&gt; void) =&gt; {
             listeners.add(listener);
-            return () => listeners.delete(listener);
+            return () =&gt; listeners.delete(listener);
         },
-        setState: (newState: T | ((prev: T) => T)) => {
+        setState: (newState: T | ((prev: T) =&gt; T)) =&gt; {
             state = typeof newState === "function"
-                ? (newState as (prev: T) => T)(state)
+                ? (newState as (prev: T) =&gt; T)(state)
                 : newState;
             // 通知所有订阅者
-            listeners.forEach(listener => listener());
+            listeners.forEach(listener =&gt; listener());
         },
     };
 }
@@ -6067,10 +6067,10 @@ function Counter() {
     );
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <button onClick={() => counterStore.setState(prev => prev + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; counterStore.setState(prev =&gt; prev + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 ```
@@ -6094,7 +6094,7 @@ function Counter() {
 
 ```tsx
 // 错误：每次返回新对象
-// const getSnapshot = () => ({ width: window.innerWidth });
+// const getSnapshot = () =&gt; ({ width: window.innerWidth });
 
 // 正确：返回不可变的基本值或缓存的引用
 let cachedSize = { width: window.innerWidth };
@@ -6141,11 +6141,11 @@ import React, { useSyncExternalStore } from "react";
 
 // 外部状态源
 let externalState = { color: "red" };
-const listeners = new Set<() => void>();
+const listeners = new Set&lt;() =&gt; void&gt;();
 
-function subscribe(callback: () => void) {
+function subscribe(callback: () =&gt; void) {
     listeners.add(callback);
-    return () => listeners.delete(callback);
+    return () =&gt; listeners.delete(callback);
 }
 
 function getSnapshot() {
@@ -6154,7 +6154,7 @@ function getSnapshot() {
 
 function setExternalState(newState: typeof externalState) {
     externalState = newState;
-    listeners.forEach(fn => fn());
+    listeners.forEach(fn =&gt; fn());
 }
 
 // 安全的消费组件：使用 useSyncExternalStore
@@ -6162,29 +6162,29 @@ function SafeColorDisplay() {
     const state = useSyncExternalStore(subscribe, getSnapshot);
     // 在并发模式下，即使渲染被中断再恢复，
     // 这个组件读到的 state 和其他组件一致
-    return <div style={{ color: state.color }}>安全显示: {state.color}</div>;
+    return &lt;div style=&lbrace;&lbrace; color: state.color &rbrace;&rbrace;&gt;安全显示: {state.color}&lt;/div&gt;;
 }
 
 // 不安全的方式（仅作对比说明）
 // function UnsafeColorDisplay() {
-//     const [, forceUpdate] = React.useReducer(c => c + 1, 0);
-//     React.useEffect(() => {
+//     const [, forceUpdate] = React.useReducer(c =&gt; c + 1, 0);
+//     React.useEffect(() =&gt; {
 //         const unsub = subscribe(forceUpdate);
 //         return unsub;
 //     }, []);
 //     // 并发模式下可能读到不一致的值
-//     return <div>{externalState.color}</div>;
+//     return &lt;div&gt;{externalState.color}&lt;/div&gt;;
 // }
 
 function App() {
     return (
-        <div>
-            <SafeColorDisplay />
-            <SafeColorDisplay />
-            <button onClick={() => setExternalState({ color: "blue" })}>
+        &lt;div&gt;
+            &lt;SafeColorDisplay /&gt;
+            &lt;SafeColorDisplay /&gt;
+            &lt;button onClick={() =&gt; setExternalState({ color: "blue" })}&gt;
                 切换颜色
-            </button>
-        </div>
+            &lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -6217,7 +6217,7 @@ function useSyncExternalStore(subscribe, getSnapshot) {
     const snapshot = getSnapshot();
 
     // 2. 在 commit 阶段（DOM 更新后）检查快照是否仍然一致
-    useEffect(() => {
+    useEffect(() =&gt; {
         const currentSnapshot = getSnapshot();
         if (!Object.is(snapshot, currentSnapshot)) {
             // 快照已过期：强制同步重新渲染
@@ -6227,8 +6227,8 @@ function useSyncExternalStore(subscribe, getSnapshot) {
     });
 
     // 3. 订阅外部状态变化
-    useEffect(() => {
-        const handleChange = () => {
+    useEffect(() =&gt; {
+        const handleChange = () =&gt; {
             const newSnapshot = getSnapshot();
             if (!Object.is(snapshot, newSnapshot)) {
                 // 状态变化：触发重新渲染
@@ -6306,7 +6306,7 @@ getSnapshot 有两个核心要求：它必须返回不可变的值（immutable�
 
 ```typescript
 // getSnapshot 签名
-type GetSnapshot<T> = () => T;
+type GetSnapshot&lt;T&gt; = () =&gt; T;
 
 // 在 useSyncExternalStore 中的位置
 useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?);
@@ -6327,11 +6327,11 @@ import { useSyncExternalStore } from "react";
 
 // 外部 Store
 let storeData = { count: 0, name: "张三" };
-const listeners = new Set<() => void>();
+const listeners = new Set&lt;() =&gt; void&gt;();
 
-function subscribe(cb: () => void) {
+function subscribe(cb: () =&gt; void) {
     listeners.add(cb);
-    return () => listeners.delete(cb);
+    return () =&gt; listeners.delete(cb);
 }
 
 // 正确：返回基本值（天然不可变）
@@ -6356,18 +6356,18 @@ function getStoreSnapshot() {
 
 function CounterDisplay() {
     const count = useSyncExternalStore(subscribe, getCountSnapshot);
-    return <p>计数: {count}</p>;
+    return &lt;p&gt;计数: {count}&lt;/p&gt;;
 }
 
 function StoreDisplay() {
     const data = useSyncExternalStore(subscribe, getStoreSnapshot);
-    return <p>{data.name}: {data.count}</p>;
+    return &lt;p&gt;{data.name}: {data.count}&lt;/p&gt;;
 }
 
 // 更新 Store
-function updateStore(newData: Partial<typeof storeData>) {
+function updateStore(newData: Partial&lt;typeof storeData&gt;) {
     storeData = { ...storeData, ...newData };
-    listeners.forEach(fn => fn());
+    listeners.forEach(fn =&gt; fn());
 }
 ```
 
@@ -6414,7 +6414,7 @@ function useSyncExternalStore(subscribe, getSnapshot) {
 
 ```tsx
 // 错误：每次创建新对象
-// const getSnapshot = () => ({ width: window.innerWidth, height: window.innerHeight });
+// const getSnapshot = () =&gt; ({ width: window.innerWidth, height: window.innerHeight });
 
 // 正确方案1：缓存引用
 let cached = { width: window.innerWidth, height: window.innerHeight };
@@ -6453,7 +6453,7 @@ function getNameSnapshot() {
 // 使用：只有 name 变化时才重渲染
 function NameDisplay() {
     const name = useSyncExternalStore(subscribe, getNameSnapshot);
-    return <p>{name}</p>;
+    return &lt;p&gt;{name}&lt;/p&gt;;
 }
 ```
 
@@ -6486,10 +6486,10 @@ getSnapshot 是 useSyncExternalStore 的状态读取函数，必须返回不可�
 ### API 签名与参数
 
 ```typescript
-useSyncExternalStore<T>(
-    subscribe: (onStoreChange: () => void) => () => void,
-    getSnapshot: () => T,
-    getServerSnapshot?: () => T   // 服务端渲染时使用的快照函数
+useSyncExternalStore&lt;T&gt;(
+    subscribe: (onStoreChange: () =&gt; void) =&gt; () =&gt; void,
+    getSnapshot: () =&gt; T,
+    getServerSnapshot?: () =&gt; T   // 服务端渲染时使用的快照函数
 ): T;
 ```
 
@@ -6506,9 +6506,9 @@ useSyncExternalStore<T>(
 import { useSyncExternalStore } from "react";
 
 // 订阅窗口 resize 事件
-function subscribeWindowWidth(callback: () => void) {
+function subscribeWindowWidth(callback: () =&gt; void) {
     window.addEventListener("resize", callback);
-    return () => window.removeEventListener("resize", callback);
+    return () =&gt; window.removeEventListener("resize", callback);
 }
 
 // 客户端快照：读取实际窗口宽度
@@ -6532,22 +6532,22 @@ function useWindowWidth(): number {
 // 使用
 function ResponsiveLayout() {
     const width = useWindowWidth();
-    const isMobile = width < 768;
+    const isMobile = width &lt; 768;
 
     return (
-        <div>
-            <p>窗口宽度: {width}px</p>
-            {isMobile ? <MobileNav /> : <DesktopNav />}
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;窗口宽度: {width}px&lt;/p&gt;
+            {isMobile ? &lt;MobileNav /&gt; : &lt;DesktopNav /&gt;}
+        &lt;/div&gt;
     );
 }
 
 function MobileNav() {
-    return <nav>移动端导航</nav>;
+    return &lt;nav&gt;移动端导航&lt;/nav&gt;;
 }
 
 function DesktopNav() {
-    return <nav>桌面端导航</nav>;
+    return &lt;nav&gt;桌面端导航&lt;/nav&gt;;
 }
 
 export default ResponsiveLayout;
@@ -6562,12 +6562,12 @@ export default ResponsiveLayout;
 ```
 1. 服务端渲染：
    - 调用 getServerSnapshot() → 返回 1024
-   - 生成 HTML: <nav>桌面端导航</nav>
+   - 生成 HTML: &lt;nav&gt;桌面端导航&lt;/nav&gt;
 
 2. 客户端 Hydration：
    - 调用 getSnapshot() → 返回实际宽度（如 375）
    - 与服务端快照比较：1024 !== 375
-   - 触发客户端重新渲染，更新为 <nav>移动端导航</nav>
+   - 触发客户端重新渲染，更新为 &lt;nav&gt;移动端导航&lt;/nav&gt;
 
 3. 后续交互：
    - 窗口 resize → subscribe 的回调被触发
@@ -6590,10 +6590,10 @@ Error: Missing getServerSnapshot, which is required for server-rendered content.
 
 import { useSyncExternalStore } from "react";
 
-function subscribeOnline(callback: () => void) {
+function subscribeOnline(callback: () =&gt; void) {
     window.addEventListener("online", callback);
     window.addEventListener("offline", callback);
-    return () => {
+    return () =&gt; {
         window.removeEventListener("online", callback);
         window.removeEventListener("offline", callback);
     };
@@ -6651,9 +6651,9 @@ export { useOnlineStatus };
 // 通过 CSS 控制显示隐藏
 
 // 或者使用 suppressHydrationWarning
-<div suppressHydrationWarning>
+&lt;div suppressHydrationWarning&gt;
     {/* 可能不匹配的内容 */}
-</div>
+&lt;/div&gt;
 ```
 
 ### 注意事项
@@ -6689,8 +6689,8 @@ getServerSnapshot 是 useSyncExternalStore 的 SSR 支持参数，在服务端�
 
 ```typescript
 function useEffect(
-    effect: () => (void | (() => void)),
-    deps?: ReadonlyArray<unknown>
+    effect: () =&gt; (void | (() =&gt; void)),
+    deps?: ReadonlyArray&lt;unknown&gt;
 ): void;
 ```
 
@@ -6713,29 +6713,29 @@ function EffectTimingDemo() {
     const [name, setName] = useState("张三");
 
     // 场景1：无依赖项数组 → 每次渲染后都执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("每次渲染后执行");
     });
 
     // 场景2：空依赖项数组 → 只在挂载后执行一次
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("组件挂载后执行一次");
         // 相当于类组件的 componentDidMount
     }, []);
 
     // 场景3：有依赖项 → 依赖项变化时执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log(`count 变化了: ${count}`);
         document.title = `计数: ${count}`;
     }, [count]);  // 只有 count 变化时执行
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <p>name: {name}</p>
-            <input value={name} onChange={e => setName(e.target.value)} />
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;p&gt;name: {name}&lt;/p&gt;
+            &lt;input value={name} onChange={e =&gt; setName(e.target.value)} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -6770,7 +6770,7 @@ function updateEffect(create, deps) {
     if (deps !== undefined) {
         // 逐个用 Object.is 比较依赖项
         let changed = false;
-        for (let i = 0; i < deps.length; i++) {
+        for (let i = 0; i &lt; deps.length; i++) {
             if (!Object.is(deps[i], prevDeps[i])) {
                 changed = true;
                 break;
@@ -6817,7 +6817,7 @@ function updateEffect(create, deps) {
 // 需要同步执行的场景用 useLayoutEffect
 import { useLayoutEffect } from "react";
 
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     // DOM 更新后立即同步执行
     const height = ref.current.getBoundingClientRect().height;
     setHeight(height);
@@ -6860,44 +6860,44 @@ import React, { useState, useEffect } from "react";
 function Timer() {
     const [seconds, setSeconds] = useState(0);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("设置定时器");
         // 副作用：创建定时器
-        const id = setInterval(() => {
-            setSeconds(prev => prev + 1);
+        const id = setInterval(() =&gt; {
+            setSeconds(prev =&gt; prev + 1);
         }, 1000);
 
         // 清理函数：清除定时器
-        return () => {
+        return () =&gt; {
             console.log("清理定时器");
             clearInterval(id);
         };
     }, []);  // 空依赖：挂载时设置，卸载时清理
 
-    return <p>计时: {seconds}秒</p>;
+    return &lt;p&gt;计时: {seconds}秒&lt;/p&gt;;
 }
 
 function ChatRoom({ roomId }: { roomId: string }) {
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log(`连接到房间: ${roomId}`);
         const connection = createConnection(roomId);
         connection.connect();
 
         // 清理函数：roomId 变化或组件卸载时断开旧连接
-        return () => {
+        return () =&gt; {
             console.log(`断开房间: ${roomId}`);
             connection.disconnect();
         };
     }, [roomId]);  // roomId 变化时：先清理旧连接，再建立新连接
 
-    return <p>当前房间: {roomId}</p>;
+    return &lt;p&gt;当前房间: {roomId}&lt;/p&gt;;
 }
 
 // 模拟连接
 function createConnection(roomId: string) {
     return {
-        connect: () => console.log(`已连接 ${roomId}`),
-        disconnect: () => console.log(`已断开 ${roomId}`),
+        connect: () =&gt; console.log(`已连接 ${roomId}`),
+        disconnect: () =&gt; console.log(`已断开 ${roomId}`),
     };
 }
 
@@ -6906,18 +6906,18 @@ function App() {
     const [room, setRoom] = useState("general");
 
     return (
-        <div>
-            <button onClick={() => setShow(s => !s)}>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShow(s =&gt; !s)}&gt;
                 {show ? "卸载Timer" : "挂载Timer"}
-            </button>
-            {show && <Timer />}
+            &lt;/button&gt;
+            {show && &lt;Timer /&gt;}
 
-            <select value={room} onChange={e => setRoom(e.target.value)}>
-                <option value="general">综合</option>
-                <option value="tech">技术</option>
-            </select>
-            <ChatRoom roomId={room} />
-        </div>
+            &lt;select value={room} onChange={e =&gt; setRoom(e.target.value)}&gt;
+                &lt;option value="general"&gt;综合&lt;/option&gt;
+                &lt;option value="tech"&gt;技术&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;ChatRoom roomId={room} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -6980,24 +6980,24 @@ function commitPassiveMountEffects(fiber) {
 **解决方案：**
 
 ```tsx
-useEffect(() => {
+useEffect(() =&gt; {
     // 使用 AbortController 取消请求
     const controller = new AbortController();
 
     fetch("/api/data", { signal: controller.signal })
-        .then(res => res.json())
-        .then(data => {
+        .then(res =&gt; res.json())
+        .then(data =&gt; {
             // 请求未被取消时才更新状态
             setData(data);
         })
-        .catch(err => {
+        .catch(err =&gt; {
             if (err.name !== "AbortError") {
                 setError(err.message);
             }
         });
 
     // 清理：取消请求
-    return () => controller.abort();
+    return () =&gt; controller.abort();
 }, []);
 ```
 
@@ -7047,27 +7047,27 @@ function ShallowCompareDemo() {
 
     // 基本值依赖：Object.is(0, 0) === true，不重新执行
     // Object.is(0, 1) === false，重新执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log(`count 变化: ${count}`);
     }, [count]);
 
     // 字符串依赖：值相同则不执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log(`name 变化: ${name}`);
     }, [name]);
 
     // 对象依赖：每次渲染创建新对象，引用不同，每次都执行
     const config = { theme: "dark" };  // 每次渲染都是新引用
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("config 变化（实际内容没变，但引用变了）");
     }, [config]);  // 每次渲染都执行，因为 config 引用每次不同
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <button onClick={() => setName("张三")}>设置相同name</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={() =&gt; setName("张三")}&gt;设置相同name&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -7083,7 +7083,7 @@ export default ShallowCompareDemo;
 ```javascript
 // React 内部的依赖项比较
 function areHookInputsEqual(nextDeps, prevDeps) {
-    for (let i = 0; i < prevDeps.length; i++) {
+    for (let i = 0; i &lt; prevDeps.length; i++) {
         if (Object.is(nextDeps[i], prevDeps[i])) {
             continue;  // 相同，检查下一项
         }
@@ -7134,20 +7134,20 @@ Object.is(obj, obj);       // true（同一引用）
 ```tsx
 // 错误：对象每次渲染都是新引用
 const options = { page: 1, size: 10 };
-useEffect(() => {
+useEffect(() =&gt; {
     fetchData(options);
 }, [options]);  // 每次渲染都执行
 
 // 方案1：用 useMemo 稳定化对象引用
-const options = useMemo(() => ({ page: 1, size: 10 }), []);
-useEffect(() => {
+const options = useMemo(() =&gt; ({ page: 1, size: 10 }), []);
+useEffect(() =&gt; {
     fetchData(options);
 }, [options]);  // 只在 options 真正变化时执行
 
 // 方案2：将基本值作为依赖项
 const page = 1;
 const size = 10;
-useEffect(() => {
+useEffect(() =&gt; {
     fetchData({ page, size });
 }, [page, size]);  // 基本值比较，稳定
 ```
@@ -7186,41 +7186,41 @@ useEffect 用 Object.is 逐项浅比较依赖项数组。基本值（number、st
 import React, { useState, useEffect } from "react";
 
 function SearchComponent({ query }: { query: string }) {
-    const [results, setResults] = useState<string[]>([]);
+    const [results, setResults] = useState&lt;string[]&gt;([]);
 
     // ESLint 警告：React Hook useEffect has a missing dependency: 'query'
-    // useEffect(() => {
+    // useEffect(() =&gt; {
     //     fetchResults(query).then(setResults);
     // }, []);  // 缺少 query 依赖
 
     // 正确：包含所有依赖项
-    useEffect(() => {
+    useEffect(() =&gt; {
         fetchResults(query).then(setResults);
     }, [query]);  // query 变化时重新请求
 
     return (
-        <ul>
-            {results.map((r, i) => <li key={i}>{r}</li>)}
-        </ul>
+        &lt;ul&gt;
+            {results.map((r, i) =&gt; &lt;li key={i}&gt;{r}&lt;/li&gt;)}
+        &lt;/ul&gt;
     );
 }
 
 // ESLint 也会检查函数依赖
-function DataFetcher({ url, onSuccess }: { url: string; onSuccess: (data: any) => void }) {
+function DataFetcher({ url, onSuccess }: { url: string; onSuccess: (data: any) =&gt; void }) {
     // 警告：missing dependency 'onSuccess'
-    // useEffect(() => {
-    //     fetch(url).then(res => res.json()).then(onSuccess);
+    // useEffect(() =&gt; {
+    //     fetch(url).then(res =&gt; res.json()).then(onSuccess);
     // }, [url]);
 
     // 正确：包含 onSuccess
-    useEffect(() => {
-        fetch(url).then(res => res.json()).then(onSuccess);
+    useEffect(() =&gt; {
+        fetch(url).then(res =&gt; res.json()).then(onSuccess);
     }, [url, onSuccess]);  // 需要父组件用 useCallback 稳定化 onSuccess
 
     return null;
 }
 
-async function fetchResults(query: string): Promise<string[]> {
+async function fetchResults(query: string): Promise&lt;string[]&gt; {
     return [`结果: ${query}`];
 }
 
@@ -7250,7 +7250,7 @@ const [count, setCount] = useState(0);
 const ref = useRef(0);
 const dispatch = useDispatch();  // Redux dispatch
 
-useEffect(() => {
+useEffect(() =&gt; {
     setCount(1);        // setState 引用稳定，不需要依赖
     ref.current = 1;    // ref 引用稳定，不需要依赖
     dispatch(action);   // dispatch 引用稳定，不需要依赖
@@ -7277,22 +7277,22 @@ useEffect(() => {
 // 问题：内联函数每次渲染新引用
 function Parent() {
     // 每次渲染都创建新的 fetchData
-    const fetchData = () => fetch("/api/data");
+    const fetchData = () =&gt; fetch("/api/data");
 
-    return <Child fetchData={fetchData} />;
+    return &lt;Child fetchData={fetchData} /&gt;;
 }
 
 // 方案1：用 useCallback 稳定化
 function Parent() {
-    const fetchData = useCallback(() => fetch("/api/data"), []);
-    return <Child fetchData={fetchData} />;
+    const fetchData = useCallback(() =&gt; fetch("/api/data"), []);
+    return &lt;Child fetchData={fetchData} /&gt;;
 }
 
 // 方案2：把函数移到 effect 内部
 function Child({ url }: { url: string }) {
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 函数定义在 effect 内部，不需要作为依赖项
-        const fetchData = () => fetch(url);
+        const fetchData = () =&gt; fetch(url);
         fetchData().then(/* ... */);
     }, [url]);  // 只依赖 url
 
@@ -7312,7 +7312,7 @@ function Child({ url }: { url: string }) {
 
 // 如果确实是特殊场景（如初始化第三方库），可以用 ref 标记
 const initialized = useRef(false);
-useEffect(() => {
+useEffect(() =&gt; {
     if (!initialized.current) {
         initialized.current = true;
         initializeLibrary(config);
@@ -7360,10 +7360,10 @@ function WindowResizeTracker() {
     });
 
     // 空依赖数组：挂载时添加监听，卸载时移除监听
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("组件挂载：添加 resize 监听");
 
-        const handleResize = () => {
+        const handleResize = () =&gt; {
             setSize({
                 width: window.innerWidth,
                 height: window.innerHeight,
@@ -7373,38 +7373,38 @@ function WindowResizeTracker() {
         window.addEventListener("resize", handleResize);
 
         // 清理函数：组件卸载时移除监听
-        return () => {
+        return () =&gt; {
             console.log("组件卸载：移除 resize 监听");
             window.removeEventListener("resize", handleResize);
         };
     }, []);  // 空数组：只执行一次
 
     return (
-        <p>窗口尺寸: {size.width} x {size.height}</p>
+        &lt;p&gt;窗口尺寸: {size.width} x {size.height}&lt;/p&gt;
     );
 }
 
 // 第三方库初始化示例
 function ChartComponent() {
-    const chartRef = useRef<HTMLDivElement>(null);
+    const chartRef = useRef&lt;HTMLDivElement&gt;(null);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 挂载时初始化图表
         const chart = initChart(chartRef.current!);
 
         // 卸载时销毁图表实例，释放内存
-        return () => {
+        return () =&gt; {
             chart.destroy();
         };
     }, []);
 
-    return <div ref={chartRef} style={{ width: 600, height: 400 }} />;
+    return &lt;div ref={chartRef} style=&lbrace;&lbrace; width: 600, height: 400 &rbrace;&rbrace; /&gt;;
 }
 
 function initChart(container: HTMLDivElement) {
     console.log("图表初始化");
     return {
-        destroy: () => console.log("图表销毁"),
+        destroy: () =&gt; console.log("图表销毁"),
     };
 }
 
@@ -7465,10 +7465,10 @@ function updateEffect(create, deps) {
 ```tsx
 // 这是预期行为，只在开发模式下发生
 // 确保清理函数能正确撤销副作用即可
-useEffect(() => {
+useEffect(() =&gt; {
     const connection = createConnection();
     connection.connect();
-    return () => connection.disconnect();  // 正确清理
+    return () =&gt; connection.disconnect();  // 正确清理
 }, []);
 // Strict Mode：connect → disconnect → connect
 // 生产模式：connect（只一次）
@@ -7484,12 +7484,12 @@ useEffect(() => {
 
 ```tsx
 // 错误：使用了 userId 但不依赖它
-// useEffect(() => {
+// useEffect(() =&gt; {
 //     fetchUser(userId);  // userId 变化后不会重新请求
 // }, []);
 
 // 正确：加入依赖项
-useEffect(() => {
+useEffect(() =&gt; {
     fetchUser(userId);
 }, [userId]);  // userId 变化时重新请求
 ```
@@ -7527,38 +7527,38 @@ useEffect 的依赖项通过 Object.is 进行浅比较，对于对象和数组�
 import React, { useState, useEffect, useMemo } from "react";
 
 function UserProfile({ userId }: { userId: number }) {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState&lt;any&gt;(null);
 
     // 陷阱：每次渲染创建新的 options 对象
     const options = { headers: { "Authorization": "Bearer token" } };
 
     // 这个 effect 每次渲染都执行，因为 options 引用每次不同
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("发起请求（不应该每次渲染都执行）");
         fetch(`/api/users/${userId}`, options)
-            .then(res => res.json())
+            .then(res =&gt; res.json())
             .then(setUser);
     }, [userId, options]);  // options 每次都是新引用
 
-    return <div>{user?.name}</div>;
+    return &lt;div&gt;{user?.name}&lt;/div&gt;;
 }
 
 // 正确做法：用 useMemo 稳定化对象
 function UserProfileFixed({ userId }: { userId: number }) {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState&lt;any&gt;(null);
 
     // useMemo 缓存对象引用，依赖项不变时返回同一引用
-    const options = useMemo(() => ({
+    const options = useMemo(() =&gt; ({
         headers: { "Authorization": "Bearer token" }
     }), []);  // 空依赖：引用始终不变
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         fetch(`/api/users/${userId}`, options)
-            .then(res => res.json())
+            .then(res =&gt; res.json())
             .then(setUser);
     }, [userId, options]);  // options 引用稳定，只有 userId 变化时执行
 
-    return <div>{user?.name}</div>;
+    return &lt;div&gt;{user?.name}&lt;/div&gt;;
 }
 
 export default UserProfileFixed;
@@ -7576,7 +7576,7 @@ function Component() {
     // 每次执行都创建新的对象字面量
     const obj = { a: 1 };  // 新引用
     const arr = [1, 2, 3];  // 新引用
-    const fn = () => {};     // 新引用
+    const fn = () =&gt; {};     // 新引用
 
     // Object.is 比较引用
     // 上次渲染的 { a: 1 } !== 本次渲染的 { a: 1 }
@@ -7614,23 +7614,23 @@ function Component() {
 // 父组件
 function Parent() {
     // 错误：每次渲染创建新数组
-    // return <Child items={[1, 2, 3]} />;
+    // return &lt;Child items={[1, 2, 3]} /&gt;;
 
     // 正确：用 useMemo 稳定化
-    const items = useMemo(() => [1, 2, 3], []);
-    return <Child items={items} />;
+    const items = useMemo(() =&gt; [1, 2, 3], []);
+    return &lt;Child items={items} /&gt;;
 }
 
 // 子组件：或者用基本值替代数组依赖
 function Child({ items }: { items: number[] }) {
     // 方案1：直接使用 items（需要父组件稳定化）
-    useEffect(() => {
+    useEffect(() =&gt; {
         processItems(items);
     }, [items]);
 
     // 方案2：用 JSON.stringify 做深比较（简单场景可用）
     const itemsKey = JSON.stringify(items);
-    useEffect(() => {
+    useEffect(() =&gt; {
         processItems(items);
     }, [itemsKey]);
 
@@ -7677,31 +7677,31 @@ import React, { useState, useEffect } from "react";
 
 // 问题代码：存在竞态条件
 function SearchBad({ query }: { query: string }) {
-    const [results, setResults] = useState<string[]>([]);
+    const [results, setResults] = useState&lt;string[]&gt;([]);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 快速切换 query 时，多个请求并发
         // 后发起的请求可能先返回
         fetch(`/api/search?q=${query}`)
-            .then(res => res.json())
-            .then(data => {
+            .then(res =&gt; res.json())
+            .then(data =&gt; {
                 setResults(data);  // 可能设置了过期的结果
             });
     }, [query]);
 
-    return <ul>{results.map((r, i) => <li key={i}>{r}</li>)}</ul>;
+    return &lt;ul&gt;{results.map((r, i) =&gt; &lt;li key={i}&gt;{r}&lt;/li&gt;)}&lt;/ul&gt;;
 }
 
 // 方案1：使用 cleanup 标志位
 function SearchWithFlag({ query }: { query: string }) {
-    const [results, setResults] = useState<string[]>([]);
+    const [results, setResults] = useState&lt;string[]&gt;([]);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         let cancelled = false;  // 标志位：标记请求是否过期
 
         fetch(`/api/search?q=${query}`)
-            .then(res => res.json())
-            .then(data => {
+            .then(res =&gt; res.json())
+            .then(data =&gt; {
                 // 只有未被取消的请求才更新状态
                 if (!cancelled) {
                     setResults(data);
@@ -7709,30 +7709,30 @@ function SearchWithFlag({ query }: { query: string }) {
             });
 
         // 清理函数：query 变化时标记上一次请求为过期
-        return () => {
+        return () =&gt; {
             cancelled = true;
         };
     }, [query]);
 
-    return <ul>{results.map((r, i) => <li key={i}>{r}</li>)}</ul>;
+    return &lt;ul&gt;{results.map((r, i) =&gt; &lt;li key={i}&gt;{r}&lt;/li&gt;)}&lt;/ul&gt;;
 }
 
 // 方案2：使用 AbortController 真正取消请求
 function SearchWithAbort({ query }: { query: string }) {
-    const [results, setResults] = useState<string[]>([]);
+    const [results, setResults] = useState&lt;string[]&gt;([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         const controller = new AbortController();
         setLoading(true);
 
         fetch(`/api/search?q=${query}`, { signal: controller.signal })
-            .then(res => res.json())
-            .then(data => {
+            .then(res =&gt; res.json())
+            .then(data =&gt; {
                 setResults(data);
                 setLoading(false);
             })
-            .catch(err => {
+            .catch(err =&gt; {
                 // AbortError 是正常取消，不需要处理
                 if (err.name !== "AbortError") {
                     console.error("请求失败:", err);
@@ -7741,14 +7741,14 @@ function SearchWithAbort({ query }: { query: string }) {
             });
 
         // 清理函数：取消上一次的请求
-        return () => controller.abort();
+        return () =&gt; controller.abort();
     }, [query]);
 
     return (
-        <div>
-            {loading && <p>搜索中...</p>}
-            <ul>{results.map((r, i) => <li key={i}>{r}</li>)}</ul>
-        </div>
+        &lt;div&gt;
+            {loading && &lt;p&gt;搜索中...&lt;/p&gt;}
+            &lt;ul&gt;{results.map((r, i) =&gt; &lt;li key={i}&gt;{r}&lt;/li&gt;)}&lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -7813,7 +7813,7 @@ AbortController 方案：
 **解决方案：**
 
 ```tsx
-useEffect(() => {
+useEffect(() =&gt; {
     const controller = new AbortController();
 
     // useEffect 不能直接用 async，需要内部定义 async 函数
@@ -7833,7 +7833,7 @@ useEffect(() => {
 
     fetchData();
 
-    return () => controller.abort();
+    return () =&gt; controller.abort();
 }, [id]);
 ```
 
@@ -7867,8 +7867,8 @@ useEffect(() => {
 
 ```typescript
 function useLayoutEffect(
-    effect: () => (void | (() => void)),
-    deps?: ReadonlyArray<unknown>
+    effect: () =&gt; (void | (() =&gt; void)),
+    deps?: ReadonlyArray&lt;unknown&gt;
 ): void;
 ```
 
@@ -7888,18 +7888,18 @@ function Tooltip({ targetRect, children }: {
     targetRect: { top: number; left: number; width: number };
     children: React.ReactNode;
 }) {
-    const tooltipRef = useRef<HTMLDivElement>(null);
+    const tooltipRef = useRef&lt;HTMLDivElement&gt;(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     // useLayoutEffect：在绘制前测量 tooltip 尺寸并计算位置
     // 如果用 useEffect，tooltip 会先显示在错误位置，再跳到正确位置（闪烁）
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         const tooltip = tooltipRef.current;
         if (!tooltip) return;
 
         const { height } = tooltip.getBoundingClientRect();
         // 计算 tooltip 应该显示在目标元素上方还是下方
-        const y = targetRect.top - height > 0
+        const y = targetRect.top - height &gt; 0
             ? targetRect.top - height - 8  // 上方有空间，显示在上方
             : targetRect.top + 30;          // 上方没空间，显示在下方
 
@@ -7910,17 +7910,17 @@ function Tooltip({ targetRect, children }: {
     }, [targetRect]);
 
     return (
-        <div
+        &lt;div
             ref={tooltipRef}
-            style={{
+            style=&lbrace;&lbrace;
                 position: "absolute",
                 left: position.x,
                 top: position.y,
                 transform: "translateX(-50%)",
-            }}
-        >
+            &rbrace;&rbrace;
+        &gt;
             {children}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -7998,7 +7998,7 @@ function commitLayoutEffects(fiber) {
 
 ```tsx
 // 只在 useLayoutEffect 中做必要的 DOM 读取
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     // 快速读取 DOM 信息
     const rect = ref.current.getBoundingClientRect();
     setPosition({ x: rect.left, y: rect.top });
@@ -8006,7 +8006,7 @@ useLayoutEffect(() => {
 }, []);
 
 // 耗时操作放在 useEffect 中
-useEffect(() => {
+useEffect(() =&gt; {
     // 数据请求、日志记录等不影响视觉的操作
     fetchData();
 }, []);
@@ -8048,12 +8048,12 @@ interface CollapsibleProps {
 }
 
 function Collapsible({ isOpen, children }: CollapsibleProps) {
-    const contentRef = useRef<HTMLDivElement>(null);
-    const [height, setHeight] = useState<number | "auto">(0);
+    const contentRef = useRef&lt;HTMLDivElement&gt;(null);
+    const [height, setHeight] = useState&lt;number | "auto"&gt;(0);
 
     // useLayoutEffect：在绘制前测量内容高度并设置
     // 用 useEffect 会导致：先显示 height=0，再跳到实际高度（闪烁）
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         if (isOpen) {
             // 展开：测量内容实际高度
             const contentHeight = contentRef.current?.scrollHeight ?? 0;
@@ -8065,17 +8065,17 @@ function Collapsible({ isOpen, children }: CollapsibleProps) {
     }, [isOpen]);
 
     return (
-        <div
-            style={{
+        &lt;div
+            style=&lbrace;&lbrace;
                 height: typeof height === "number" ? `${height}px` : height,
                 overflow: "hidden",
                 transition: "height 0.3s ease",
-            }}
-        >
-            <div ref={contentRef}>
+            &rbrace;&rbrace;
+        &gt;
+            &lt;div ref={contentRef}&gt;
                 {children}
-            </div>
-        </div>
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -8084,16 +8084,16 @@ function App() {
     const [open, setOpen] = useState(false);
 
     return (
-        <div>
-            <button onClick={() => setOpen(o => !o)}>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setOpen(o =&gt; !o)}&gt;
                 {open ? "折叠" : "展开"}
-            </button>
-            <Collapsible isOpen={open}>
-                <p>这是一段可以折叠的内容。</p>
-                <p>它的高度会根据内容自适应。</p>
-                <p>展开和折叠都有平滑的过渡动画。</p>
-            </Collapsible>
-        </div>
+            &lt;/button&gt;
+            &lt;Collapsible isOpen={open}&gt;
+                &lt;p&gt;这是一段可以折叠的内容。&lt;/p&gt;
+                &lt;p&gt;它的高度会根据内容自适应。&lt;/p&gt;
+                &lt;p&gt;展开和折叠都有平滑的过渡动画。&lt;/p&gt;
+            &lt;/Collapsible&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -8116,12 +8116,12 @@ interface DropdownProps {
 
 function Dropdown({ trigger, children }: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [placement, setPlacement] = useState<"bottom" | "top">("bottom");
-    const triggerRef = useRef<HTMLDivElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
+    const [placement, setPlacement] = useState&lt;"bottom" | "top"&gt;("bottom");
+    const triggerRef = useRef&lt;HTMLDivElement&gt;(null);
+    const menuRef = useRef&lt;HTMLDivElement&gt;(null);
 
     // 在绘制前计算下拉菜单应该出现在上方还是下方
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         if (!isOpen || !triggerRef.current || !menuRef.current) return;
 
         const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -8129,7 +8129,7 @@ function Dropdown({ trigger, children }: DropdownProps) {
         const viewportHeight = window.innerHeight;
 
         // 下方空间不够则显示在上方
-        if (triggerRect.bottom + menuHeight > viewportHeight && triggerRect.top > menuHeight) {
+        if (triggerRect.bottom + menuHeight &gt; viewportHeight && triggerRect.top &gt; menuHeight) {
             setPlacement("top");
         } else {
             setPlacement("bottom");
@@ -8137,14 +8137,14 @@ function Dropdown({ trigger, children }: DropdownProps) {
     }, [isOpen]);
 
     return (
-        <div style={{ position: "relative" }}>
-            <div ref={triggerRef} onClick={() => setIsOpen(o => !o)}>
+        &lt;div style=&lbrace;&lbrace; position: "relative" &rbrace;&rbrace;&gt;
+            &lt;div ref={triggerRef} onClick={() =&gt; setIsOpen(o =&gt; !o)}&gt;
                 {trigger}
-            </div>
+            &lt;/div&gt;
             {isOpen && (
-                <div
+                &lt;div
                     ref={menuRef}
-                    style={{
+                    style=&lbrace;&lbrace;
                         position: "absolute",
                         [placement === "bottom" ? "top" : "bottom"]: "100%",
                         left: 0,
@@ -8152,12 +8152,12 @@ function Dropdown({ trigger, children }: DropdownProps) {
                         border: "1px solid #ddd",
                         background: "#fff",
                         zIndex: 1000,
-                    }}
-                >
+                    &rbrace;&rbrace;
+                &gt;
                     {children}
-                </div>
+                &lt;/div&gt;
             )}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -8194,13 +8194,13 @@ export default Dropdown;
 ```tsx
 // 这种双重渲染是预期行为且性能可接受
 // 因为两次渲染都在绘制前完成，用户只看到最终结果
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     const height = ref.current.scrollHeight;
     setHeight(height);  // 触发同步重渲染，但不会闪烁
 }, [content]);
 
 // 如果能避免 setState 更好：直接操作 DOM
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     ref.current.style.height = ref.current.scrollHeight + "px";
 }, [content]);
 ```
@@ -8239,36 +8239,36 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 // 场景：根据内容宽度决定是否显示省略号
 function TextWithEllipsis({ text }: { text: string }) {
-    const ref = useRef<HTMLSpanElement>(null);
+    const ref = useRef&lt;HTMLSpanElement&gt;(null);
     const [isTruncated, setIsTruncated] = useState(false);
 
     // 用 useEffect：文本先完整显示，再突然变成省略号（闪烁）
     // 用 useLayoutEffect：直接显示最终状态（无闪烁）
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         const el = ref.current;
         if (el) {
             // 比较 scrollWidth 和 clientWidth 判断是否溢出
-            setIsTruncated(el.scrollWidth > el.clientWidth);
+            setIsTruncated(el.scrollWidth &gt; el.clientWidth);
         }
     }, [text]);
 
     return (
-        <div style={{ display: "flex", alignItems: "center", maxWidth: 200 }}>
-            <span
+        &lt;div style=&lbrace;&lbrace; display: "flex", alignItems: "center", maxWidth: 200 &rbrace;&rbrace;&gt;
+            &lt;span
                 ref={ref}
-                style={{
+                style=&lbrace;&lbrace;
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                     flex: 1,
-                }}
-            >
+                &rbrace;&rbrace;
+            &gt;
                 {text}
-            </span>
+            &lt;/span&gt;
             {isTruncated && (
-                <button style={{ marginLeft: 4 }}>展开</button>
+                &lt;button style=&lbrace;&lbrace; marginLeft: 4 &rbrace;&rbrace;&gt;展开&lt;/button&gt;
             )}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -8325,7 +8325,7 @@ const useIsomorphicLayoutEffect =
 
 // 在组件中使用
 function Component() {
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() =&gt; {
         // 客户端：useLayoutEffect 时机执行
         // 服务端：useEffect 时机执行（不会警告）
     }, []);
@@ -8361,8 +8361,8 @@ function Component() {
 
 ```typescript
 function useInsertionEffect(
-    effect: () => (void | (() => void)),
-    deps?: ReadonlyArray<unknown>
+    effect: () =&gt; (void | (() =&gt; void)),
+    deps?: ReadonlyArray&lt;unknown&gt;
 ): void;
 ```
 
@@ -8379,16 +8379,16 @@ function useInsertionEffect(
 import React, { useInsertionEffect } from "react";
 
 // 简化的 CSS-in-JS 实现
-const styleCache = new Map<string, HTMLStyleElement>();
+const styleCache = new Map&lt;string, HTMLStyleElement&gt;();
 
 function useCSS(rule: string): string {
     // 生成唯一的类名
     const className = "css-" + hashString(rule);
 
     // useInsertionEffect：在 DOM 突变前注入样式
-    useInsertionEffect(() => {
+    useInsertionEffect(() =&gt; {
         if (!styleCache.has(className)) {
-            // 创建 <style> 标签并注入到 <head>
+            // 创建 &lt;style&gt; 标签并注入到 &lt;head&gt;
             const style = document.createElement("style");
             style.textContent = `.${className} { ${rule} }`;
             document.head.appendChild(style);
@@ -8396,7 +8396,7 @@ function useCSS(rule: string): string {
         }
 
         // 清理函数：移除样式（组件卸载时）
-        return () => {
+        return () =&gt; {
             const style = styleCache.get(className);
             if (style) {
                 document.head.removeChild(style);
@@ -8411,8 +8411,8 @@ function useCSS(rule: string): string {
 // 简单的字符串哈希
 function hashString(str: string): string {
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    for (let i = 0; i &lt; str.length; i++) {
+        hash = ((hash &lt;&lt; 5) - hash) + str.charCodeAt(i);
         hash |= 0;
     }
     return Math.abs(hash).toString(36);
@@ -8422,7 +8422,7 @@ function hashString(str: string): string {
 function StyledButton() {
     const className = useCSS("background: blue; color: white; padding: 8px 16px;");
 
-    return <button className={className}>样式按钮</button>;
+    return &lt;button className={className}&gt;样式按钮&lt;/button&gt;;
 }
 
 export default StyledButton;
@@ -8475,12 +8475,12 @@ React 渲染流程中的执行顺序：
 
 ```tsx
 // 错误：useInsertionEffect 中不能读取更新后的 DOM
-// useInsertionEffect(() => {
+// useInsertionEffect(() =&gt; {
 //     const height = ref.current.offsetHeight;  // 旧的 DOM
 // }, []);
 
 // 正确：用 useLayoutEffect 读取 DOM
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     const height = ref.current.offsetHeight;  // 更新后的 DOM
 }, []);
 ```
@@ -8518,9 +8518,9 @@ useInsertionEffect 的执行时机是在 React 的 Commit 阶段中的 Mutation 
 import React, { useEffect, useLayoutEffect, useInsertionEffect, useRef } from "react";
 
 function ExecutionOrderDemo() {
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef&lt;HTMLDivElement&gt;(null);
 
-    useInsertionEffect(() => {
+    useInsertionEffect(() =&gt; {
         // 最先执行：DOM 还没更新
         console.log("1. useInsertionEffect - DOM 未更新");
         console.log("   ref.current:", ref.current?.textContent);
@@ -8528,20 +8528,20 @@ function ExecutionOrderDemo() {
         // 更新时 ref.current 指向旧的 DOM
     });
 
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         // 第二执行：DOM 已更新，浏览器未绘制
         console.log("2. useLayoutEffect - DOM 已更新，未绘制");
         console.log("   ref.current:", ref.current?.textContent);
         // ref.current 指向更新后的 DOM
     });
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 最后执行：浏览器已绘制
         console.log("3. useEffect - 已绘制");
         console.log("   ref.current:", ref.current?.textContent);
     });
 
-    return <div ref={ref}>内容</div>;
+    return &lt;div ref={ref}&gt;内容&lt;/div&gt;;
 }
 
 export default ExecutionOrderDemo;
@@ -8558,7 +8558,7 @@ Commit 阶段详细流程：
 
 ┌─ Before Mutation 子阶段 ─┐
 │  useInsertionEffect 执行   │  ← DOM 还是旧的
-│  （注入 <style> 标签）      │
+│  （注入 &lt;style&gt; 标签）      │
 └───────────────────────────┘
            ↓
 ┌─ Mutation 子阶段 ─────────┐
@@ -8608,12 +8608,12 @@ CSS-in-JS 库需要在 DOM 节点被插入之前就把样式准备好。如果�
 
 ```tsx
 // 错误：useInsertionEffect 中不能 setState
-// useInsertionEffect(() => {
+// useInsertionEffect(() =&gt; {
 //     setSomeState(value);  // 会导致错误或不可预测的行为
 // }, []);
 
 // 正确：需要 setState 的副作用放在 useLayoutEffect 或 useEffect 中
-useLayoutEffect(() => {
+useLayoutEffect(() =&gt; {
     const height = ref.current.offsetHeight;
     setHeight(height);  // 在 Layout 阶段可以 setState
 }, []);
@@ -8649,7 +8649,7 @@ useInsertionEffect 在 React Commit 阶段的 Before Mutation 子阶段执行，
 
 ```typescript
 // 实验性 API，需要从 react 导入（仅在实验版本中可用）
-function useEffectEvent<T extends (...args: any[]) => any>(fn: T): T;
+function useEffectEvent&lt;T extends (...args: any[]) =&gt; any&gt;(fn: T): T;
 ```
 
 | 参数 | 类型 | 说明 |
@@ -8672,39 +8672,39 @@ import React, { useState, useEffect } from "react";
 
 // 当前的解决方式（不理想）
 function ChatRoomCurrent({ roomId, theme }: { roomId: string; theme: string }) {
-    useEffect(() => {
+    useEffect(() =&gt; {
         const connection = createConnection(roomId);
-        connection.on("connected", () => {
+        connection.on("connected", () =&gt; {
             // 需要读取最新的 theme，但 theme 不应该触发重新连接
             logVisit(roomId, theme);
         });
         connection.connect();
 
-        return () => connection.disconnect();
+        return () =&gt; connection.disconnect();
     }, [roomId, theme]);
     // theme 加入依赖项后，切换主题也会断开重连——这不是我们想要的
 
-    return <p>房间: {roomId}</p>;
+    return &lt;p&gt;房间: {roomId}&lt;/p&gt;;
 }
 
 // 使用 useEffectEvent 的理想方式（实验性）
 // function ChatRoomIdeal({ roomId, theme }: { roomId: string; theme: string }) {
 //     // useEffectEvent 创建的函数始终读取最新的 theme
 //     // 但不会作为 effect 的响应式依赖
-//     const onConnected = useEffectEvent(() => {
+//     const onConnected = useEffectEvent(() =&gt; {
 //         logVisit(roomId, theme);  // 始终读取最新的 theme
 //     });
 //
-//     useEffect(() => {
+//     useEffect(() =&gt; {
 //         const connection = createConnection(roomId);
-//         connection.on("connected", () => {
+//         connection.on("connected", () =&gt; {
 //             onConnected();  // 调用 Effect Event
 //         });
 //         connection.connect();
-//         return () => connection.disconnect();
+//         return () =&gt; connection.disconnect();
 //     }, [roomId]);  // 只依赖 roomId，theme 变化不触发重新连接
 //
-//     return <p>房间: {roomId}</p>;
+//     return &lt;p&gt;房间: {roomId}&lt;/p&gt;;
 // }
 
 // 当前的替代方案：使用 useRef 存储最新值
@@ -8712,22 +8712,22 @@ function ChatRoomWithRef({ roomId, theme }: { roomId: string; theme: string }) {
     const themeRef = React.useRef(theme);
     themeRef.current = theme;  // 每次渲染同步最新值
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         const connection = createConnection(roomId);
-        connection.on("connected", () => {
+        connection.on("connected", () =&gt; {
             // 通过 ref 读取最新的 theme
             logVisit(roomId, themeRef.current);
         });
         connection.connect();
 
-        return () => connection.disconnect();
+        return () =&gt; connection.disconnect();
     }, [roomId]);  // 只依赖 roomId
 
-    return <p>房间: {roomId}</p>;
+    return &lt;p&gt;房间: {roomId}&lt;/p&gt;;
 }
 
 function createConnection(roomId: string) {
-    const handlers: Record<string, Function[]> = {};
+    const handlers: Record&lt;string, Function[]&gt; = {};
     return {
         on(event: string, handler: Function) {
             if (!handlers[event]) handlers[event] = [];
@@ -8735,7 +8735,7 @@ function createConnection(roomId: string) {
         },
         connect() {
             console.log(`连接到 ${roomId}`);
-            handlers["connected"]?.forEach(h => h());
+            handlers["connected"]?.forEach(h =&gt; h());
         },
         disconnect() {
             console.log(`断开 ${roomId}`);
@@ -8766,7 +8766,7 @@ function useEffectEvent(fn) {
 
     // 返回一个稳定引用的包装函数
     // 调用时执行 ref.current（即最新的 fn）
-    return useCallback((...args) => {
+    return useCallback((...args) =&gt; {
         return ref.current(...args);
     }, []);  // 空依赖：引用永远稳定
 }
@@ -8800,26 +8800,26 @@ function useEffectEvent(fn) {
 // 方案：自定义 Hook 模拟 useEffectEvent
 import { useRef, useCallback } from "react";
 
-function useEventCallback<T extends (...args: any[]) => any>(fn: T): T {
+function useEventCallback&lt;T extends (...args: any[]) =&gt; any&gt;(fn: T): T {
     const fnRef = useRef(fn);
     fnRef.current = fn;
 
-    return useCallback((...args: any[]) => {
+    return useCallback((...args: any[]) =&gt; {
         return fnRef.current(...args);
     }, []) as T;
 }
 
 // 使用
 function MyComponent({ roomId, theme }: { roomId: string; theme: string }) {
-    const onConnected = useEventCallback(() => {
+    const onConnected = useEventCallback(() =&gt; {
         logVisit(roomId, theme);
     });
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         const conn = createConnection(roomId);
         conn.on("connected", onConnected);
         conn.connect();
-        return () => conn.disconnect();
+        return () =&gt; conn.disconnect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomId]);  // onConnected 引用稳定，但 ESLint 可能警告
 
@@ -8858,10 +8858,10 @@ useEffectEvent 是 React 的实验性 Hook，解决了 effect 中需要读取最
 ### API 签名与参数
 
 ```typescript
-function memo<P extends object>(
-    Component: React.FC<P>,
-    arePropsEqual?: (prevProps: P, nextProps: P) => boolean
-): React.MemoExoticComponent<React.FC<P>>;
+function memo&lt;P extends object&gt;(
+    Component: React.FC&lt;P&gt;,
+    arePropsEqual?: (prevProps: P, nextProps: P) =&gt; boolean
+): React.MemoExoticComponent&lt;React.FC&lt;P&gt;&gt;;
 ```
 
 | 参数 | 类型 | 是否必填 | 说明 |
@@ -8882,12 +8882,12 @@ import React, { useState, memo } from "react";
 function ExpensiveListRaw({ items, title }: { items: string[]; title: string }) {
     console.log("ExpensiveList 渲染了");
     return (
-        <div>
-            <h3>{title}</h3>
-            <ul>
-                {items.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-        </div>
+        &lt;div&gt;
+            &lt;h3&gt;{title}&lt;/h3&gt;
+            &lt;ul&gt;
+                {items.map((item, i) =&gt; &lt;li key={i}&gt;{item}&lt;/li&gt;)}
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -8897,15 +8897,15 @@ const ExpensiveList = memo(ExpensiveListRaw);
 function App() {
     const [count, setCount] = useState(0);
     // items 定义在组件外部或用 useMemo，引用稳定
-    const items = React.useMemo(() => ["苹果", "香蕉", "橙子"], []);
+    const items = React.useMemo(() =&gt; ["苹果", "香蕉", "橙子"], []);
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
             {/* count 变化时 App 重新渲染，但 ExpensiveList 的 props 没变，跳过渲染 */}
-            <ExpensiveList items={items} title="水果列表" />
-        </div>
+            &lt;ExpensiveList items={items} title="水果列表" /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -8937,7 +8937,7 @@ function shallowEqual(objA, objB) {
     if (keysA.length !== keysB.length) return false;
 
     // 逐个属性用 Object.is 比较
-    for (let i = 0; i < keysA.length; i++) {
+    for (let i = 0; i &lt; keysA.length; i++) {
         if (!Object.prototype.hasOwnProperty.call(objB, keysA[i]) ||
             !Object.is(objA[keysA[i]], objB[keysA[i]])) {
             return false;
@@ -8988,18 +8988,18 @@ function Parent() {
     const [count, setCount] = useState(0);
 
     // 错误：每次渲染创建新的 style 对象
-    // <MemoChild style={{ color: "red" }} />
+    // &lt;MemoChild style=&lbrace;&lbrace; color: "red" &rbrace;&rbrace; /&gt;
 
     // 正确：用 useMemo 稳定化对象
-    const style = React.useMemo(() => ({ color: "red" }), []);
+    const style = React.useMemo(() =&gt; ({ color: "red" }), []);
 
     // 错误：每次渲染创建新的回调函数
-    // <MemoChild onClick={() => console.log("click")} />
+    // &lt;MemoChild onClick={() =&gt; console.log("click")} /&gt;
 
     // 正确：用 useCallback 稳定化函数
-    const onClick = React.useCallback(() => console.log("click"), []);
+    const onClick = React.useCallback(() =&gt; console.log("click"), []);
 
-    return <MemoChild style={style} onClick={onClick} />;
+    return &lt;MemoChild style={style} onClick={onClick} /&gt;;
 }
 ```
 
@@ -9034,7 +9034,7 @@ React.memo 对函数组件的 props 做浅比较，props 不变时跳过重新�
 const MemoComponent = React.memo(Component, arePropsEqual);
 
 // arePropsEqual 签名
-type ArePropsEqual<P> = (prevProps: Readonly<P>, nextProps: Readonly<P>) => boolean;
+type ArePropsEqual&lt;P&gt; = (prevProps: Readonly&lt;P&gt;, nextProps: Readonly&lt;P&gt;) =&gt; boolean;
 // 返回 true → props 相同，跳过渲染
 // 返回 false → props 不同，重新渲染
 ```
@@ -9053,22 +9053,22 @@ interface UserCardProps {
         avatar: string;
     };
     style: React.CSSProperties;
-    onSelect: (id: number) => void;
+    onSelect: (id: number) =&gt; void;
     debugTimestamp: number;  // 调试用的时间戳，不影响渲染
 }
 
 function UserCardRaw({ user, style, onSelect }: UserCardProps) {
     console.log(`UserCard ${user.id} 渲染`);
     return (
-        <div style={style} onClick={() => onSelect(user.id)}>
-            <img src={user.avatar} alt={user.name} />
-            <span>{user.name}</span>
-        </div>
+        &lt;div style={style} onClick={() =&gt; onSelect(user.id)}&gt;
+            &lt;img src={user.avatar} alt={user.name} /&gt;
+            &lt;span&gt;{user.name}&lt;/span&gt;
+        &lt;/div&gt;
     );
 }
 
 // 自定义比较：只比较影响渲染的 props，忽略 debugTimestamp
-const UserCard = memo(UserCardRaw, (prevProps, nextProps) => {
+const UserCard = memo(UserCardRaw, (prevProps, nextProps) =&gt; {
     // 比较 user 对象的关键字段（深比较部分字段）
     if (prevProps.user.id !== nextProps.user.id) return false;
     if (prevProps.user.name !== nextProps.user.name) return false;
@@ -9087,19 +9087,19 @@ const UserCard = memo(UserCardRaw, (prevProps, nextProps) => {
 function App() {
     const [count, setCount] = useState(0);
     const user = { id: 1, name: "张三", avatar: "/avatar.png" };
-    const style = React.useMemo(() => ({ padding: 16 }), []);
-    const onSelect = React.useCallback((id: number) => console.log(id), []);
+    const style = React.useMemo(() =&gt; ({ padding: 16 }), []);
+    const onSelect = React.useCallback((id: number) =&gt; console.log(id), []);
 
     return (
-        <div>
-            <button onClick={() => setCount(c => c + 1)}>计数: {count}</button>
-            <UserCard
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;计数: {count}&lt;/button&gt;
+            &lt;UserCard
                 user={user}
                 style={style}
                 onSelect={onSelect}
                 debugTimestamp={Date.now()}  // 每次渲染都不同，但被自定义比较忽略
-            />
-        </div>
+            /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -9163,7 +9163,7 @@ function updateMemoComponent(current, workInProgress, Component) {
 
 ```tsx
 // 建议：比较函数用"排除法"而非"逐个列举法"
-const MyComponent = memo(Component, (prevProps, nextProps) => {
+const MyComponent = memo(Component, (prevProps, nextProps) =&gt; {
     // 排除法：先浅比较所有 props，再对特殊 props 做额外处理
     const { debugInfo: prevDebug, ...prevRest } = prevProps;
     const { debugInfo: nextDebug, ...nextRest } = nextProps;
@@ -9208,17 +9208,17 @@ import React, { useState, useMemo, useCallback, memo } from "react";
 interface ListProps {
     items: string[];
     config: { pageSize: number };
-    onItemClick: (item: string) => void;
+    onItemClick: (item: string) =&gt; void;
 }
 
 const MemoList = memo(function List({ items, config, onItemClick }: ListProps) {
     console.log("List 渲染了");
     return (
-        <ul>
-            {items.slice(0, config.pageSize).map(item => (
-                <li key={item} onClick={() => onItemClick(item)}>{item}</li>
+        &lt;ul&gt;
+            {items.slice(0, config.pageSize).map(item =&gt; (
+                &lt;li key={item} onClick={() =&gt; onItemClick(item)}&gt;{item}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 });
 
@@ -9227,15 +9227,15 @@ function AppBad() {
     const [count, setCount] = useState(0);
 
     return (
-        <div>
-            <button onClick={() => setCount(c => c + 1)}>计数: {count}</button>
-            <MemoList
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;计数: {count}&lt;/button&gt;
+            &lt;MemoList
                 items={["苹果", "香蕉", "橙子"]}       // 每次渲染新数组
-                config={{ pageSize: 10 }}                // 每次渲染新对象
-                onItemClick={(item) => console.log(item)} // 每次渲染新函数
-            />
+                config=&lbrace;&lbrace; pageSize: 10 &rbrace;&rbrace;                // 每次渲染新对象
+                onItemClick={(item) =&gt; console.log(item)} // 每次渲染新函数
+            /&gt;
             {/* memo 完全失效，每次都重新渲染 */}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -9244,20 +9244,20 @@ function AppGood() {
     const [count, setCount] = useState(0);
 
     // useMemo 稳定化数组和对象
-    const items = useMemo(() => ["苹果", "香蕉", "橙子"], []);
-    const config = useMemo(() => ({ pageSize: 10 }), []);
+    const items = useMemo(() =&gt; ["苹果", "香蕉", "橙子"], []);
+    const config = useMemo(() =&gt; ({ pageSize: 10 }), []);
 
     // useCallback 稳定化函数
-    const onItemClick = useCallback((item: string) => {
+    const onItemClick = useCallback((item: string) =&gt; {
         console.log(item);
     }, []);
 
     return (
-        <div>
-            <button onClick={() => setCount(c => c + 1)}>计数: {count}</button>
-            <MemoList items={items} config={config} onItemClick={onItemClick} />
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;计数: {count}&lt;/button&gt;
+            &lt;MemoList items={items} config={config} onItemClick={onItemClick} /&gt;
             {/* memo 正常工作，count 变化时 List 不重渲染 */}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -9276,8 +9276,8 @@ function Parent() {
     // 以下每次渲染都创建新引用
     const arr = [1, 2, 3];             // 新数组引用
     const obj = { a: 1 };              // 新对象引用
-    const fn = () => {};               // 新函数引用
-    const jsx = <div>hello</div>;      // 新 JSX 元素
+    const fn = () =&gt; {};               // 新函数引用
+    const jsx = &lt;div&gt;hello&lt;/div&gt;;      // 新 JSX 元素
 
     // 即使内容完全相同，Object.is 比较引用不同
     // memo 的浅比较会认为 props 变了
@@ -9313,14 +9313,14 @@ function Parent() {
 ```tsx
 // 方案1：用 useMemo 缓存 children
 function Parent() {
-    const children = useMemo(() => <div>内容</div>, []);
-    return <MemoComp>{children}</MemoComp>;
+    const children = useMemo(() =&gt; &lt;div&gt;内容&lt;/div&gt;, []);
+    return &lt;MemoComp&gt;{children}&lt;/MemoComp&gt;;
 }
 
 // 方案2：将 children 提取为独立组件
-const Content = memo(() => <div>内容</div>);
+const Content = memo(() =&gt; &lt;div&gt;内容&lt;/div&gt;);
 function Parent() {
-    return <MemoComp><Content /></MemoComp>;
+    return &lt;MemoComp&gt;&lt;Content /&gt;&lt;/MemoComp&gt;;
     // 注意：这里 children 仍然是新的 JSX 引用
     // 需要在 MemoComp 的比较函数中特殊处理
 }
@@ -9355,7 +9355,7 @@ useMemo 的缓存是基于依赖项的——依赖项不变，返回缓存值；
 ### API 签名与参数
 
 ```typescript
-function useMemo<T>(factory: () => T, deps: ReadonlyArray<unknown>): T;
+function useMemo&lt;T&gt;(factory: () =&gt; T, deps: ReadonlyArray&lt;unknown&gt;): T;
 ```
 
 | 参数 | 类型 | 是否必填 | 说明 |
@@ -9381,37 +9381,37 @@ interface Product {
 
 function ProductList({ products }: { products: Product[] }) {
     const [search, setSearch] = useState("");
-    const [sortBy, setSortBy] = useState<"name" | "price">("name");
+    const [sortBy, setSortBy] = useState&lt;"name" | "price"&gt;("name");
     const [count, setCount] = useState(0);  // 无关的状态
 
     // useMemo：只有 products、search、sortBy 变化时才重新计算
     // count 变化时不会重新计算
-    const filteredAndSorted = useMemo(() => {
+    const filteredAndSorted = useMemo(() =&gt; {
         console.log("执行过滤和排序");
-        const filtered = products.filter(p =>
+        const filtered = products.filter(p =&gt;
             p.name.toLowerCase().includes(search.toLowerCase())
         );
-        return filtered.sort((a, b) => {
+        return filtered.sort((a, b) =&gt; {
             if (sortBy === "name") return a.name.localeCompare(b.name);
             return a.price - b.price;
         });
     }, [products, search, sortBy]);
 
     return (
-        <div>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="搜索" />
-            <select value={sortBy} onChange={e => setSortBy(e.target.value as "name" | "price")}>
-                <option value="name">按名称</option>
-                <option value="price">按价格</option>
-            </select>
-            <button onClick={() => setCount(c => c + 1)}>无关计数: {count}</button>
+        &lt;div&gt;
+            &lt;input value={search} onChange={e =&gt; setSearch(e.target.value)} placeholder="搜索" /&gt;
+            &lt;select value={sortBy} onChange={e =&gt; setSortBy(e.target.value as "name" | "price")}&gt;
+                &lt;option value="name"&gt;按名称&lt;/option&gt;
+                &lt;option value="price"&gt;按价格&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;无关计数: {count}&lt;/button&gt;
 
-            <ul>
-                {filteredAndSorted.map(p => (
-                    <li key={p.id}>{p.name} - ¥{p.price}</li>
+            &lt;ul&gt;
+                {filteredAndSorted.map(p =&gt; (
+                    &lt;li key={p.id}&gt;{p.name} - ¥{p.price}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -9465,13 +9465,13 @@ function updateMemo(factory, deps) {
 ```tsx
 // 不需要 useMemo 的场景
 const fullName = firstName + " " + lastName;  // 简单字符串拼接
-const isAdult = age >= 18;                     // 简单比较
+const isAdult = age &gt;= 18;                     // 简单比较
 const doubled = count * 2;                     // 简单数学运算
 
 // 需要 useMemo 的场景
-const sorted = useMemo(() => largeArray.sort(...), [largeArray]);  // 大数组排序
-const tree = useMemo(() => buildTree(data), [data]);               // 复杂数据转换
-const config = useMemo(() => ({ theme, locale }), [theme, locale]); // 稳定化对象引用
+const sorted = useMemo(() =&gt; largeArray.sort(...), [largeArray]);  // 大数组排序
+const tree = useMemo(() =&gt; buildTree(data), [data]);               // 复杂数据转换
+const config = useMemo(() =&gt; ({ theme, locale }), [theme, locale]); // 稳定化对象引用
 ```
 
 ### 注意事项
@@ -9518,30 +9518,30 @@ function ProductFilter({ products }: { products: { name: string; price: number }
 
     // 错误：config 每次渲染都是新对象，useMemo 缓存每次都失效
     // const config = { minPrice, maxPrice };
-    // const filtered = useMemo(() => {
+    // const filtered = useMemo(() =&gt; {
     //     console.log("重新过滤");
-    //     return products.filter(p => p.price >= config.minPrice && p.price <= config.maxPrice);
+    //     return products.filter(p =&gt; p.price &gt;= config.minPrice && p.price &lt;= config.maxPrice);
     // }, [products, config]);  // config 每次新引用，缓存无效
 
     // 正确方案1：直接用基本值作为依赖项
-    const filtered = useMemo(() => {
+    const filtered = useMemo(() =&gt; {
         console.log("重新过滤");
-        return products.filter(p => p.price >= minPrice && p.price <= maxPrice);
+        return products.filter(p =&gt; p.price &gt;= minPrice && p.price &lt;= maxPrice);
     }, [products, minPrice, maxPrice]);  // 基本值，稳定
 
     // 正确方案2：如果确实需要对象，用 useMemo 稳定化
-    // const config = useMemo(() => ({ minPrice, maxPrice }), [minPrice, maxPrice]);
-    // const filtered = useMemo(() => {
-    //     return products.filter(p => p.price >= config.minPrice && p.price <= config.maxPrice);
+    // const config = useMemo(() =&gt; ({ minPrice, maxPrice }), [minPrice, maxPrice]);
+    // const filtered = useMemo(() =&gt; {
+    //     return products.filter(p =&gt; p.price &gt;= config.minPrice && p.price &lt;= config.maxPrice);
     // }, [products, config]);
 
     return (
-        <div>
-            <input type="number" value={minPrice} onChange={e => setMinPrice(Number(e.target.value))} />
-            <input type="number" value={maxPrice} onChange={e => setMaxPrice(Number(e.target.value))} />
-            <button onClick={() => setCount(c => c + 1)}>无关计数: {count}</button>
-            <p>过滤结果: {filtered.length} 个商品</p>
-        </div>
+        &lt;div&gt;
+            &lt;input type="number" value={minPrice} onChange={e =&gt; setMinPrice(Number(e.target.value))} /&gt;
+            &lt;input type="number" value={maxPrice} onChange={e =&gt; setMaxPrice(Number(e.target.value))} /&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;无关计数: {count}&lt;/button&gt;
+            &lt;p&gt;过滤结果: {filtered.length} 个商品&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -9557,7 +9557,7 @@ export default ProductFilter;
 ```javascript
 // React 内部的依赖项比较
 function areHookInputsEqual(nextDeps, prevDeps) {
-    for (let i = 0; i < prevDeps.length; i++) {
+    for (let i = 0; i &lt; prevDeps.length; i++) {
         if (Object.is(nextDeps[i], prevDeps[i])) {
             continue;
         }
@@ -9603,9 +9603,9 @@ Object.is(42, 42);  // true，使用缓存
 
 ```tsx
 // 确保链条中每一环都稳定
-const config = useMemo(() => ({ min: minPrice, max: maxPrice }), [minPrice, maxPrice]);
-const filtered = useMemo(() => filterProducts(products, config), [products, config]);
-const sorted = useMemo(() => sortProducts(filtered, sortBy), [filtered, sortBy]);
+const config = useMemo(() =&gt; ({ min: minPrice, max: maxPrice }), [minPrice, maxPrice]);
+const filtered = useMemo(() =&gt; filterProducts(products, config), [products, config]);
+const sorted = useMemo(() =&gt; sortProducts(filtered, sortBy), [filtered, sortBy]);
 // config 稳定 → filtered 稳定 → sorted 稳定
 ```
 
@@ -9643,7 +9643,7 @@ import React, { useState, useMemo } from "react";
 
 // 模拟大量数据
 function generateOrders(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
+    return Array.from({ length: count }, (_, i) =&gt; ({
         id: i,
         product: `商品${i % 100}`,
         amount: Math.random() * 1000,
@@ -9660,9 +9660,9 @@ function OrderDashboard() {
     const [highlightId, setHighlightId] = useState(-1);  // 无关状态
 
     // 昂贵计算：在5万条数据中过滤
-    const filteredOrders = useMemo(() => {
+    const filteredOrders = useMemo(() =&gt; {
         console.time("过滤订单");
-        const result = allOrders.filter(order => {
+        const result = allOrders.filter(order =&gt; {
             const matchSearch = order.product.includes(search);
             const matchStatus = status === "all" || order.status === status;
             return matchSearch && matchStatus;
@@ -9672,17 +9672,17 @@ function OrderDashboard() {
     }, [search, status]);
 
     // 昂贵计算：统计总金额
-    const totalAmount = useMemo(() => {
+    const totalAmount = useMemo(() =&gt; {
         console.time("计算总额");
-        const sum = filteredOrders.reduce((acc, order) => acc + order.amount, 0);
+        const sum = filteredOrders.reduce((acc, order) =&gt; acc + order.amount, 0);
         console.timeEnd("计算总额");
         return sum;
     }, [filteredOrders]);
 
     // 昂贵计算：按状态分组统计
-    const statusStats = useMemo(() => {
-        const stats: Record<string, { count: number; amount: number }> = {};
-        filteredOrders.forEach(order => {
+    const statusStats = useMemo(() =&gt; {
+        const stats: Record&lt;string, { count: number; amount: number }&gt; = {};
+        filteredOrders.forEach(order =&gt; {
             if (!stats[order.status]) {
                 stats[order.status] = { count: 0, amount: 0 };
             }
@@ -9693,26 +9693,26 @@ function OrderDashboard() {
     }, [filteredOrders]);
 
     return (
-        <div>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="搜索商品" />
-            <select value={status} onChange={e => setStatus(e.target.value)}>
-                <option value="all">全部</option>
-                <option value="pending">待处理</option>
-                <option value="shipped">已发货</option>
-                <option value="delivered">已送达</option>
-            </select>
+        &lt;div&gt;
+            &lt;input value={search} onChange={e =&gt; setSearch(e.target.value)} placeholder="搜索商品" /&gt;
+            &lt;select value={status} onChange={e =&gt; setStatus(e.target.value)}&gt;
+                &lt;option value="all"&gt;全部&lt;/option&gt;
+                &lt;option value="pending"&gt;待处理&lt;/option&gt;
+                &lt;option value="shipped"&gt;已发货&lt;/option&gt;
+                &lt;option value="delivered"&gt;已送达&lt;/option&gt;
+            &lt;/select&gt;
 
             {/* 修改 highlightId 不会重新执行上面的昂贵计算 */}
-            <button onClick={() => setHighlightId(Math.random())}>
+            &lt;button onClick={() =&gt; setHighlightId(Math.random())}&gt;
                 高亮随机行
-            </button>
+            &lt;/button&gt;
 
-            <p>总金额: ¥{totalAmount.toFixed(2)}</p>
-            <p>结果数量: {filteredOrders.length}</p>
-            {Object.entries(statusStats).map(([s, stat]) => (
-                <p key={s}>{s}: {stat.count}条, ¥{stat.amount.toFixed(2)}</p>
+            &lt;p&gt;总金额: ¥{totalAmount.toFixed(2)}&lt;/p&gt;
+            &lt;p&gt;结果数量: {filteredOrders.length}&lt;/p&gt;
+            {Object.entries(statusStats).map(([s, stat]) =&gt; (
+                &lt;p key={s}&gt;{s}: {stat.count}条, ¥{stat.amount.toFixed(2)}&lt;/p&gt;
             ))}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -9770,10 +9770,10 @@ const result = expensiveCalculation(data);
 console.timeEnd("计算耗时");
 
 // 经验判断：
-// < 0.1ms：不需要 useMemo
+// &lt; 0.1ms：不需要 useMemo
 // 0.1ms - 1ms：可选，频繁重渲染时考虑
-// > 1ms：建议使用 useMemo
-// > 10ms：必须使用 useMemo
+// &gt; 1ms：建议使用 useMemo
+// &gt; 10ms：必须使用 useMemo
 ```
 
 ### 注意事项
@@ -9804,9 +9804,9 @@ useCallback 的主要用途是配合 React.memo 子组件——当函数作为 p
 ### API 签名与参数
 
 ```typescript
-function useCallback<T extends (...args: any[]) => any>(
+function useCallback&lt;T extends (...args: any[]) =&gt; any&gt;(
     callback: T,
-    deps: ReadonlyArray<unknown>
+    deps: ReadonlyArray&lt;unknown&gt;
 ): T;
 ```
 
@@ -9830,15 +9830,15 @@ const SearchInput = memo(function SearchInput({
     onChange,
 }: {
     value: string;
-    onChange: (value: string) => void;
+    onChange: (value: string) =&gt; void;
 }) {
     console.log("SearchInput 渲染了");
     return (
-        <input
+        &lt;input
             value={value}
-            onChange={e => onChange(e.target.value)}
+            onChange={e =&gt; onChange(e.target.value)}
             placeholder="搜索"
-        />
+        /&gt;
     );
 });
 
@@ -9847,19 +9847,19 @@ function App() {
     const [count, setCount] = useState(0);
 
     // 不用 useCallback：每次渲染创建新函数，SearchInput 每次都重渲染
-    // const handleChange = (value: string) => setSearch(value);
+    // const handleChange = (value: string) =&gt; setSearch(value);
 
     // 用 useCallback：函数引用稳定，SearchInput 不会因 count 变化而重渲染
-    const handleChange = useCallback((value: string) => {
+    const handleChange = useCallback((value: string) =&gt; {
         setSearch(value);
     }, []);  // setSearch 引用稳定，不需要依赖
 
     return (
-        <div>
-            <SearchInput value={search} onChange={handleChange} />
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;SearchInput value={search} onChange={handleChange} /&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -9910,16 +9910,16 @@ function updateCallback(callback, deps) {
 ```tsx
 // 无意义的 useCallback：子组件没有用 memo 包裹
 function Parent() {
-    const onClick = useCallback(() => {}, []);
+    const onClick = useCallback(() =&gt; {}, []);
     // Child 没有 memo，无论 onClick 是否稳定都会重渲染
-    return <Child onClick={onClick} />;
+    return &lt;Child onClick={onClick} /&gt;;
 }
 
 // 有意义的 useCallback：配合 memo 子组件
 const MemoChild = memo(Child);
 function Parent() {
-    const onClick = useCallback(() => {}, []);
-    return <MemoChild onClick={onClick} />;  // onClick 稳定，MemoChild 跳过渲染
+    const onClick = useCallback(() =&gt; {}, []);
+    return &lt;MemoChild onClick={onClick} /&gt;;  // onClick 稳定，MemoChild 跳过渲染
 }
 ```
 
@@ -9959,23 +9959,23 @@ interface TodoItemProps {
     id: number;
     text: string;
     done: boolean;
-    onToggle: (id: number) => void;
-    onDelete: (id: number) => void;
+    onToggle: (id: number) =&gt; void;
+    onDelete: (id: number) =&gt; void;
 }
 
 // memo 包裹的列表项组件
 const TodoItem = memo(function TodoItem({ id, text, done, onToggle, onDelete }: TodoItemProps) {
     console.log(`TodoItem ${id} 渲染`);
     return (
-        <li>
-            <input
+        &lt;li&gt;
+            &lt;input
                 type="checkbox"
                 checked={done}
-                onChange={() => onToggle(id)}
-            />
-            <span style={{ textDecoration: done ? "line-through" : "none" }}>{text}</span>
-            <button onClick={() => onDelete(id)}>删除</button>
-        </li>
+                onChange={() =&gt; onToggle(id)}
+            /&gt;
+            &lt;span style=&lbrace;&lbrace; textDecoration: done ? "line-through" : "none" &rbrace;&rbrace;&gt;{text}&lt;/span&gt;
+            &lt;button onClick={() =&gt; onDelete(id)}&gt;删除&lt;/button&gt;
+        &lt;/li&gt;
     );
 });
 
@@ -9988,34 +9988,34 @@ function TodoList() {
     const [input, setInput] = useState("");
 
     // useCallback 稳定化回调函数
-    const handleToggle = useCallback((id: number) => {
-        setTodos(prev => prev.map(t =>
+    const handleToggle = useCallback((id: number) =&gt; {
+        setTodos(prev =&gt; prev.map(t =&gt;
             t.id === id ? { ...t, done: !t.done } : t
         ));
     }, []);
 
-    const handleDelete = useCallback((id: number) => {
-        setTodos(prev => prev.filter(t => t.id !== id));
+    const handleDelete = useCallback((id: number) =&gt; {
+        setTodos(prev =&gt; prev.filter(t =&gt; t.id !== id));
     }, []);
 
     // 输入框变化时，只有 input 状态改变
     // 因为 handleToggle 和 handleDelete 引用稳定，TodoItem 不会重渲染
     return (
-        <div>
-            <input value={input} onChange={e => setInput(e.target.value)} />
-            <ul>
-                {todos.map(todo => (
-                    <TodoItem
+        &lt;div&gt;
+            &lt;input value={input} onChange={e =&gt; setInput(e.target.value)} /&gt;
+            &lt;ul&gt;
+                {todos.map(todo =&gt; (
+                    &lt;TodoItem
                         key={todo.id}
                         id={todo.id}
                         text={todo.text}
                         done={todo.done}
                         onToggle={handleToggle}
                         onDelete={handleDelete}
-                    />
+                    /&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10076,9 +10076,9 @@ Child3（memo）→ props 都没变 → 跳过渲染
 
 ```tsx
 // 方案：用函数式 setState，不需要依赖 state
-const handleToggle = useCallback((id: number) => {
+const handleToggle = useCallback((id: number) =&gt; {
     // 函数式更新：prev 始终是最新的 state
-    setTodos(prev => prev.map(t =>
+    setTodos(prev =&gt; prev.map(t =&gt;
         t.id === id ? { ...t, done: !t.done } : t
     ));
 }, []);  // 空依赖，引用永远稳定
@@ -10121,22 +10121,22 @@ function ChatSender({ roomId }: { roomId: string }) {
     const [theme, setTheme] = useState("light");
 
     // 错误：遗漏了 roomId 依赖，发送时用的可能是旧的 roomId
-    // const sendMessage = useCallback(() => {
+    // const sendMessage = useCallback(() =&gt; {
     //     sendToRoom(roomId, message);  // roomId 是旧值
     //     setMessage("");
     // }, [message]);  // ESLint 警告：missing dependency 'roomId'
 
     // 正确：包含所有依赖项
-    const sendMessage = useCallback(() => {
+    const sendMessage = useCallback(() =&gt; {
         sendToRoom(roomId, message);
         setMessage("");
     }, [roomId, message]);  // roomId 和 message 都在依赖项中
 
     return (
-        <div>
-            <input value={message} onChange={e => setMessage(e.target.value)} />
-            <button onClick={sendMessage}>发送到 {roomId}</button>
-        </div>
+        &lt;div&gt;
+            &lt;input value={message} onChange={e =&gt; setMessage(e.target.value)} /&gt;
+            &lt;button onClick={sendMessage}&gt;发送到 {roomId}&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10162,15 +10162,15 @@ function OptimizedChat({ roomId }: { roomId: string }) {
     messageRef.current = message;
 
     // roomId 变化时函数重建，message 变化时不重建
-    const sendMessage = useCallback(() => {
+    const sendMessage = useCallback(() =&gt; {
         sendToRoom(roomId, messageRef.current);
         setMessage("");
     }, [roomId]);  // 只依赖 roomId
 
     // 方案2：将所有状态放入函数式 setState
-    const sendMessage2 = useCallback(() => {
+    const sendMessage2 = useCallback(() =&gt; {
         // 通过函数式 setState 读取最新的 message
-        setMessage(currentMessage => {
+        setMessage(currentMessage =&gt; {
             if (currentMessage.trim()) {
                 sendToRoom(roomId, currentMessage);
             }
@@ -10179,10 +10179,10 @@ function OptimizedChat({ roomId }: { roomId: string }) {
     }, [roomId]);
 
     return (
-        <div>
-            <input value={message} onChange={e => setMessage(e.target.value)} />
-            <button onClick={sendMessage}>发送</button>
-        </div>
+        &lt;div&gt;
+            &lt;input value={message} onChange={e =&gt; setMessage(e.target.value)} /&gt;
+            &lt;button onClick={sendMessage}&gt;发送&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10221,7 +10221,7 @@ export default OptimizedChat;
 // dispatch 引用永远稳定，不需要作为依赖项
 const [state, dispatch] = useReducer(reducer, initialState);
 
-const handleSubmit = useCallback(() => {
+const handleSubmit = useCallback(() =&gt; {
     dispatch({ type: "submit", payload: state });
 }, [state]);
 
@@ -10229,7 +10229,7 @@ const handleSubmit = useCallback(() => {
 const stateRef = useRef(state);
 stateRef.current = state;
 
-const handleSubmit = useCallback(() => {
+const handleSubmit = useCallback(() =&gt; {
     // 通过 ref 读取最新 state，依赖项为空
     processSubmit(stateRef.current);
 }, []);
@@ -10271,13 +10271,13 @@ function EquivalenceDemo() {
     const [count, setCount] = useState(0);
 
     // 这两种写法完全等价
-    const handleClickA = useCallback(() => {
+    const handleClickA = useCallback(() =&gt; {
         console.log("clicked", count);
     }, [count]);
 
-    const handleClickB = useMemo(() => {
+    const handleClickB = useMemo(() =&gt; {
         // useMemo 的 factory 返回一个函数
-        return () => {
+        return () =&gt; {
             console.log("clicked", count);
         };
     }, [count]);
@@ -10286,16 +10286,16 @@ function EquivalenceDemo() {
     // 都在 count 变化时创建新函数，不变时返回缓存的函数
 
     // useMemo 缓存计算结果
-    const doubled = useMemo(() => count * 2, [count]);
+    const doubled = useMemo(() =&gt; count * 2, [count]);
 
     // useCallback 缓存函数引用
-    const increment = useCallback(() => setCount(c => c + 1), []);
+    const increment = useCallback(() =&gt; setCount(c =&gt; c + 1), []);
 
     return (
-        <div>
-            <p>count: {count}, doubled: {doubled}</p>
-            <button onClick={increment}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}, doubled: {doubled}&lt;/p&gt;
+            &lt;button onClick={increment}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10323,8 +10323,8 @@ function mountMemo(nextCreate, deps) {
 }
 
 // useCallback(fn, deps) 等价于：
-// useMemo(() => fn, deps)
-// 因为 useMemo 会执行 () => fn，返回 fn 本身
+// useMemo(() =&gt; fn, deps)
+// 因为 useMemo 会执行 () =&gt; fn，返回 fn 本身
 ```
 
 ### 与相关API的对比
@@ -10357,17 +10357,17 @@ function mountMemo(nextCreate, deps) {
 
 ```tsx
 // 缓存函数 → useCallback
-const handleClick = useCallback(() => {
+const handleClick = useCallback(() =&gt; {
     doSomething(id);
 }, [id]);
 
 // 缓存值 → useMemo
-const sortedList = useMemo(() => {
-    return list.sort((a, b) => a - b);
+const sortedList = useMemo(() =&gt; {
+    return list.sort((a, b) =&gt; a - b);
 }, [list]);
 
 // 缓存对象 → useMemo
-const config = useMemo(() => ({
+const config = useMemo(() =&gt; ({
     theme: "dark",
     locale: "zh",
 }), []);
@@ -10404,10 +10404,10 @@ useDeferredValue 接收一个值，返回该值的延迟版本。在高优先级
 ### API 签名与参数
 
 ```typescript
-function useDeferredValue<T>(value: T): T;
+function useDeferredValue&lt;T&gt;(value: T): T;
 
 // React 19 新增：支持初始值
-function useDeferredValue<T>(value: T, initialValue?: T): T;
+function useDeferredValue&lt;T&gt;(value: T, initialValue?: T): T;
 ```
 
 | 参数 | 类型 | 说明 |
@@ -10425,7 +10425,7 @@ function useDeferredValue<T>(value: T, initialValue?: T): T;
 import React, { useState, useDeferredValue, useMemo } from "react";
 
 // 模拟大量数据
-const allItems = Array.from({ length: 20000 }, (_, i) => `项目 ${i + 1}`);
+const allItems = Array.from({ length: 20000 }, (_, i) =&gt; `项目 ${i + 1}`);
 
 function SearchApp() {
     const [query, setQuery] = useState("");
@@ -10434,8 +10434,8 @@ function SearchApp() {
     const deferredQuery = useDeferredValue(query);
 
     // 用延迟值做昂贵的过滤计算
-    const filteredItems = useMemo(() => {
-        return allItems.filter(item =>
+    const filteredItems = useMemo(() =&gt; {
+        return allItems.filter(item =&gt;
             item.toLowerCase().includes(deferredQuery.toLowerCase())
         );
     }, [deferredQuery]);  // 依赖延迟值，不是实时值
@@ -10444,21 +10444,21 @@ function SearchApp() {
     const isStale = query !== deferredQuery;
 
     return (
-        <div>
-            <input
+        &lt;div&gt;
+            &lt;input
                 value={query}
-                onChange={e => setQuery(e.target.value)}
+                onChange={e =&gt; setQuery(e.target.value)}
                 placeholder="搜索..."
-            />
-            <div style={{ opacity: isStale ? 0.5 : 1, transition: "opacity 0.2s" }}>
-                <p>显示 {filteredItems.length} 条结果</p>
-                <ul>
-                    {filteredItems.slice(0, 100).map(item => (
-                        <li key={item}>{item}</li>
+            /&gt;
+            &lt;div style=&lbrace;&lbrace; opacity: isStale ? 0.5 : 1, transition: "opacity 0.2s" &rbrace;&rbrace;&gt;
+                &lt;p&gt;显示 {filteredItems.length} 条结果&lt;/p&gt;
+                &lt;ul&gt;
+                    {filteredItems.slice(0, 100).map(item =&gt; (
+                        &lt;li key={item}&gt;{item}&lt;/li&gt;
                     ))}
-                </ul>
-            </div>
-        </div>
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10547,20 +10547,20 @@ import React, { useState, useDeferredValue, memo, useMemo } from "react";
 // 模拟昂贵的列表组件
 const HeavyList = memo(function HeavyList({ category }: { category: string }) {
     // 模拟大量 DOM 节点渲染
-    const items = useMemo(() => {
+    const items = useMemo(() =&gt; {
         const result = [];
-        for (let i = 0; i < 5000; i++) {
+        for (let i = 0; i &lt; 5000; i++) {
             result.push(`${category} - 项目 ${i + 1}`);
         }
         return result;
     }, [category]);
 
     return (
-        <ul>
-            {items.map(item => (
-                <li key={item}>{item}</li>
+        &lt;ul&gt;
+            {items.map(item =&gt; (
+                &lt;li key={item}&gt;{item}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 });
 
@@ -10574,28 +10574,28 @@ function TabPanel() {
     const isStale = tab !== deferredTab;
 
     return (
-        <div>
-            <div>
-                {["电子产品", "图书", "服装", "食品"].map(t => (
-                    <button
+        &lt;div&gt;
+            &lt;div&gt;
+                {["电子产品", "图书", "服装", "食品"].map(t =&gt; (
+                    &lt;button
                         key={t}
-                        onClick={() => setTab(t)}
-                        style={{ fontWeight: tab === t ? "bold" : "normal" }}
-                    >
+                        onClick={() =&gt; setTab(t)}
+                        style=&lbrace;&lbrace; fontWeight: tab === t ? "bold" : "normal" &rbrace;&rbrace;
+                    &gt;
                         {t}
-                    </button>
+                    &lt;/button&gt;
                 ))}
-            </div>
+            &lt;/div&gt;
 
             {/* 切换中显示半透明，表示内容即将更新 */}
-            <div style={{
+            &lt;div style=&lbrace;&lbrace;
                 opacity: isStale ? 0.6 : 1,
                 transition: "opacity 0.15s",
-            }}>
+            &rbrace;&rbrace;&gt;
                 {/* 用延迟值渲染列表，切换时先显示旧列表 */}
-                <HeavyList category={deferredTab} />
-            </div>
-        </div>
+                &lt;HeavyList category={deferredTab} /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10645,15 +10645,15 @@ export default TabPanel;
 const isStale = currentValue !== deferredValue;
 
 return (
-    <div style={{
+    &lt;div style=&lbrace;&lbrace;
         // 半透明 + 过渡动画
         opacity: isStale ? 0.5 : 1,
         transition: "opacity 0.2s",
         // 或者添加 loading 指示器
-    }}>
-        {isStale && <div className="updating-indicator">更新中...</div>}
-        <ExpensiveContent data={deferredValue} />
-    </div>
+    &rbrace;&rbrace;&gt;
+        {isStale && &lt;div className="updating-indicator"&gt;更新中...&lt;/div&gt;}
+        &lt;ExpensiveContent data={deferredValue} /&gt;
+    &lt;/div&gt;
 );
 ```
 
@@ -10695,27 +10695,27 @@ function SearchWithDeferred() {
     const deferredQuery = useDeferredValue(query);
 
     // 延迟渲染：输入时保持流畅，列表延迟更新
-    const results = useMemo(() => {
+    const results = useMemo(() =&gt; {
         return heavyFilter(deferredQuery);
     }, [deferredQuery]);
 
     return (
-        <div>
-            <input value={query} onChange={e => setQuery(e.target.value)} />
-            <p>结果: {results.length} 条</p>
-        </div>
+        &lt;div&gt;
+            &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} /&gt;
+            &lt;p&gt;结果: {results.length} 条&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
 // 方案2：debounce（延迟请求）
-function useDebounce<T>(value: T, delay: number): T {
+function useDebounce&lt;T&gt;(value: T, delay: number): T {
     const [debouncedValue, setDebouncedValue] = useState(value);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
+    useEffect(() =&gt; {
+        const timer = setTimeout(() =&gt; {
             setDebouncedValue(value);
         }, delay);
-        return () => clearTimeout(timer);
+        return () =&gt; clearTimeout(timer);
     }, [value, delay]);
 
     return debouncedValue;
@@ -10726,23 +10726,23 @@ function SearchWithDebounce() {
     const debouncedQuery = useDebounce(query, 300);
 
     // 延迟请求：输入停止 300ms 后才发起搜索
-    useEffect(() => {
+    useEffect(() =&gt; {
         if (debouncedQuery) {
             fetchSearchResults(debouncedQuery);
         }
     }, [debouncedQuery]);
 
     return (
-        <div>
-            <input value={query} onChange={e => setQuery(e.target.value)} />
-        </div>
+        &lt;div&gt;
+            &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} /&gt;
+        &lt;/div&gt;
     );
 }
 
 function heavyFilter(query: string): string[] {
     // 模拟昂贵的本地过滤
-    return Array.from({ length: 10000 }, (_, i) => `项目${i}`)
-        .filter(item => item.includes(query));
+    return Array.from({ length: 10000 }, (_, i) =&gt; `项目${i}`)
+        .filter(item =&gt; item.includes(query));
 }
 
 function fetchSearchResults(query: string) {
@@ -10793,19 +10793,19 @@ function SearchCombined() {
 
     // debounce：延迟 API 请求
     const debouncedQuery = useDebounce(query, 300);
-    useEffect(() => {
+    useEffect(() =&gt; {
         if (debouncedQuery) fetchSearchResults(debouncedQuery);
     }, [debouncedQuery]);
 
     // useDeferredValue：延迟本地过滤渲染
     const deferredQuery = useDeferredValue(query);
-    const localResults = useMemo(() => heavyFilter(deferredQuery), [deferredQuery]);
+    const localResults = useMemo(() =&gt; heavyFilter(deferredQuery), [deferredQuery]);
 
     return (
-        <div>
-            <input value={query} onChange={e => setQuery(e.target.value)} />
-            <p>本地匹配: {localResults.length}</p>
-        </div>
+        &lt;div&gt;
+            &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} /&gt;
+            &lt;p&gt;本地匹配: {localResults.length}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 ```
@@ -10838,7 +10838,7 @@ useTransition 返回两个值：`isPending`（布尔值，表示过渡是否正�
 ### API 签名与参数
 
 ```typescript
-function useTransition(): [boolean, (callback: () => void) => void];
+function useTransition(): [boolean, (callback: () =&gt; void) =&gt; void];
 
 // 返回值解构
 const [isPending, startTransition] = useTransition();
@@ -10858,15 +10858,15 @@ import React, { useState, useTransition, memo, useMemo } from "react";
 
 // 模拟昂贵的内容组件
 const TabContent = memo(function TabContent({ tab }: { tab: string }) {
-    const items = useMemo(() => {
+    const items = useMemo(() =&gt; {
         // 模拟大量渲染
-        return Array.from({ length: 5000 }, (_, i) => `${tab} - 内容 ${i + 1}`);
+        return Array.from({ length: 5000 }, (_, i) =&gt; `${tab} - 内容 ${i + 1}`);
     }, [tab]);
 
     return (
-        <ul>
-            {items.map(item => <li key={item}>{item}</li>)}
-        </ul>
+        &lt;ul&gt;
+            {items.map(item =&gt; &lt;li key={item}&gt;{item}&lt;/li&gt;)}
+        &lt;/ul&gt;
     );
 });
 
@@ -10876,32 +10876,32 @@ function TabApp() {
 
     function handleTabChange(nextTab: string) {
         // 将 Tab 切换标记为过渡（非紧急更新）
-        startTransition(() => {
+        startTransition(() =&gt; {
             setTab(nextTab);
         });
     }
 
     return (
-        <div>
-            <nav>
-                {["首页", "产品", "关于"].map(t => (
-                    <button
+        &lt;div&gt;
+            &lt;nav&gt;
+                {["首页", "产品", "关于"].map(t =&gt; (
+                    &lt;button
                         key={t}
-                        onClick={() => handleTabChange(t)}
-                        style={{
+                        onClick={() =&gt; handleTabChange(t)}
+                        style=&lbrace;&lbrace;
                             fontWeight: tab === t ? "bold" : "normal",
-                        }}
-                    >
+                        &rbrace;&rbrace;
+                    &gt;
                         {t}
-                    </button>
+                    &lt;/button&gt;
                 ))}
-            </nav>
+            &lt;/nav&gt;
 
             {/* isPending 为 true 时显示加载提示 */}
-            {isPending && <p style={{ color: "#888" }}>切换中...</p>}
+            {isPending && &lt;p style=&lbrace;&lbrace; color: "#888" &rbrace;&rbrace;&gt;切换中...&lt;/p&gt;}
 
-            <TabContent tab={tab} />
-        </div>
+            &lt;TabContent tab={tab} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -10958,21 +10958,21 @@ export default TabApp;
 
 ```tsx
 // 错误：异步操作不在 startTransition 的范围内
-// startTransition(() => {
-//     fetch("/api/data").then(data => {
+// startTransition(() =&gt; {
+//     fetch("/api/data").then(data =&gt; {
 //         setData(data);  // 这个 setState 不在 transition 中
 //     });
 // });
 
 // 正确：startTransition 中只放同步的 setState
-startTransition(() => {
+startTransition(() =&gt; {
     setTab("产品");  // 同步调用 setState
 });
 
 // 如果需要异步+过渡，先获取数据再过渡
 async function handleClick() {
-    const data = await fetch("/api/data").then(r => r.json());
-    startTransition(() => {
+    const data = await fetch("/api/data").then(r =&gt; r.json());
+    startTransition(() =&gt; {
         setData(data);  // 数据已获取，同步设置
     });
 }
@@ -11016,65 +11016,65 @@ function DataDashboard() {
     const [isPending, startTransition] = useTransition();
 
     function handleTimeRangeChange(range: string) {
-        startTransition(() => {
+        startTransition(() =&gt; {
             setTimeRange(range);
         });
     }
 
     return (
-        <div>
-            <div style={{ display: "flex", gap: 8 }}>
-                {["1d", "7d", "30d", "90d"].map(range => (
-                    <button
+        &lt;div&gt;
+            &lt;div style=&lbrace;&lbrace; display: "flex", gap: 8 &rbrace;&rbrace;&gt;
+                {["1d", "7d", "30d", "90d"].map(range =&gt; (
+                    &lt;button
                         key={range}
-                        onClick={() => handleTimeRangeChange(range)}
+                        onClick={() =&gt; handleTimeRangeChange(range)}
                         disabled={isPending}  // 过渡期间禁用按钮
-                        style={{
+                        style=&lbrace;&lbrace;
                             fontWeight: timeRange === range ? "bold" : "normal",
                             opacity: isPending ? 0.6 : 1,
-                        }}
-                    >
+                        &rbrace;&rbrace;
+                    &gt;
                         {range}
-                    </button>
+                    &lt;/button&gt;
                 ))}
 
                 {/* isPending 时显示加载指示器 */}
-                {isPending && <span style={{ color: "#999" }}>加载中...</span>}
-            </div>
+                {isPending && &lt;span style=&lbrace;&lbrace; color: "#999" &rbrace;&rbrace;&gt;加载中...&lt;/span&gt;}
+            &lt;/div&gt;
 
             {/* 内容区域在过渡期间降低透明度 */}
-            <div style={{
+            &lt;div style=&lbrace;&lbrace;
                 opacity: isPending ? 0.5 : 1,
                 transition: "opacity 0.2s",
                 pointerEvents: isPending ? "none" : "auto",
-            }}>
-                <HeavyChart timeRange={timeRange} />
-            </div>
-        </div>
+            &rbrace;&rbrace;&gt;
+                &lt;HeavyChart timeRange={timeRange} /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 // 模拟昂贵的图表组件
 function HeavyChart({ timeRange }: { timeRange: string }) {
     // 模拟大量渲染工作
-    const data = React.useMemo(() => {
+    const data = React.useMemo(() =&gt; {
         const points = [];
         const count = timeRange === "1d" ? 24 : timeRange === "7d" ? 168 : timeRange === "30d" ? 720 : 2160;
-        for (let i = 0; i < count * 10; i++) {
+        for (let i = 0; i &lt; count * 10; i++) {
             points.push({ x: i, y: Math.random() * 100 });
         }
         return points;
     }, [timeRange]);
 
     return (
-        <div>
-            <p>时间范围: {timeRange}，数据点: {data.length}</p>
-            <ul>
-                {data.slice(0, 50).map((p, i) => (
-                    <li key={i}>x={p.x}, y={p.y.toFixed(2)}</li>
+        &lt;div&gt;
+            &lt;p&gt;时间范围: {timeRange}，数据点: {data.length}&lt;/p&gt;
+            &lt;ul&gt;
+                {data.slice(0, 50).map((p, i) =&gt; (
+                    &lt;li key={i}&gt;x={p.x}, y={p.y.toFixed(2)}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -11090,7 +11090,7 @@ export default DataDashboard;
 ```
 用户点击 "30d" 按钮：
 
-t1: startTransition(() => setTimeRange("30d"))
+t1: startTransition(() =&gt; setTimeRange("30d"))
     → isPending 立即变为 true（同步）
     → 界面更新：按钮禁用 + 显示加载提示 + 内容半透明
 
@@ -11136,8 +11136,8 @@ t4: 渲染完成
 // 只有渲染耗时较长（超过几十毫秒）时 isPending 才有意义
 
 // 确认是否正确使用了 createRoot
-// ReactDOM.createRoot(root).render(<App />);  // 并发模式
-// ReactDOM.render(<App />, root);  // 传统模式，useTransition 不生效
+// ReactDOM.createRoot(root).render(&lt;App /&gt;);  // 并发模式
+// ReactDOM.render(&lt;App /&gt;, root);  // 传统模式，useTransition 不生效
 ```
 
 ### 注意事项
@@ -11171,13 +11171,13 @@ React 还提供了一个独立的 `React.startTransition` 函数（不需要 Hoo
 ```typescript
 // useTransition 返回的 startTransition
 const [isPending, startTransition] = useTransition();
-startTransition(() => {
+startTransition(() =&gt; {
     setState(newValue);  // 回调中的 setState 被标记为过渡
 });
 
 // 独立的 startTransition（无 isPending）
 import { startTransition } from "react";
-startTransition(() => {
+startTransition(() =&gt; {
     setState(newValue);
 });
 ```
@@ -11190,44 +11190,44 @@ startTransition(() => {
 import React, { useState, useTransition, startTransition as reactStartTransition } from "react";
 
 // 大量数据
-const allCities = Array.from({ length: 10000 }, (_, i) => `城市${i + 1}`);
+const allCities = Array.from({ length: 10000 }, (_, i) =&gt; `城市${i + 1}`);
 
 function CitySearch() {
     const [input, setInput] = useState("");
     const [filter, setFilter] = useState("");
     const [isPending, startTransition] = useTransition();
 
-    function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleInputChange(e: React.ChangeEvent&lt;HTMLInputElement&gt;) {
         const value = e.target.value;
 
         // 紧急更新：输入框立即响应
         setInput(value);
 
         // 过渡更新：列表过滤延迟处理
-        startTransition(() => {
+        startTransition(() =&gt; {
             setFilter(value);
         });
     }
 
-    const filteredCities = allCities.filter(city => city.includes(filter));
+    const filteredCities = allCities.filter(city =&gt; city.includes(filter));
 
     return (
-        <div>
-            <input value={input} onChange={handleInputChange} placeholder="搜索城市" />
-            {isPending && <p>过滤中...</p>}
-            <p>找到 {filteredCities.length} 个城市</p>
-            <ul>
-                {filteredCities.slice(0, 100).map(city => (
-                    <li key={city}>{city}</li>
+        &lt;div&gt;
+            &lt;input value={input} onChange={handleInputChange} placeholder="搜索城市" /&gt;
+            {isPending && &lt;p&gt;过滤中...&lt;/p&gt;}
+            &lt;p&gt;找到 {filteredCities.length} 个城市&lt;/p&gt;
+            &lt;ul&gt;
+                {filteredCities.slice(0, 100).map(city =&gt; (
+                    &lt;li key={city}&gt;{city}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
 // 在组件外部使用独立的 startTransition
-function updateGlobalFilter(value: string, setFilter: (v: string) => void) {
-    reactStartTransition(() => {
+function updateGlobalFilter(value: string, setFilter: (v: string) =&gt; void) {
+    reactStartTransition(() =&gt; {
         setFilter(value);
     });
 }
@@ -11291,7 +11291,7 @@ function startTransition(callback) {
 // startTransition 的回调是同步执行的
 // 但其中的 setState 被标记为低优先级，由 React 调度器决定何时渲染
 
-startTransition(() => {
+startTransition(() =&gt; {
     console.log("1. 回调同步执行");
     setFilter("abc");  // setState 同步调用，但渲染被延迟
     console.log("2. setState 已调用");
@@ -11336,10 +11336,10 @@ import React, { useState, useTransition } from "react";
 
 function PriorityDemo() {
     const [inputValue, setInputValue] = useState("");  // 紧急
-    const [searchResults, setSearchResults] = useState<string[]>([]);  // 非紧急
+    const [searchResults, setSearchResults] = useState&lt;string[]&gt;([]);  // 非紧急
     const [isPending, startTransition] = useTransition();
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: React.ChangeEvent&lt;HTMLInputElement&gt;) {
         const value = e.target.value;
 
         // 紧急更新：输入框立即响应用户输入
@@ -11348,25 +11348,25 @@ function PriorityDemo() {
 
         // 非紧急更新：搜索结果可以延迟
         // React 以 Transition 优先级处理，可被中断
-        startTransition(() => {
+        startTransition(() =&gt; {
             const results = performHeavySearch(value);
             setSearchResults(results);
         });
     }
 
     return (
-        <div>
-            <input value={inputValue} onChange={handleChange} placeholder="输入搜索词" />
+        &lt;div&gt;
+            &lt;input value={inputValue} onChange={handleChange} placeholder="输入搜索词" /&gt;
             {isPending ? (
-                <p style={{ color: "#999" }}>搜索中...</p>
+                &lt;p style=&lbrace;&lbrace; color: "#999" &rbrace;&rbrace;&gt;搜索中...&lt;/p&gt;
             ) : (
-                <ul>
-                    {searchResults.slice(0, 50).map((r, i) => (
-                        <li key={i}>{r}</li>
+                &lt;ul&gt;
+                    {searchResults.slice(0, 50).map((r, i) =&gt; (
+                        &lt;li key={i}&gt;{r}&lt;/li&gt;
                     ))}
-                </ul>
+                &lt;/ul&gt;
             )}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -11374,7 +11374,7 @@ function PriorityDemo() {
 function performHeavySearch(query: string): string[] {
     if (!query) return [];
     const results: string[] = [];
-    for (let i = 0; i < 20000; i++) {
+    for (let i = 0; i &lt; 20000; i++) {
         if (`项目${i}`.includes(query)) {
             results.push(`项目${i}`);
         }
@@ -11411,7 +11411,7 @@ IdleLane（空闲）          → 最低优先级的更新
 ```
 时间线示例：
 
-t1: startTransition(() => setFilter("abc"))
+t1: startTransition(() =&gt; setFilter("abc"))
     → React 开始 Transition 优先级的渲染
 
 t2: 渲染到一半，用户输入了新字符
@@ -11456,11 +11456,11 @@ t5: Transition 渲染完成
 ```tsx
 // 不应该：用户交互的直接反馈必须是紧急更新
 // 错误：输入框用 startTransition 会导致输入卡顿
-// startTransition(() => setInputValue(e.target.value));
+// startTransition(() =&gt; setInputValue(e.target.value));
 
 // 正确：只有不需要立即反映到 UI 的更新才用 startTransition
 setInputValue(e.target.value);       // 紧急：输入框立即响应
-startTransition(() => {
+startTransition(() =&gt; {
     setFilter(e.target.value);        // 非紧急：过滤延迟处理
 });
 ```
@@ -11500,14 +11500,14 @@ import React, { useState, useMemo, useCallback, memo } from "react";
 
 const MemoList = memo(function List({ items, onSelect }: {
     items: string[];
-    onSelect: (item: string) => void;
+    onSelect: (item: string) =&gt; void;
 }) {
     return (
-        <ul>
-            {items.map(item => (
-                <li key={item} onClick={() => onSelect(item)}>{item}</li>
+        &lt;ul&gt;
+            {items.map(item =&gt; (
+                &lt;li key={item} onClick={() =&gt; onSelect(item)}&gt;{item}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 });
 
@@ -11517,21 +11517,21 @@ function AppManual() {
 
     // 手动 useMemo
     const filtered = useMemo(
-        () => allItems.filter(i => i.includes(query)),
+        () =&gt; allItems.filter(i =&gt; i.includes(query)),
         [query]
     );
 
     // 手动 useCallback
-    const handleSelect = useCallback((item: string) => {
+    const handleSelect = useCallback((item: string) =&gt; {
         setSelected(item);
     }, []);
 
     return (
-        <div>
-            <input value={query} onChange={e => setQuery(e.target.value)} />
-            <p>选中: {selected}</p>
-            <MemoList items={filtered} onSelect={handleSelect} />
-        </div>
+        &lt;div&gt;
+            &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} /&gt;
+            &lt;p&gt;选中: {selected}&lt;/p&gt;
+            &lt;MemoList items={filtered} onSelect={handleSelect} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -11542,38 +11542,38 @@ function AppWithCompiler() {
     const [selected, setSelected] = useState("");
 
     // 不需要 useMemo：Compiler 自动识别并缓存
-    const filtered = allItems.filter(i => i.includes(query));
+    const filtered = allItems.filter(i =&gt; i.includes(query));
 
     // 不需要 useCallback：Compiler 自动稳定化函数引用
-    const handleSelect = (item: string) => {
+    const handleSelect = (item: string) =&gt; {
         setSelected(item);
     };
 
     // 不需要 React.memo：Compiler 自动处理子组件渲染跳过
     return (
-        <div>
-            <input value={query} onChange={e => setQuery(e.target.value)} />
-            <p>选中: {selected}</p>
-            <List items={filtered} onSelect={handleSelect} />
-        </div>
+        &lt;div&gt;
+            &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} /&gt;
+            &lt;p&gt;选中: {selected}&lt;/p&gt;
+            &lt;List items={filtered} onSelect={handleSelect} /&gt;
+        &lt;/div&gt;
     );
 }
 
 // 无需 memo 包裹
 function List({ items, onSelect }: {
     items: string[];
-    onSelect: (item: string) => void;
+    onSelect: (item: string) =&gt; void;
 }) {
     return (
-        <ul>
-            {items.map(item => (
-                <li key={item} onClick={() => onSelect(item)}>{item}</li>
+        &lt;ul&gt;
+            {items.map(item =&gt; (
+                &lt;li key={item} onClick={() =&gt; onSelect(item)}&gt;{item}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 
-const allItems = Array.from({ length: 1000 }, (_, i) => `项目${i}`);
+const allItems = Array.from({ length: 1000 }, (_, i) =&gt; `项目${i}`);
 
 export default AppWithCompiler;
 ```
@@ -11588,17 +11588,17 @@ export default AppWithCompiler;
 编译前（开发者写的代码）：
 function App() {
     const [count, setCount] = useState(0);
-    const items = data.filter(d => d.active);
-    const onClick = () => setCount(c => c + 1);
-    return <List items={items} onClick={onClick} />;
+    const items = data.filter(d =&gt; d.active);
+    const onClick = () =&gt; setCount(c =&gt; c + 1);
+    return &lt;List items={items} onClick={onClick} /&gt;;
 }
 
 编译后（Compiler 生成的代码，概念性表示）：
 function App() {
     const [count, setCount] = useState(0);
-    const items = useMemo(() => data.filter(d => d.active), [data]);
-    const onClick = useCallback(() => setCount(c => c + 1), []);
-    return useMemo(() => <List items={items} onClick={onClick} />, [items, onClick]);
+    const items = useMemo(() =&gt; data.filter(d =&gt; d.active), [data]);
+    const onClick = useCallback(() =&gt; setCount(c =&gt; c + 1), []);
+    return useMemo(() =&gt; &lt;List items={items} onClick={onClick} /&gt;, [items, onClick]);
 }
 
 Compiler 自动分析依赖关系，插入最优的缓存策略
@@ -11687,22 +11687,22 @@ function ProductPage({ productId, discount }: { productId: string; discount: num
     const finalPrice = calculatePrice(productId, quantity, discount);
 
     // 普通函数：没有 useCallback
-    const handleAdd = () => {
-        setQuantity(q => q + 1);
+    const handleAdd = () =&gt; {
+        setQuantity(q =&gt; q + 1);
     };
 
     // 普通 JSX：没有 memo
     return (
-        <div>
-            <p>价格: ¥{finalPrice}</p>
-            <button onClick={handleAdd}>增加数量</button>
-            <ProductDetail id={productId} />
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;价格: ¥{finalPrice}&lt;/p&gt;
+            &lt;button onClick={handleAdd}&gt;增加数量&lt;/button&gt;
+            &lt;ProductDetail id={productId} /&gt;
+        &lt;/div&gt;
     );
 }
 
 function ProductDetail({ id }: { id: string }) {
-    return <p>商品详情: {id}</p>;
+    return &lt;p&gt;商品详情: {id}&lt;/p&gt;;
 }
 
 // ===== 编译后：Compiler 生成的优化代码（概念性表示）=====
@@ -11728,7 +11728,7 @@ function ProductPage_compiled({ productId, discount }: { productId: string; disc
     // 引用保持稳定
     let handleAdd;
     if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-        handleAdd = () => setQuantity(q => q + 1);
+        handleAdd = () =&gt; setQuantity(q =&gt; q + 1);
         $[4] = handleAdd;
     } else {
         handleAdd = $[4];
@@ -11736,11 +11736,11 @@ function ProductPage_compiled({ productId, discount }: { productId: string; disc
 
     // JSX 也被自动缓存
     return (
-        <div>
-            <p>价格: ¥{finalPrice}</p>
-            <button onClick={handleAdd}>增加数量</button>
-            <ProductDetail id={productId} />
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;价格: ¥{finalPrice}&lt;/p&gt;
+            &lt;button onClick={handleAdd}&gt;增加数量&lt;/button&gt;
+            &lt;ProductDetail id={productId} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -11850,19 +11850,19 @@ module.exports = nextConfig;
 // 1. 渲染期间的副作用
 function Bad() {
     document.title = "标题";  // 副作用不在 useEffect 中
-    return <div />;
+    return &lt;div /&gt;;
 }
 
 // 2. 直接修改 state/props
 function Bad2({ items }: { items: number[] }) {
     items.sort();  // 直接修改 props
-    return <ul>{items.map(i => <li key={i}>{i}</li>)}</ul>;
+    return &lt;ul&gt;{items.map(i =&gt; &lt;li key={i}&gt;{i}&lt;/li&gt;)}&lt;/ul&gt;;
 }
 
 // 正确：遵循 React 规则
 function Good({ items }: { items: number[] }) {
     const sorted = [...items].sort();  // 创建新数组
-    return <ul>{sorted.map(i => <li key={i}>{i}</li>)}</ul>;
+    return &lt;ul&gt;{sorted.map(i =&gt; &lt;li key={i}&gt;{i}&lt;/li&gt;)}&lt;/ul&gt;;
 }
 ```
 
@@ -11898,10 +11898,10 @@ useRef 的两个主要用途：一是保存对 DOM 元素的引用，二是在�
 ### API 签名与参数
 
 ```typescript
-function useRef<T>(initialValue: T): MutableRefObject<T>;
-function useRef<T>(initialValue: T | null): RefObject<T>;
+function useRef&lt;T&gt;(initialValue: T): MutableRefObject&lt;T&gt;;
+function useRef&lt;T&gt;(initialValue: T | null): RefObject&lt;T&gt;;
 
-interface MutableRefObject<T> {
+interface MutableRefObject&lt;T&gt; {
     current: T;
 }
 ```
@@ -11923,30 +11923,30 @@ function RefContainerDemo() {
     const [count, setCount] = useState(0);
 
     // 用途1：保存定时器 ID
-    const timerRef = useRef<number | null>(null);
+    const timerRef = useRef&lt;number | null&gt;(null);
 
     // 用途2：保存上一次的值
-    const prevCountRef = useRef<number>(0);
+    const prevCountRef = useRef&lt;number&gt;(0);
 
     // 用途3：保存渲染次数（不触发重渲染）
     const renderCountRef = useRef(0);
     renderCountRef.current++;  // 每次渲染递增，不会触发重渲染
 
     // 记录上一次的 count 值
-    useEffect(() => {
+    useEffect(() =&gt; {
         prevCountRef.current = count;
     }, [count]);
 
     // 启动定时器
-    const startTimer = () => {
+    const startTimer = () =&gt; {
         if (timerRef.current !== null) return;  // 防止重复启动
-        timerRef.current = window.setInterval(() => {
-            setCount(c => c + 1);
+        timerRef.current = window.setInterval(() =&gt; {
+            setCount(c =&gt; c + 1);
         }, 1000);
     };
 
     // 停止定时器
-    const stopTimer = () => {
+    const stopTimer = () =&gt; {
         if (timerRef.current !== null) {
             clearInterval(timerRef.current);
             timerRef.current = null;
@@ -11954,17 +11954,17 @@ function RefContainerDemo() {
     };
 
     // 组件卸载时清理
-    useEffect(() => {
-        return () => stopTimer();
+    useEffect(() =&gt; {
+        return () =&gt; stopTimer();
     }, []);
 
     return (
-        <div>
-            <p>当前值: {count}，上一次值: {prevCountRef.current}</p>
-            <p>渲染次数: {renderCountRef.current}</p>
-            <button onClick={startTimer}>开始</button>
-            <button onClick={stopTimer}>停止</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;当前值: {count}，上一次值: {prevCountRef.current}&lt;/p&gt;
+            &lt;p&gt;渲染次数: {renderCountRef.current}&lt;/p&gt;
+            &lt;button onClick={startTimer}&gt;开始&lt;/button&gt;
+            &lt;button onClick={stopTimer}&gt;停止&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12067,8 +12067,8 @@ function CurrentAccessDemo() {
     countRef.current = count;
 
     // 异步回调中通过 ref 读取最新值
-    const handleDelayedLog = () => {
-        setTimeout(() => {
+    const handleDelayedLog = () =&gt; {
+        setTimeout(() =&gt; {
             // ref.current 始终是最新值
             console.log("ref.current:", countRef.current);
             // 闭包中的 count 是点击时的旧值
@@ -12077,11 +12077,11 @@ function CurrentAccessDemo() {
     };
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <button onClick={handleDelayedLog}>3秒后打印</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={handleDelayedLog}&gt;3秒后打印&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12140,11 +12140,11 @@ function Component() {
     // 读取：渲染期间读取要注意
     // ref.current 可能在并发渲染中被其他渲染打断修改
     // 最好在 useEffect 或事件处理器中读取
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log(ref.current);  // 安全：在 effect 中读取
     });
 
-    return <div />;
+    return &lt;div /&gt;;
 }
 ```
 
@@ -12175,10 +12175,10 @@ useRef 最常见的用途是获取 DOM 元素的引用。将 useRef 创建的 re
 
 ```typescript
 // 创建 ref
-const inputRef = useRef<HTMLInputElement>(null);
+const inputRef = useRef&lt;HTMLInputElement&gt;(null);
 
 // 绑定到 DOM 元素
-<input ref={inputRef} />
+&lt;input ref={inputRef} /&gt;
 
 // 访问 DOM 元素
 inputRef.current?.focus();
@@ -12192,21 +12192,21 @@ inputRef.current?.focus();
 import React, { useRef, useEffect } from "react";
 
 function DOMRefDemo() {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const divRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef&lt;HTMLInputElement&gt;(null);
+    const divRef = useRef&lt;HTMLDivElement&gt;(null);
 
     // 挂载后自动聚焦输入框
-    useEffect(() => {
+    useEffect(() =&gt; {
         inputRef.current?.focus();
     }, []);
 
     // 滚动到指定元素
-    const scrollToDiv = () => {
+    const scrollToDiv = () =&gt; {
         divRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     // 获取元素尺寸
-    const logSize = () => {
+    const logSize = () =&gt; {
         if (divRef.current) {
             const rect = divRef.current.getBoundingClientRect();
             console.log(`宽: ${rect.width}, 高: ${rect.height}`);
@@ -12214,16 +12214,16 @@ function DOMRefDemo() {
     };
 
     return (
-        <div>
-            <input ref={inputRef} placeholder="自动聚焦" />
-            <button onClick={scrollToDiv}>滚动到底部</button>
-            <button onClick={logSize}>打印尺寸</button>
+        &lt;div&gt;
+            &lt;input ref={inputRef} placeholder="自动聚焦" /&gt;
+            &lt;button onClick={scrollToDiv}&gt;滚动到底部&lt;/button&gt;
+            &lt;button onClick={logSize}&gt;打印尺寸&lt;/button&gt;
 
-            <div style={{ height: 1000 }} />
-            <div ref={divRef} style={{ padding: 20, background: "#eee" }}>
+            &lt;div style=&lbrace;&lbrace; height: 1000 &rbrace;&rbrace; /&gt;
+            &lt;div ref={divRef} style=&lbrace;&lbrace; padding: 20, background: "#eee" &rbrace;&rbrace;&gt;
                 目标元素
-            </div>
-        </div>
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12273,12 +12273,12 @@ export default DOMRefDemo;
 // const width = inputRef.current.offsetWidth;  // null
 
 // 正确：在 useEffect 或事件处理器中访问
-useEffect(() => {
+useEffect(() =&gt; {
     const width = inputRef.current?.offsetWidth;
     console.log(width);
 }, []);
 
-const handleClick = () => {
+const handleClick = () =&gt; {
     inputRef.current?.focus();  // 事件处理器中 ref 已绑定
 };
 ```
@@ -12316,10 +12316,10 @@ useRef 创建的 ref 对象在组件的整个生命周期内保持同一引用�
 import React, { useState, useRef, useEffect } from "react";
 
 // 自定义 Hook：获取前一次的值
-function usePrevious<T>(value: T): T | undefined {
-    const ref = useRef<T | undefined>(undefined);
+function usePrevious&lt;T&gt;(value: T): T | undefined {
+    const ref = useRef&lt;T | undefined&gt;(undefined);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         ref.current = value;  // 渲染后更新为当前值
     }, [value]);
 
@@ -12346,25 +12346,25 @@ function PersistenceDemo() {
 
     // 追踪组件是否已挂载（用于异步回调中检查）
     const isMounted = useRef(true);
-    useEffect(() => {
-        return () => { isMounted.current = false; };
+    useEffect(() =&gt; {
+        return () =&gt; { isMounted.current = false; };
     }, []);
 
-    const handleAsyncAction = () => {
-        setTimeout(() => {
+    const handleAsyncAction = () =&gt; {
+        setTimeout(() =&gt; {
             if (isMounted.current) {
-                setCount(c => c + 10);
+                setCount(c =&gt; c + 10);
             }
         }, 2000);
     };
 
     return (
-        <div>
-            <p>当前: {count}，上一次: {prevCount ?? "无"}</p>
-            <p>首次渲染: {isFirstRender ? "是" : "否"}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-            <button onClick={handleAsyncAction}>2秒后+10</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;当前: {count}，上一次: {prevCount ?? "无"}&lt;/p&gt;
+            &lt;p&gt;首次渲染: {isFirstRender ? "是" : "否"}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={handleAsyncAction}&gt;2秒后+10&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12451,33 +12451,33 @@ function CompareDemo() {
     const stableRef = useRef(0);
 
     // createRef：每次渲染都创建新的 ref 对象
-    const unstableRef = createRef<number>();
+    const unstableRef = createRef&lt;number&gt;();
 
     // 每次渲染 stableRef 保持之前的值
     // 每次渲染 unstableRef.current 是 null（新创建的）
     console.log("useRef.current:", stableRef.current);      // 保持上次赋值
     console.log("createRef.current:", unstableRef.current);  // 始终是 null
 
-    const handleClick = () => {
+    const handleClick = () =&gt; {
         stableRef.current = count;
         // unstableRef 赋值后在下次渲染会丢失
-        setCount(c => c + 1);
+        setCount(c =&gt; c + 1);
     };
 
     return (
-        <div>
-            <p>count: {count}</p>
-            <p>useRef 保存的值: {stableRef.current}</p>
-            <button onClick={handleClick}>+1 并保存</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}&lt;/p&gt;
+            &lt;p&gt;useRef 保存的值: {stableRef.current}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;+1 并保存&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 类组件中使用 createRef
-class ClassComponent extends React.Component<{}, { count: number }> {
+class ClassComponent extends React.Component&lt;{}, { count: number }&gt; {
     // 在类组件中，createRef 在构造函数中调用一次
     // 实例属性在组件生命周期内持久存在
-    inputRef = createRef<HTMLInputElement>();
+    inputRef = createRef&lt;HTMLInputElement&gt;();
 
     state = { count: 0 };
 
@@ -12487,10 +12487,10 @@ class ClassComponent extends React.Component<{}, { count: number }> {
 
     render() {
         return (
-            <div>
-                <input ref={this.inputRef} />
-                <p>{this.state.count}</p>
-            </div>
+            &lt;div&gt;
+                &lt;input ref={this.inputRef} /&gt;
+                &lt;p&gt;{this.state.count}&lt;/p&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -12564,7 +12564,7 @@ function CallbackRefDemo() {
     const [height, setHeight] = useState(0);
 
     // 回调 ref：DOM 挂载时被调用，参数是 DOM 节点
-    const measureRef = useCallback((node: HTMLDivElement | null) => {
+    const measureRef = useCallback((node: HTMLDivElement | null) =&gt; {
         if (node !== null) {
             // DOM 挂载时执行：node 是真实的 DOM 元素
             console.log("DOM 挂载，元素:", node);
@@ -12574,13 +12574,13 @@ function CallbackRefDemo() {
     }, []);
 
     return (
-        <div>
-            <div ref={measureRef} style={{ padding: 20, background: "#f0f0f0" }}>
-                <p>这是一段内容</p>
-                <p>用于测量高度</p>
-            </div>
-            <p>元素高度: {height}px</p>
-        </div>
+        &lt;div&gt;
+            &lt;div ref={measureRef} style=&lbrace;&lbrace; padding: 20, background: "#f0f0f0" &rbrace;&rbrace;&gt;
+                &lt;p&gt;这是一段内容&lt;/p&gt;
+                &lt;p&gt;用于测量高度&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;p&gt;元素高度: {height}px&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12590,7 +12590,7 @@ function DynamicListRef() {
     const [lastItemHeight, setLastItemHeight] = useState(0);
 
     // 最后一个列表项的回调 ref
-    const lastItemRef = useCallback((node: HTMLLIElement | null) => {
+    const lastItemRef = useCallback((node: HTMLLIElement | null) =&gt; {
         if (node) {
             setLastItemHeight(node.offsetHeight);
             // 自动滚动到最新项
@@ -12598,25 +12598,25 @@ function DynamicListRef() {
         }
     }, []);
 
-    const addItem = () => {
-        setItems(prev => [...prev, `项目${prev.length + 1}`]);
+    const addItem = () =&gt; {
+        setItems(prev =&gt; [...prev, `项目${prev.length + 1}`]);
     };
 
     return (
-        <div>
-            <button onClick={addItem}>添加项目</button>
-            <p>最后一项高度: {lastItemHeight}px</p>
-            <ul>
-                {items.map((item, i) => (
-                    <li
+        &lt;div&gt;
+            &lt;button onClick={addItem}&gt;添加项目&lt;/button&gt;
+            &lt;p&gt;最后一项高度: {lastItemHeight}px&lt;/p&gt;
+            &lt;ul&gt;
+                {items.map((item, i) =&gt; (
+                    &lt;li
                         key={item}
                         ref={i === items.length - 1 ? lastItemRef : undefined}
-                    >
+                    &gt;
                         {item}
-                    </li>
+                    &lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12669,15 +12669,15 @@ React 渲染流程中回调 ref 的位置：
 
 ```tsx
 // 问题：内联回调每次渲染都执行
-// <div ref={(node) => { ... }} />
+// &lt;div ref={(node) =&gt; { ... &rbrace;&rbrace; /&gt;
 
 // 方案：用 useCallback 稳定化回调
-const callbackRef = useCallback((node: HTMLDivElement | null) => {
+const callbackRef = useCallback((node: HTMLDivElement | null) =&gt; {
     if (node) {
         // 只在 DOM 挂载时执行
     }
 }, []);
-// <div ref={callbackRef} />
+// &lt;div ref={callbackRef} /&gt;
 ```
 
 ### 注意事项
@@ -12716,11 +12716,11 @@ function CleanupRefDemo() {
     const [showBox, setShowBox] = useState(true);
 
     // 回调 ref：挂载时收到 node，卸载时收到 null
-    const boxRef = useCallback((node: HTMLDivElement | null) => {
+    const boxRef = useCallback((node: HTMLDivElement | null) =&gt; {
         if (node !== null) {
             // DOM 挂载：执行初始化
             console.log("挂载：初始化 ResizeObserver");
-            const observer = new ResizeObserver(entries => {
+            const observer = new ResizeObserver(entries =&gt; {
                 for (const entry of entries) {
                     console.log("尺寸变化:", entry.contentRect.width);
                 }
@@ -12738,16 +12738,16 @@ function CleanupRefDemo() {
     }, []);
 
     return (
-        <div>
-            <button onClick={() => setShowBox(s => !s)}>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShowBox(s =&gt; !s)}&gt;
                 {showBox ? "隐藏" : "显示"}
-            </button>
+            &lt;/button&gt;
             {showBox && (
-                <div ref={boxRef} style={{ width: 200, height: 100, background: "#eee" }}>
+                &lt;div ref={boxRef} style=&lbrace;&lbrace; width: 200, height: 100, background: "#eee" &rbrace;&rbrace;&gt;
                     可调整大小的盒子
-                </div>
+                &lt;/div&gt;
             )}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -12756,25 +12756,25 @@ function CleanupRefReact19() {
     const [showBox, setShowBox] = useState(true);
 
     // React 19：回调 ref 可以返回清理函数
-    const boxRef = useCallback((node: HTMLDivElement) => {
+    const boxRef = useCallback((node: HTMLDivElement) =&gt; {
         console.log("挂载：初始化");
-        const observer = new ResizeObserver(entries => {
+        const observer = new ResizeObserver(entries =&gt; {
             console.log("尺寸变化");
         });
         observer.observe(node);
 
         // 返回清理函数：DOM 卸载时自动调用
-        return () => {
+        return () =&gt; {
             console.log("卸载：清理 ResizeObserver");
             observer.disconnect();
         };
     }, []);
 
     return (
-        <div>
-            <button onClick={() => setShowBox(s => !s)}>切换</button>
-            {showBox && <div ref={boxRef} style={{ width: 200, height: 100 }}>盒子</div>}
-        </div>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShowBox(s =&gt; !s)}&gt;切换&lt;/button&gt;
+            {showBox && &lt;div ref={boxRef} style=&lbrace;&lbrace; width: 200, height: 100 &rbrace;&rbrace;&gt;盒子&lt;/div&gt;}
+        &lt;/div&gt;
     );
 }
 
@@ -12827,9 +12827,9 @@ React 19 的回调 ref 生命周期：
 
 ```tsx
 // 方案1：通过闭包保存引用（React 18）
-const boxRef = useCallback((node: HTMLDivElement | null) => {
+const boxRef = useCallback((node: HTMLDivElement | null) =&gt; {
     if (node) {
-        const observer = new ResizeObserver(() => {});
+        const observer = new ResizeObserver(() =&gt; {});
         observer.observe(node);
 
         // 保存到外部变量，卸载时使用
@@ -12842,10 +12842,10 @@ const boxRef = useCallback((node: HTMLDivElement | null) => {
 }, []);
 
 // 方案2：升级到 React 19，使用返回清理函数
-const boxRef = useCallback((node: HTMLDivElement) => {
-    const observer = new ResizeObserver(() => {});
+const boxRef = useCallback((node: HTMLDivElement) =&gt; {
+    const observer = new ResizeObserver(() =&gt; {});
     observer.observe(node);
-    return () => observer.disconnect();  // 闭包中可以访问 node 和 observer
+    return () =&gt; observer.disconnect();  // 闭包中可以访问 node 和 observer
 }, []);
 ```
 
@@ -12880,15 +12880,15 @@ forwardRef 接收一个渲染函数，该函数除了常规的 props 参数外�
 
 ```typescript
 // React 18 及之前
-const ForwardedComponent = React.forwardRef<RefType, PropsType>(
-    (props, ref) => {
-        return <element ref={ref} />;
+const ForwardedComponent = React.forwardRef&lt;RefType, PropsType&gt;(
+    (props, ref) =&gt; {
+        return &lt;element ref={ref} /&gt;;
     }
 );
 
 // React 19：ref 直接作为 props
-function Component({ ref, ...props }: { ref: React.Ref<RefType> } & PropsType) {
-    return <element ref={ref} />;
+function Component({ ref, ...props }: { ref: React.Ref&lt;RefType&gt; } & PropsType) {
+    return &lt;element ref={ref} /&gt;;
 }
 ```
 
@@ -12900,28 +12900,28 @@ function Component({ ref, ...props }: { ref: React.Ref<RefType> } & PropsType) {
 import React, { useRef, forwardRef } from "react";
 
 // 自定义输入框组件：通过 forwardRef 转发 ref
-const CustomInput = forwardRef<HTMLInputElement, { label: string }>(
+const CustomInput = forwardRef&lt;HTMLInputElement, { label: string }&gt;(
     function CustomInput({ label }, ref) {
         return (
-            <div>
-                <label>{label}</label>
+            &lt;div&gt;
+                &lt;label&gt;{label}&lt;/label&gt;
                 {/* 将父组件传来的 ref 绑定到内部的 input 元素 */}
-                <input ref={ref} style={{ border: "2px solid #333", padding: 8 }} />
-            </div>
+                &lt;input ref={ref} style=&lbrace;&lbrace; border: "2px solid #333", padding: 8 &rbrace;&rbrace; /&gt;
+            &lt;/div&gt;
         );
     }
 );
 
 // 父组件：通过 ref 操作子组件内部的 input
 function Form() {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef&lt;HTMLInputElement&gt;(null);
 
-    const handleFocus = () => {
+    const handleFocus = () =&gt; {
         // 直接操作子组件内部的 input DOM 元素
         inputRef.current?.focus();
     };
 
-    const handleClear = () => {
+    const handleClear = () =&gt; {
         if (inputRef.current) {
             inputRef.current.value = "";
             inputRef.current.focus();
@@ -12929,11 +12929,11 @@ function Form() {
     };
 
     return (
-        <div>
-            <CustomInput ref={inputRef} label="用户名" />
-            <button onClick={handleFocus}>聚焦</button>
-            <button onClick={handleClear}>清空</button>
-        </div>
+        &lt;div&gt;
+            &lt;CustomInput ref={inputRef} label="用户名" /&gt;
+            &lt;button onClick={handleFocus}&gt;聚焦&lt;/button&gt;
+            &lt;button onClick={handleClear}&gt;清空&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -12948,14 +12948,14 @@ export default Form;
 
 ```
 父组件传递 ref：
-<CustomInput ref={inputRef} label="用户名" />
+&lt;CustomInput ref={inputRef} label="用户名" /&gt;
 
 React 内部处理：
 1. 识别 CustomInput 是 forwardRef 组件
 2. 将 ref 从 props 中取出（ref 不在 props 中传递）
 3. 调用渲染函数：renderFunction(props, ref)
-4. 渲染函数将 ref 绑定到内部 DOM：<input ref={ref} />
-5. DOM 挂载后：inputRef.current = <input> DOM 节点
+4. 渲染函数将 ref 绑定到内部 DOM：&lt;input ref={ref} /&gt;
+5. DOM 挂载后：inputRef.current = &lt;input&gt; DOM 节点
 ```
 
 ### 与相关API的对比
@@ -12983,14 +12983,14 @@ React 内部处理：
 
 ```tsx
 // 错误：函数组件默认不接受 ref
-// function MyInput(props) { return <input />; }
-// <MyInput ref={inputRef} />  // 警告：ref 被忽略
+// function MyInput(props) { return &lt;input /&gt;; }
+// &lt;MyInput ref={inputRef} /&gt;  // 警告：ref 被忽略
 
 // 正确：用 forwardRef 包裹
-const MyInput = forwardRef<HTMLInputElement>((props, ref) => {
-    return <input ref={ref} />;
+const MyInput = forwardRef&lt;HTMLInputElement&gt;((props, ref) =&gt; {
+    return &lt;input ref={ref} /&gt;;
 });
-// <MyInput ref={inputRef} />  // 正常工作
+// &lt;MyInput ref={inputRef} /&gt;  // 正常工作
 ```
 
 ### 注意事项
@@ -13026,12 +13026,12 @@ forwardRef 在实际开发中最常见的应用场景是封装可复用的 UI �
 import React, { forwardRef, useRef } from "react";
 
 // 封装 Button 组件
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes&lt;HTMLButtonElement&gt; {
     variant?: "primary" | "secondary" | "danger";
     size?: "small" | "medium" | "large";
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef&lt;HTMLButtonElement, ButtonProps&gt;(
     function Button({ variant = "primary", size = "medium", children, className, ...rest }, ref) {
         // 组合样式类名
         const baseStyle: React.CSSProperties = {
@@ -13045,80 +13045,80 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         };
 
         return (
-            <button ref={ref} style={baseStyle} {...rest}>
+            &lt;button ref={ref} style={baseStyle} {...rest}&gt;
                 {children}
-            </button>
+            &lt;/button&gt;
         );
     }
 );
 
 // 封装 Input 组件
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes&lt;HTMLInputElement&gt; {
     label?: string;
     error?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef&lt;HTMLInputElement, InputProps&gt;(
     function Input({ label, error, style, ...rest }, ref) {
         return (
-            <div style={{ marginBottom: 16 }}>
-                {label && <label style={{ display: "block", marginBottom: 4 }}>{label}</label>}
-                <input
+            &lt;div style=&lbrace;&lbrace; marginBottom: 16 &rbrace;&rbrace;&gt;
+                {label && &lt;label style=&lbrace;&lbrace; display: "block", marginBottom: 4 &rbrace;&rbrace;&gt;{label}&lt;/label&gt;}
+                &lt;input
                     ref={ref}
-                    style={{
+                    style=&lbrace;&lbrace;
                         padding: "8px 12px",
                         border: `1px solid ${error ? "#ff4d4f" : "#d9d9d9"}`,
                         borderRadius: 6,
                         width: "100%",
                         ...style,
-                    }}
+                    &rbrace;&rbrace;
                     {...rest}
-                />
-                {error && <span style={{ color: "#ff4d4f", fontSize: 12 }}>{error}</span>}
-            </div>
+                /&gt;
+                {error && &lt;span style=&lbrace;&lbrace; color: "#ff4d4f", fontSize: 12 &rbrace;&rbrace;&gt;{error}&lt;/span&gt;}
+            &lt;/div&gt;
         );
     }
 );
 
 // 使用封装的组件
 function LoginForm() {
-    const usernameRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const submitRef = useRef<HTMLButtonElement>(null);
+    const usernameRef = useRef&lt;HTMLInputElement&gt;(null);
+    const passwordRef = useRef&lt;HTMLInputElement&gt;(null);
+    const submitRef = useRef&lt;HTMLButtonElement&gt;(null);
 
     // 用户名回车后跳转到密码框
-    const handleUsernameKeyDown = (e: React.KeyboardEvent) => {
+    const handleUsernameKeyDown = (e: React.KeyboardEvent) =&gt; {
         if (e.key === "Enter") {
             passwordRef.current?.focus();
         }
     };
 
     // 密码回车后触发提交按钮
-    const handlePasswordKeyDown = (e: React.KeyboardEvent) => {
+    const handlePasswordKeyDown = (e: React.KeyboardEvent) =&gt; {
         if (e.key === "Enter") {
             submitRef.current?.click();
         }
     };
 
     return (
-        <form onSubmit={e => e.preventDefault()}>
-            <Input
+        &lt;form onSubmit={e =&gt; e.preventDefault()}&gt;
+            &lt;Input
                 ref={usernameRef}
                 label="用户名"
                 placeholder="请输入用户名"
                 onKeyDown={handleUsernameKeyDown}
-            />
-            <Input
+            /&gt;
+            &lt;Input
                 ref={passwordRef}
                 label="密码"
                 type="password"
                 placeholder="请输入密码"
                 onKeyDown={handlePasswordKeyDown}
-            />
-            <Button ref={submitRef} variant="primary" size="large">
+            /&gt;
+            &lt;Button ref={submitRef} variant="primary" size="large"&gt;
                 登录
-            </Button>
-        </form>
+            &lt;/Button&gt;
+        &lt;/form&gt;
     );
 }
 
@@ -13133,11 +13133,11 @@ export default LoginForm;
 
 ```tsx
 // 高阶组件需要用 forwardRef 透传 ref
-function withLogging<P extends object>(WrappedComponent: React.ComponentType<P>) {
+function withLogging&lt;P extends object&gt;(WrappedComponent: React.ComponentType&lt;P&gt;) {
     // 用 forwardRef 确保 ref 不被 HOC 吞掉
-    const WithLogging = forwardRef<any, P>((props, ref) => {
+    const WithLogging = forwardRef&lt;any, P&gt;((props, ref) =&gt; {
         console.log("组件渲染:", WrappedComponent.displayName);
-        return <WrappedComponent {...props} ref={ref} />;
+        return &lt;WrappedComponent {...props} ref={ref} /&gt;;
     });
 
     WithLogging.displayName = `withLogging(${WrappedComponent.displayName || "Component"})`;
@@ -13146,7 +13146,7 @@ function withLogging<P extends object>(WrappedComponent: React.ComponentType<P>)
 
 // 使用
 const LoggedInput = withLogging(Input);
-// <LoggedInput ref={inputRef} label="姓名" />  // ref 正确透传
+// &lt;LoggedInput ref={inputRef} label="姓名" /&gt;  // ref 正确透传
 ```
 
 ### 与相关API的对比
@@ -13175,15 +13175,15 @@ const LoggedInput = withLogging(Input);
 
 ```tsx
 // 方案1：给渲染函数命名
-const MyInput = forwardRef<HTMLInputElement, InputProps>(
+const MyInput = forwardRef&lt;HTMLInputElement, InputProps&gt;(
     function MyInput(props, ref) {  // 命名函数
-        return <input ref={ref} {...props} />;
+        return &lt;input ref={ref} {...props} /&gt;;
     }
 );
 
 // 方案2：设置 displayName
-const MyInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-    return <input ref={ref} {...props} />;
+const MyInput = forwardRef&lt;HTMLInputElement, InputProps&gt;((props, ref) =&gt; {
+    return &lt;input ref={ref} {...props} /&gt;;
 });
 MyInput.displayName = "MyInput";
 ```
@@ -13216,10 +13216,10 @@ forwardRef 在组件封装中的核心应用是让自定义组件暴露底层 DO
 ### API 签名与参数
 
 ```typescript
-function useImperativeHandle<T>(
-    ref: React.Ref<T>,
-    createHandle: () => T,
-    deps?: ReadonlyArray<unknown>
+function useImperativeHandle&lt;T&gt;(
+    ref: React.Ref&lt;T&gt;,
+    createHandle: () =&gt; T,
+    deps?: ReadonlyArray&lt;unknown&gt;
 ): void;
 ```
 
@@ -13238,19 +13238,19 @@ import React, { useRef, forwardRef, useImperativeHandle } from "react";
 
 // 定义暴露给父组件的接口
 interface VideoPlayerHandle {
-    play: () => void;
-    pause: () => void;
-    seekTo: (time: number) => void;
+    play: () =&gt; void;
+    pause: () =&gt; void;
+    seekTo: (time: number) =&gt; void;
 }
 
 // 视频播放器组件：只暴露 play、pause、seekTo
-const VideoPlayer = forwardRef<VideoPlayerHandle, { src: string }>(
+const VideoPlayer = forwardRef&lt;VideoPlayerHandle, { src: string }&gt;(
     function VideoPlayer({ src }, ref) {
         // 内部持有真实的 video DOM 引用
-        const videoRef = useRef<HTMLVideoElement>(null);
+        const videoRef = useRef&lt;HTMLVideoElement&gt;(null);
 
         // 自定义暴露的接口
-        useImperativeHandle(ref, () => ({
+        useImperativeHandle(ref, () =&gt; ({
             play() {
                 videoRef.current?.play();
             },
@@ -13266,25 +13266,25 @@ const VideoPlayer = forwardRef<VideoPlayerHandle, { src: string }>(
         }), []);
 
         return (
-            <video ref={videoRef} src={src} style={{ width: "100%" }}>
+            &lt;video ref={videoRef} src={src} style=&lbrace;&lbrace; width: "100%" &rbrace;&rbrace;&gt;
                 浏览器不支持视频标签
-            </video>
+            &lt;/video&gt;
         );
     }
 );
 
 // 父组件：只能调用暴露的方法
 function App() {
-    const playerRef = useRef<VideoPlayerHandle>(null);
+    const playerRef = useRef&lt;VideoPlayerHandle&gt;(null);
 
     return (
-        <div>
-            <VideoPlayer ref={playerRef} src="/demo.mp4" />
-            <button onClick={() => playerRef.current?.play()}>播放</button>
-            <button onClick={() => playerRef.current?.pause()}>暂停</button>
-            <button onClick={() => playerRef.current?.seekTo(30)}>跳到30秒</button>
+        &lt;div&gt;
+            &lt;VideoPlayer ref={playerRef} src="/demo.mp4" /&gt;
+            &lt;button onClick={() =&gt; playerRef.current?.play()}&gt;播放&lt;/button&gt;
+            &lt;button onClick={() =&gt; playerRef.current?.pause()}&gt;暂停&lt;/button&gt;
+            &lt;button onClick={() =&gt; playerRef.current?.seekTo(30)}&gt;跳到30秒&lt;/button&gt;
             {/* playerRef.current 上没有 video 元素的其他方法 */}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -13301,7 +13301,7 @@ export default App;
 // React 内部简化逻辑
 function useImperativeHandle(ref, createHandle, deps) {
     // 在 Layout 阶段执行（与 useLayoutEffect 同时机）
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         const handle = createHandle();  // 创建暴露的对象
 
         if (typeof ref === "function") {
@@ -13311,7 +13311,7 @@ function useImperativeHandle(ref, createHandle, deps) {
         }
 
         // 清理：卸载时重置
-        return () => {
+        return () =&gt; {
             if (typeof ref === "function") {
                 ref(null);
             } else if (ref !== null) {
@@ -13340,7 +13340,7 @@ function useImperativeHandle(ref, createHandle, deps) {
 
 ```tsx
 // 将依赖的 state 加入 deps
-useImperativeHandle(ref, () => ({
+useImperativeHandle(ref, () =&gt; ({
     getValue() {
         return currentValue;  // 需要最新的 currentValue
     },
@@ -13381,10 +13381,10 @@ import React, { useState, useRef, forwardRef, useImperativeHandle } from "react"
 
 // 定义表单暴露的接口
 interface FormHandle {
-    validate: () => boolean;
-    reset: () => void;
-    getValues: () => Record<string, string>;
-    focusField: (name: string) => void;
+    validate: () =&gt; boolean;
+    reset: () =&gt; void;
+    getValues: () =&gt; Record&lt;string, string&gt;;
+    focusField: (name: string) =&gt; void;
 }
 
 interface FormField {
@@ -13394,21 +13394,21 @@ interface FormField {
     type?: string;
 }
 
-const CustomForm = forwardRef<FormHandle, { fields: FormField[] }>(
+const CustomForm = forwardRef&lt;FormHandle, { fields: FormField[] }&gt;(
     function CustomForm({ fields }, ref) {
         // 内部状态管理
-        const [values, setValues] = useState<Record<string, string>>({});
-        const [errors, setErrors] = useState<Record<string, string>>({});
+        const [values, setValues] = useState&lt;Record&lt;string, string&gt;&gt;({});
+        const [errors, setErrors] = useState&lt;Record&lt;string, string&gt;&gt;({});
         // 保存每个字段的 DOM 引用
-        const fieldRefs = useRef<Record<string, HTMLInputElement | null>>({});
+        const fieldRefs = useRef&lt;Record&lt;string, HTMLInputElement | null&gt;&gt;({});
 
         // 通过 useImperativeHandle 暴露表单操作方法
-        useImperativeHandle(ref, () => ({
+        useImperativeHandle(ref, () =&gt; ({
             // 验证所有字段
             validate() {
-                const newErrors: Record<string, string> = {};
+                const newErrors: Record&lt;string, string&gt; = {};
                 let isValid = true;
-                fields.forEach(field => {
+                fields.forEach(field =&gt; {
                     if (field.required && !values[field.name]?.trim()) {
                         newErrors[field.name] = `${field.label}不能为空`;
                         isValid = false;
@@ -13435,11 +13435,11 @@ const CustomForm = forwardRef<FormHandle, { fields: FormField[] }>(
             },
         }), [fields, values]);  // values 变化时重新创建 handle
 
-        const handleChange = (name: string, value: string) => {
-            setValues(prev => ({ ...prev, [name]: value }));
+        const handleChange = (name: string, value: string) =&gt; {
+            setValues(prev =&gt; ({ ...prev, [name]: value }));
             // 输入时清除该字段的错误
             if (errors[name]) {
-                setErrors(prev => {
+                setErrors(prev =&gt; {
                     const next = { ...prev };
                     delete next[name];
                     return next;
@@ -13448,38 +13448,38 @@ const CustomForm = forwardRef<FormHandle, { fields: FormField[] }>(
         };
 
         return (
-            <div>
-                {fields.map(field => (
-                    <div key={field.name} style={{ marginBottom: 12 }}>
-                        <label style={{ display: "block", marginBottom: 4 }}>
+            &lt;div&gt;
+                {fields.map(field =&gt; (
+                    &lt;div key={field.name} style=&lbrace;&lbrace; marginBottom: 12 &rbrace;&rbrace;&gt;
+                        &lt;label style=&lbrace;&lbrace; display: "block", marginBottom: 4 &rbrace;&rbrace;&gt;
                             {field.label}
-                            {field.required && <span style={{ color: "red" }}> *</span>}
-                        </label>
-                        <input
-                            ref={el => { fieldRefs.current[field.name] = el; }}
+                            {field.required && &lt;span style=&lbrace;&lbrace; color: "red" &rbrace;&rbrace;&gt; *&lt;/span&gt;}
+                        &lt;/label&gt;
+                        &lt;input
+                            ref={el =&gt; { fieldRefs.current[field.name] = el; &rbrace;&rbrace;
                             type={field.type || "text"}
                             value={values[field.name] || ""}
-                            onChange={e => handleChange(field.name, e.target.value)}
-                            style={{
+                            onChange={e =&gt; handleChange(field.name, e.target.value)}
+                            style=&lbrace;&lbrace;
                                 padding: "6px 10px",
                                 border: `1px solid ${errors[field.name] ? "red" : "#ccc"}`,
                                 borderRadius: 4,
                                 width: "100%",
-                            }}
-                        />
+                            &rbrace;&rbrace;
+                        /&gt;
                         {errors[field.name] && (
-                            <span style={{ color: "red", fontSize: 12 }}>{errors[field.name]}</span>
+                            &lt;span style=&lbrace;&lbrace; color: "red", fontSize: 12 &rbrace;&rbrace;&gt;{errors[field.name]}&lt;/span&gt;
                         )}
-                    </div>
+                    &lt;/div&gt;
                 ))}
-            </div>
+            &lt;/div&gt;
         );
     }
 );
 
 // 父组件使用
 function App() {
-    const formRef = useRef<FormHandle>(null);
+    const formRef = useRef&lt;FormHandle&gt;(null);
 
     const fields: FormField[] = [
         { name: "username", label: "用户名", required: true },
@@ -13487,7 +13487,7 @@ function App() {
         { name: "phone", label: "手机号" },
     ];
 
-    const handleSubmit = () => {
+    const handleSubmit = () =&gt; {
         if (formRef.current?.validate()) {
             const values = formRef.current.getValues();
             console.log("提交:", values);
@@ -13497,19 +13497,19 @@ function App() {
         }
     };
 
-    const handleReset = () => {
+    const handleReset = () =&gt; {
         formRef.current?.reset();
     };
 
     return (
-        <div style={{ maxWidth: 400, margin: "0 auto" }}>
-            <h2>注册表单</h2>
-            <CustomForm ref={formRef} fields={fields} />
-            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-                <button onClick={handleSubmit}>提交</button>
-                <button onClick={handleReset}>重置</button>
-            </div>
-        </div>
+        &lt;div style=&lbrace;&lbrace; maxWidth: 400, margin: "0 auto" &rbrace;&rbrace;&gt;
+            &lt;h2&gt;注册表单&lt;/h2&gt;
+            &lt;CustomForm ref={formRef} fields={fields} /&gt;
+            &lt;div style=&lbrace;&lbrace; display: "flex", gap: 8, marginTop: 16 &rbrace;&rbrace;&gt;
+                &lt;button onClick={handleSubmit}&gt;提交&lt;/button&gt;
+                &lt;button onClick={handleReset}&gt;重置&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -13527,7 +13527,7 @@ export default App;
    │                              │
    │ ref={formRef}                │
    │─────────────────────────────→│
-   │                              │ useImperativeHandle(ref, () => ({
+   │                              │ useImperativeHandle(ref, () =&gt; ({
    │                              │   validate, reset, getValues
    │                              │ }))
    │                              │
@@ -13564,7 +13564,7 @@ export default App;
 
 ```tsx
 // 如果暴露的方法依赖 state，需要将 state 加入 deps
-useImperativeHandle(ref, () => ({
+useImperativeHandle(ref, () =&gt; ({
     getValues() {
         return values;  // 依赖 values
     },
@@ -13574,7 +13574,7 @@ useImperativeHandle(ref, () => ({
 }), [values, rules]);  // 这些变化时重新创建 handle
 
 // 如果方法只依赖 ref（稳定引用），deps 可以为空
-useImperativeHandle(ref, () => ({
+useImperativeHandle(ref, () =&gt; ({
     focus() {
         inputRef.current?.focus();  // inputRef 引用稳定
     },
@@ -13615,21 +13615,21 @@ import React, { useState, useRef, forwardRef, useImperativeHandle } from "react"
 
 // ===== 反面示例：滥用命令式接口 =====
 interface BadModalHandle {
-    open: () => void;
-    close: () => void;
-    setTitle: (title: string) => void;  // 不应该通过命令式设置
-    setContent: (content: string) => void;  // 不应该通过命令式设置
+    open: () =&gt; void;
+    close: () =&gt; void;
+    setTitle: (title: string) =&gt; void;  // 不应该通过命令式设置
+    setContent: (content: string) =&gt; void;  // 不应该通过命令式设置
 }
 
 // 错误：把应该用 props 传递的数据放在命令式接口中
-// const BadModal = forwardRef<BadModalHandle>((props, ref) => {
+// const BadModal = forwardRef&lt;BadModalHandle&gt;((props, ref) =&gt; {
 //     const [visible, setVisible] = useState(false);
 //     const [title, setTitle] = useState("");
 //     const [content, setContent] = useState("");
 //
-//     useImperativeHandle(ref, () => ({
-//         open: () => setVisible(true),
-//         close: () => setVisible(false),
+//     useImperativeHandle(ref, () =&gt; ({
+//         open: () =&gt; setVisible(true),
+//         close: () =&gt; setVisible(false),
 //         setTitle,     // 反模式：数据应该通过 props 传递
 //         setContent,   // 反模式：数据应该通过 props 传递
 //     }));
@@ -13639,22 +13639,22 @@ interface BadModalHandle {
 // ===== 正面示例：合理使用命令式接口 =====
 interface GoodModalHandle {
     // 只暴露真正需要命令式的操作
-    open: () => void;
-    close: () => void;
+    open: () =&gt; void;
+    close: () =&gt; void;
 }
 
 interface GoodModalProps {
     // 数据通过 props 声明式传递
     title: string;
     children: React.ReactNode;
-    onClose?: () => void;
+    onClose?: () =&gt; void;
 }
 
-const GoodModal = forwardRef<GoodModalHandle, GoodModalProps>(
+const GoodModal = forwardRef&lt;GoodModalHandle, GoodModalProps&gt;(
     function GoodModal({ title, children, onClose }, ref) {
         const [visible, setVisible] = useState(false);
 
-        useImperativeHandle(ref, () => ({
+        useImperativeHandle(ref, () =&gt; ({
             open() {
                 setVisible(true);
             },
@@ -13667,17 +13667,17 @@ const GoodModal = forwardRef<GoodModalHandle, GoodModalProps>(
         if (!visible) return null;
 
         return (
-            <div style={{
+            &lt;div style=&lbrace;&lbrace;
                 position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
                 background: "rgba(0,0,0,0.5)", display: "flex",
                 alignItems: "center", justifyContent: "center",
-            }}>
-                <div style={{ background: "#fff", padding: 24, borderRadius: 8, minWidth: 300 }}>
-                    <h3>{title}</h3>
+            &rbrace;&rbrace;&gt;
+                &lt;div style=&lbrace;&lbrace; background: "#fff", padding: 24, borderRadius: 8, minWidth: 300 &rbrace;&rbrace;&gt;
+                    &lt;h3&gt;{title}&lt;/h3&gt;
                     {children}
-                    <button onClick={() => { setVisible(false); onClose?.(); }}>关闭</button>
-                </div>
-            </div>
+                    &lt;button onClick={() =&gt; { setVisible(false); onClose?.(); &rbrace;&rbrace;&gt;关闭&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
         );
     }
 );
@@ -13687,22 +13687,22 @@ function DeclarativeModal({ visible, title, children, onClose }: {
     visible: boolean;
     title: string;
     children: React.ReactNode;
-    onClose: () => void;
+    onClose: () =&gt; void;
 }) {
     if (!visible) return null;
 
     return (
-        <div style={{
+        &lt;div style=&lbrace;&lbrace;
             position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
             background: "rgba(0,0,0,0.5)", display: "flex",
             alignItems: "center", justifyContent: "center",
-        }}>
-            <div style={{ background: "#fff", padding: 24, borderRadius: 8, minWidth: 300 }}>
-                <h3>{title}</h3>
+        &rbrace;&rbrace;&gt;
+            &lt;div style=&lbrace;&lbrace; background: "#fff", padding: 24, borderRadius: 8, minWidth: 300 &rbrace;&rbrace;&gt;
+                &lt;h3&gt;{title}&lt;/h3&gt;
                 {children}
-                <button onClick={onClose}>关闭</button>
-            </div>
-        </div>
+                &lt;button onClick={onClose}&gt;关闭&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -13710,17 +13710,17 @@ function App() {
     const [showModal, setShowModal] = useState(false);
 
     return (
-        <div>
-            <button onClick={() => setShowModal(true)}>打开</button>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShowModal(true)}&gt;打开&lt;/button&gt;
             {/* 声明式：通过 props 控制，更符合 React 范式 */}
-            <DeclarativeModal
+            &lt;DeclarativeModal
                 visible={showModal}
                 title="提示"
-                onClose={() => setShowModal(false)}
-            >
-                <p>模态框内容</p>
-            </DeclarativeModal>
-        </div>
+                onClose={() =&gt; setShowModal(false)}
+            &gt;
+                &lt;p&gt;模态框内容&lt;/p&gt;
+            &lt;/DeclarativeModal&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -13806,13 +13806,13 @@ React 19 带来了一个重要的简化：函数组件可以直接通过 props �
 import React, { useRef } from "react";
 
 // ===== React 18 及之前：需要 forwardRef =====
-// const OldInput = React.forwardRef<HTMLInputElement, { label: string }>(
+// const OldInput = React.forwardRef&lt;HTMLInputElement, { label: string }&gt;(
 //     function OldInput({ label }, ref) {
 //         return (
-//             <div>
-//                 <label>{label}</label>
-//                 <input ref={ref} />
-//             </div>
+//             &lt;div&gt;
+//                 &lt;label&gt;{label}&lt;/label&gt;
+//                 &lt;input ref={ref} /&gt;
+//             &lt;/div&gt;
 //         );
 //     }
 // );
@@ -13821,38 +13821,38 @@ import React, { useRef } from "react";
 // ref 和其他 props 一样，是普通的属性
 function NewInput({ label, ref }: {
     label: string;
-    ref?: React.Ref<HTMLInputElement>;
+    ref?: React.Ref&lt;HTMLInputElement&gt;;
 }) {
     return (
-        <div>
-            <label>{label}</label>
-            <input ref={ref} />
-        </div>
+        &lt;div&gt;
+            &lt;label&gt;{label}&lt;/label&gt;
+            &lt;input ref={ref} /&gt;
+        &lt;/div&gt;
     );
 }
 
 // 使用方式不变
 function App() {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef&lt;HTMLInputElement&gt;(null);
 
     return (
-        <div>
-            <NewInput ref={inputRef} label="用户名" />
-            <button onClick={() => inputRef.current?.focus()}>聚焦</button>
-        </div>
+        &lt;div&gt;
+            &lt;NewInput ref={inputRef} label="用户名" /&gt;
+            &lt;button onClick={() =&gt; inputRef.current?.focus()}&gt;聚焦&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 配合 useImperativeHandle 也不需要 forwardRef 了
 interface EditorHandle {
-    insertText: (text: string) => void;
-    clear: () => void;
+    insertText: (text: string) =&gt; void;
+    clear: () =&gt; void;
 }
 
-function Editor({ ref }: { ref?: React.Ref<EditorHandle> }) {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+function Editor({ ref }: { ref?: React.Ref&lt;EditorHandle&gt; }) {
+    const textareaRef = useRef&lt;HTMLTextAreaElement&gt;(null);
 
-    React.useImperativeHandle(ref, () => ({
+    React.useImperativeHandle(ref, () =&gt; ({
         insertText(text: string) {
             if (textareaRef.current) {
                 textareaRef.current.value += text;
@@ -13865,7 +13865,7 @@ function Editor({ ref }: { ref?: React.Ref<EditorHandle> }) {
         },
     }), []);
 
-    return <textarea ref={textareaRef} rows={5} style={{ width: "100%" }} />;
+    return &lt;textarea ref={textareaRef} rows={5} style=&lbrace;&lbrace; width: "100%" &rbrace;&rbrace; /&gt;;
 }
 
 export default App;
@@ -13879,7 +13879,7 @@ export default App;
 
 ```
 React 18：
-  <MyComp ref={myRef} name="test" />
+  &lt;MyComp ref={myRef} name="test" /&gt;
   ↓
   React 内部将 ref 从 JSX props 中提取出来
   ↓
@@ -13887,7 +13887,7 @@ React 18：
   如果 MyComp 是普通函数组件：ref 被丢弃，控制台警告
 
 React 19：
-  <MyComp ref={myRef} name="test" />
+  &lt;MyComp ref={myRef} name="test" /&gt;
   ↓
   React 将 ref 作为普通 prop 传递
   ↓
@@ -13926,13 +13926,13 @@ React 19：
 // 可以逐步迁移：
 
 // 旧代码（保持不动，仍然正常工作）
-const OldButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    (props, ref) => <button ref={ref} {...props} />
+const OldButton = React.forwardRef&lt;HTMLButtonElement, ButtonProps&gt;(
+    (props, ref) =&gt; &lt;button ref={ref} {...props} /&gt;
 );
 
 // 新代码（使用新语法）
-function NewButton({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
-    return <button ref={ref} {...props} />;
+function NewButton({ ref, ...props }: ButtonProps & { ref?: React.Ref&lt;HTMLButtonElement&gt; }) {
+    return &lt;button ref={ref} {...props} /&gt;;
 }
 
 // 两种写法可以共存于同一项目中
@@ -13977,9 +13977,9 @@ function ResizeObserverDemo() {
     const [size, setSize] = useState({ width: 0, height: 0 });
 
     // 回调 ref：返回清理函数
-    const measureRef = useCallback((node: HTMLDivElement) => {
+    const measureRef = useCallback((node: HTMLDivElement) =&gt; {
         // 挂载时：创建 ResizeObserver
-        const observer = new ResizeObserver(entries => {
+        const observer = new ResizeObserver(entries =&gt; {
             const entry = entries[0];
             if (entry) {
                 setSize({
@@ -13992,34 +13992,34 @@ function ResizeObserverDemo() {
 
         // 返回清理函数：卸载时自动调用
         // 通过闭包可以访问 node 和 observer
-        return () => {
+        return () =&gt; {
             console.log("清理：断开 ResizeObserver");
             observer.disconnect();
         };
     }, []);
 
     return (
-        <div>
-            <button onClick={() => setShow(s => !s)}>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShow(s =&gt; !s)}&gt;
                 {show ? "隐藏" : "显示"}
-            </button>
-            <p>尺寸: {size.width} x {size.height}</p>
+            &lt;/button&gt;
+            &lt;p&gt;尺寸: {size.width} x {size.height}&lt;/p&gt;
             {show && (
-                <div
+                &lt;div
                     ref={measureRef}
-                    style={{
+                    style=&lbrace;&lbrace;
                         width: "50%",
                         minHeight: 100,
                         background: "#f0f0f0",
                         padding: 16,
                         resize: "both",
                         overflow: "auto",
-                    }}
-                >
+                    &rbrace;&rbrace;
+                &gt;
                     拖拽右下角调整大小
-                </div>
+                &lt;/div&gt;
             )}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -14029,10 +14029,10 @@ function ResizeObserverDemoOld() {
     let observerRef: ResizeObserver | null = null;
 
     // React 18：通过 null 检查清理
-    const measureRef = useCallback((node: HTMLDivElement | null) => {
+    const measureRef = useCallback((node: HTMLDivElement | null) =&gt; {
         if (node !== null) {
             // 挂载
-            const observer = new ResizeObserver(() => {});
+            const observer = new ResizeObserver(() =&gt; {});
             observer.observe(node);
             observerRef = observer;
         } else {
@@ -14043,10 +14043,10 @@ function ResizeObserverDemoOld() {
     }, []);
 
     return (
-        <div>
-            <button onClick={() => setShow(s => !s)}>切换</button>
-            {show && <div ref={measureRef}>内容</div>}
-        </div>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShow(s =&gt; !s)}&gt;切换&lt;/button&gt;
+            {show && &lt;div ref={measureRef}&gt;内容&lt;/div&gt;}
+        &lt;/div&gt;
     );
 }
 
@@ -14103,17 +14103,17 @@ React 19 内部处理：
 ```tsx
 // ref 清理函数：与 DOM 元素的生命周期绑定
 // 适合：需要在 DOM 挂载/卸载时设置/清理的资源
-const ref = useCallback((node: HTMLDivElement) => {
-    const observer = new ResizeObserver(() => {});
+const ref = useCallback((node: HTMLDivElement) =&gt; {
+    const observer = new ResizeObserver(() =&gt; {});
     observer.observe(node);
-    return () => observer.disconnect();
+    return () =&gt; observer.disconnect();
 }, []);
 
 // useEffect 清理函数：与组件渲染周期绑定
 // 适合：不直接操作 DOM 的副作用
-useEffect(() => {
+useEffect(() =&gt; {
     const subscription = dataSource.subscribe(handler);
-    return () => subscription.unsubscribe();
+    return () =&gt; subscription.unsubscribe();
 }, [dataSource]);
 ```
 
@@ -14154,12 +14154,12 @@ import React, { useState, useTransition } from "react";
 import { createRoot } from "react-dom/client";
 
 // 必须使用 createRoot 才能启用并发特性
-// createRoot(document.getElementById("root")!).render(<App />);
+// createRoot(document.getElementById("root")!).render(&lt;App /&gt;);
 
 // 模拟大量数据
-const generateItems = (filter: string) => {
+const generateItems = (filter: string) =&gt; {
     const items: string[] = [];
-    for (let i = 0; i < 20000; i++) {
+    for (let i = 0; i &lt; 20000; i++) {
         if (`Item ${i}`.toLowerCase().includes(filter.toLowerCase()) || !filter) {
             items.push(`Item ${i}`);
         }
@@ -14172,12 +14172,12 @@ function App() {
     const [filter, setFilter] = useState("");
     const [isPending, startTransition] = useTransition();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         // 紧急更新：输入框立即响应
         setInput(e.target.value);
 
         // 并发更新：列表渲染可被中断
-        startTransition(() => {
+        startTransition(() =&gt; {
             setFilter(e.target.value);
         });
     };
@@ -14185,16 +14185,16 @@ function App() {
     const items = generateItems(filter);
 
     return (
-        <div>
-            <input value={input} onChange={handleChange} placeholder="搜索..." />
-            {isPending && <p style={{ color: "#999" }}>更新中...</p>}
-            <p>共 {items.length} 条</p>
-            <ul>
-                {items.slice(0, 100).map(item => (
-                    <li key={item}>{item}</li>
+        &lt;div&gt;
+            &lt;input value={input} onChange={handleChange} placeholder="搜索..." /&gt;
+            {isPending && &lt;p style=&lbrace;&lbrace; color: "#999" &rbrace;&rbrace;&gt;更新中...&lt;/p&gt;}
+            &lt;p&gt;共 {items.length} 条&lt;/p&gt;
+            &lt;ul&gt;
+                {items.slice(0, 100).map(item =&gt; (
+                    &lt;li key={item}&gt;{item}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -14257,11 +14257,11 @@ import { createRoot } from "react-dom/client";
 
 // 正确：启用并发特性
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(&lt;App /&gt;);
 
 // 错误：传统入口不支持并发
 // import ReactDOM from "react-dom";
-// ReactDOM.render(<App />, document.getElementById("root"));
+// ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));
 ```
 
 ### 注意事项
@@ -14296,7 +14296,7 @@ React 18 引入了 `createRoot` API 启用并发模式（Concurrent Mode），�
 
 // ===== 同步模式（React 17 风格）=====
 // import ReactDOM from "react-dom";
-// ReactDOM.render(<App />, document.getElementById("root"));
+// ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));
 // 特点：
 // - 所有更新同步执行，不可中断
 // - 自动批处理仅在 React 事件处理器中生效
@@ -14305,7 +14305,7 @@ React 18 引入了 `createRoot` API 启用并发模式（Concurrent Mode），�
 // ===== 并发模式（React 18+）=====
 import { createRoot } from "react-dom/client";
 // const root = createRoot(document.getElementById("root")!);
-// root.render(<App />);
+// root.render(&lt;App /&gt;);
 // 特点：
 // - 支持可中断渲染
 // - 所有场景自动批处理
@@ -14319,37 +14319,37 @@ function BatchingDemo() {
 
     console.log("渲染次数");
 
-    const handleClick = () => {
+    const handleClick = () =&gt; {
         // React 事件中：两种模式都只渲染一次（批处理）
-        setCount(c => c + 1);
-        setFlag(f => !f);
+        setCount(c =&gt; c + 1);
+        setFlag(f =&gt; !f);
     };
 
-    const handleTimeout = () => {
-        setTimeout(() => {
+    const handleTimeout = () =&gt; {
+        setTimeout(() =&gt; {
             // 同步模式：渲染两次（不批处理）
             // 并发模式：渲染一次（自动批处理）
-            setCount(c => c + 1);
-            setFlag(f => !f);
+            setCount(c =&gt; c + 1);
+            setFlag(f =&gt; !f);
         }, 0);
     };
 
-    const handleFetch = () => {
-        fetch("/api/data").then(() => {
+    const handleFetch = () =&gt; {
+        fetch("/api/data").then(() =&gt; {
             // 同步模式：渲染两次（不批处理）
             // 并发模式：渲染一次（自动批处理）
-            setCount(c => c + 1);
-            setFlag(f => !f);
+            setCount(c =&gt; c + 1);
+            setFlag(f =&gt; !f);
         });
     };
 
     return (
-        <div>
-            <p>count: {count}, flag: {String(flag)}</p>
-            <button onClick={handleClick}>React 事件</button>
-            <button onClick={handleTimeout}>setTimeout</button>
-            <button onClick={handleFetch}>fetch 回调</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}, flag: {String(flag)}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;React 事件&lt;/button&gt;
+            &lt;button onClick={handleTimeout}&gt;setTimeout&lt;/button&gt;
+            &lt;button onClick={handleFetch}&gt;fetch 回调&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -14391,12 +14391,12 @@ export default BatchingDemo;
 ```tsx
 // 迁移前
 // import ReactDOM from "react-dom";
-// ReactDOM.render(<App />, document.getElementById("root"));
+// ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));
 
 // 迁移后
 import { createRoot } from "react-dom/client";
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(&lt;App /&gt;);
 
 // 卸载方式也变了
 // 迁移前：ReactDOM.unmountComponentAtNode(container)
@@ -14438,14 +14438,14 @@ import React, { useState, useTransition } from "react";
 // 模拟大量子组件的渲染
 function HeavyComponent({ count }: { count: number }) {
     const items = [];
-    for (let i = 0; i < 5000; i++) {
+    for (let i = 0; i &lt; 5000; i++) {
         items.push(
-            <div key={i} style={{ fontSize: 12 }}>
+            &lt;div key={i} style=&lbrace;&lbrace; fontSize: 12 &rbrace;&rbrace;&gt;
                 {count} - 行 {i}
-            </div>
+            &lt;/div&gt;
         );
     }
-    return <div>{items}</div>;
+    return &lt;div&gt;{items}&lt;/div&gt;;
 }
 
 function App() {
@@ -14453,23 +14453,23 @@ function App() {
     const [count, setCount] = useState(0);
     const [isPending, startTransition] = useTransition();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         // 紧急更新：输入框同步响应
         setText(e.target.value);
 
         // 过渡更新：HeavyComponent 渲染可被中断
-        startTransition(() => {
-            setCount(c => c + 1);
+        startTransition(() =&gt; {
+            setCount(c =&gt; c + 1);
         });
     };
 
     return (
-        <div>
-            <input value={text} onChange={handleChange} placeholder="输入时不卡顿" />
-            {isPending && <p>渲染中...</p>}
+        &lt;div&gt;
+            &lt;input value={text} onChange={handleChange} placeholder="输入时不卡顿" /&gt;
+            {isPending && &lt;p&gt;渲染中...&lt;/p&gt;}
             {/* 5000个子元素的渲染可以被用户输入中断 */}
-            <HeavyComponent count={count} />
-        </div>
+            &lt;HeavyComponent count={count} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -14499,7 +14499,7 @@ function workLoopConcurrent() {
 // shouldYield 基于 Scheduler 的时间片判断
 function shouldYield() {
     // 当前时间片（约5ms）是否用完
-    return getCurrentTime() >= deadline;
+    return getCurrentTime() &gt;= deadline;
 }
 
 // 同步模式的工作循环（不可中断）
@@ -14610,11 +14610,11 @@ function App() {
         //           │   └─ Fiber 节点：text "0"
         //           └─ Fiber 节点：button（HostComponent）
         //               └─ Fiber 节点：text "+1"
-        <div>
-            <h1>计数器</h1>
-            <p>{count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;h1&gt;计数器&lt;/h1&gt;
+            &lt;p&gt;{count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -14748,29 +14748,29 @@ Fiber 节点通过几个关键属性来描述组件信息和树结构关系。`t
 import React from "react";
 
 function Header() {
-    return <h1>标题</h1>;
+    return &lt;h1&gt;标题&lt;/h1&gt;;
 }
 
 function Item({ text }: { text: string }) {
-    return <li>{text}</li>;
+    return &lt;li&gt;{text}&lt;/li&gt;;
 }
 
 function List() {
     return (
-        <ul>
-            <Item text="苹果" />
-            <Item text="香蕉" />
-            <Item text="橙子" />
-        </ul>
+        &lt;ul&gt;
+            &lt;Item text="苹果" /&gt;
+            &lt;Item text="香蕉" /&gt;
+            &lt;Item text="橙子" /&gt;
+        &lt;/ul&gt;
     );
 }
 
 function App() {
     return (
-        <div>
-            <Header />
-            <List />
-        </div>
+        &lt;div&gt;
+            &lt;Header /&gt;
+            &lt;List /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -14940,43 +14940,43 @@ function LanePriorityDemo() {
     const [transitionData, setTransitionData] = useState("");
     const [isPending, startTransition] = useTransition();
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInput = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         // InputContinuousLane（连续输入优先级）
         // 用户输入事件自动分配高优先级
         setUrgentText(e.target.value);
     };
 
-    const handleClick = () => {
+    const handleClick = () =&gt; {
         // DefaultLane（默认优先级）
         // 普通点击事件中的 setState
-        setNormalCount(c => c + 1);
+        setNormalCount(c =&gt; c + 1);
     };
 
-    const handleTransition = () => {
+    const handleTransition = () =&gt; {
         // TransitionLane（过渡优先级）
         // startTransition 中的 setState
-        startTransition(() => {
+        startTransition(() =&gt; {
             setTransitionData("更新于 " + Date.now());
         });
     };
 
-    const handleSync = () => {
+    const handleSync = () =&gt; {
         // SyncLane（同步优先级，最高）
         // flushSync 中的 setState
-        flushSync(() => {
-            setNormalCount(c => c + 100);
+        flushSync(() =&gt; {
+            setNormalCount(c =&gt; c + 100);
         });
     };
 
     return (
-        <div>
-            <input value={urgentText} onChange={handleInput} placeholder="高优先级输入" />
-            <p>计数: {normalCount}</p>
-            <p>过渡数据: {transitionData} {isPending && "(更新中...)"}</p>
-            <button onClick={handleClick}>默认优先级 +1</button>
-            <button onClick={handleTransition}>过渡优先级更新</button>
-            <button onClick={handleSync}>同步优先级 +100</button>
-        </div>
+        &lt;div&gt;
+            &lt;input value={urgentText} onChange={handleInput} placeholder="高优先级输入" /&gt;
+            &lt;p&gt;计数: {normalCount}&lt;/p&gt;
+            &lt;p&gt;过渡数据: {transitionData} {isPending && "(更新中...)"}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;默认优先级 +1&lt;/button&gt;
+            &lt;button onClick={handleTransition}&gt;过渡优先级更新&lt;/button&gt;
+            &lt;button onClick={handleSync}&gt;同步优先级 +100&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15104,10 +15104,10 @@ import React, { useState, useTransition } from "react";
 function SlowItem({ index }: { index: number }) {
     // 每个组件模拟一些计算
     let sum = 0;
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i &lt; 1000; i++) {
         sum += Math.random();
     }
-    return <div style={{ fontSize: 12 }}>项目 {index}: {sum.toFixed(2)}</div>;
+    return &lt;div style=&lbrace;&lbrace; fontSize: 12 &rbrace;&rbrace;&gt;项目 {index}: {sum.toFixed(2)}&lt;/div&gt;;
 }
 
 function TimeSlicingDemo() {
@@ -15115,49 +15115,49 @@ function TimeSlicingDemo() {
     const [text, setText] = useState("");
     const [isPending, startTransition] = useTransition();
 
-    const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSlider = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         // 紧急更新：滑块值立即显示
         const value = Number(e.target.value);
 
         // 过渡更新：大量组件渲染使用时间切片
-        startTransition(() => {
+        startTransition(() =&gt; {
             setCount(value);
         });
     };
 
     // 渲染大量组件
     const items = [];
-    for (let i = 0; i < count; i++) {
-        items.push(<SlowItem key={i} index={i} />);
+    for (let i = 0; i &lt; count; i++) {
+        items.push(&lt;SlowItem key={i} index={i} /&gt;);
     }
 
     return (
-        <div>
+        &lt;div&gt;
             {/* 输入框：测试渲染期间是否能正常输入 */}
-            <input
+            &lt;input
                 value={text}
-                onChange={e => setText(e.target.value)}
+                onChange={e =&gt; setText(e.target.value)}
                 placeholder="渲染期间输入不卡顿"
-            />
+            /&gt;
 
             {/* 滑块：控制渲染数量 */}
-            <div>
-                <input
+            &lt;div&gt;
+                &lt;input
                     type="range"
                     min={0}
                     max={2000}
                     value={count}
                     onChange={handleSlider}
-                />
-                <span>组件数量: {count}</span>
-            </div>
+                /&gt;
+                &lt;span&gt;组件数量: {count}&lt;/span&gt;
+            &lt;/div&gt;
 
-            {isPending && <p style={{ color: "#999" }}>渲染中...</p>}
+            {isPending && &lt;p style=&lbrace;&lbrace; color: "#999" &rbrace;&rbrace;&gt;渲染中...&lt;/p&gt;}
 
-            <div style={{ maxHeight: 400, overflow: "auto" }}>
+            &lt;div style=&lbrace;&lbrace; maxHeight: 400, overflow: "auto" &rbrace;&rbrace;&gt;
                 {items}
-            </div>
-        </div>
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15204,13 +15204,13 @@ function scheduleCallback(callback) {
 }
 
 // 宏任务处理器
-channel.port1.onmessage = () => {
+channel.port1.onmessage = () =&gt; {
     const startTime = performance.now();
     let currentTask = taskQueue[0];
 
     while (currentTask) {
         // 时间片用完了吗？（约5ms）
-        if (performance.now() - startTime > 5) {
+        if (performance.now() - startTime &gt; 5) {
             break;  // 让出主线程
         }
         // 执行一个工作单元
@@ -15222,7 +15222,7 @@ channel.port1.onmessage = () => {
     }
 
     // 如果还有任务，继续调度下一个宏任务
-    if (taskQueue.length > 0) {
+    if (taskQueue.length &gt; 0) {
         port.postMessage(null);
     }
 };
@@ -15292,9 +15292,9 @@ Suspense 的工作方式类似于 try/catch：它"捕获"子组件抛出的 Prom
 ### API 签名与参数
 
 ```typescript
-<Suspense fallback={<Loading />}>
-    <AsyncComponent />
-</Suspense>
+&lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+    &lt;AsyncComponent /&gt;
+&lt;/Suspense&gt;
 ```
 
 | 属性 | 类型 | 说明 |
@@ -15311,32 +15311,32 @@ import React, { Suspense, useState } from "react";
 
 // React.lazy 实现代码分割
 // 组件代码在需要时才下载，下载期间 Suspense 显示 fallback
-const HeavyChart = React.lazy(() => import("./HeavyChart"));
-const DataTable = React.lazy(() => import("./DataTable"));
+const HeavyChart = React.lazy(() =&gt; import("./HeavyChart"));
+const DataTable = React.lazy(() =&gt; import("./DataTable"));
 
 function LoadingSpinner() {
     return (
-        <div style={{ padding: 20, textAlign: "center", color: "#999" }}>
+        &lt;div style=&lbrace;&lbrace; padding: 20, textAlign: "center", color: "#999" &rbrace;&rbrace;&gt;
             加载中...
-        </div>
+        &lt;/div&gt;
     );
 }
 
 function Dashboard() {
-    const [activeTab, setActiveTab] = useState<"chart" | "table">("chart");
+    const [activeTab, setActiveTab] = useState&lt;"chart" | "table"&gt;("chart");
 
     return (
-        <div>
-            <nav>
-                <button onClick={() => setActiveTab("chart")}>图表</button>
-                <button onClick={() => setActiveTab("table")}>表格</button>
-            </nav>
+        &lt;div&gt;
+            &lt;nav&gt;
+                &lt;button onClick={() =&gt; setActiveTab("chart")}&gt;图表&lt;/button&gt;
+                &lt;button onClick={() =&gt; setActiveTab("table")}&gt;表格&lt;/button&gt;
+            &lt;/nav&gt;
 
             {/* Suspense 边界：子组件加载期间显示 fallback */}
-            <Suspense fallback={<LoadingSpinner />}>
-                {activeTab === "chart" ? <HeavyChart /> : <DataTable />}
-            </Suspense>
-        </div>
+            &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+                {activeTab === "chart" ? &lt;HeavyChart /&gt; : &lt;DataTable /&gt;}
+            &lt;/Suspense&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15344,19 +15344,19 @@ function Dashboard() {
 function NestedSuspenseDemo() {
     return (
         // 外层 Suspense：整个页面的加载状态
-        <Suspense fallback={<div>页面加载中...</div>}>
-            <header>页面标题</header>
+        &lt;Suspense fallback={&lt;div&gt;页面加载中...&lt;/div&gt;}&gt;
+            &lt;header&gt;页面标题&lt;/header&gt;
 
             {/* 内层 Suspense：只控制内容区域的加载状态 */}
-            <Suspense fallback={<div>内容加载中...</div>}>
-                <HeavyChart />
-            </Suspense>
+            &lt;Suspense fallback={&lt;div&gt;内容加载中...&lt;/div&gt;}&gt;
+                &lt;HeavyChart /&gt;
+            &lt;/Suspense&gt;
 
             {/* 另一个内层 Suspense：独立的加载状态 */}
-            <Suspense fallback={<div>表格加载中...</div>}>
-                <DataTable />
-            </Suspense>
-        </Suspense>
+            &lt;Suspense fallback={&lt;div&gt;表格加载中...&lt;/div&gt;}&gt;
+                &lt;DataTable /&gt;
+            &lt;/Suspense&gt;
+        &lt;/Suspense&gt;
     );
 }
 
@@ -15372,7 +15372,7 @@ export default Dashboard;
 ```
 子组件渲染 → 抛出 Promise → React 捕获
 
-1. React.lazy(() => import("./Chart"))
+1. React.lazy(() =&gt; import("./Chart"))
    → 首次渲染时发起 import()
    → import 返回 Promise，组件抛出该 Promise
 
@@ -15415,7 +15415,7 @@ export default Dashboard;
 // React 19 的 use() Hook 示例：
 // function UserProfile({ userPromise }) {
 //     const user = use(userPromise);  // 如果 Promise 未 resolve，组件挂起
-//     return <div>{user.name}</div>;
+//     return &lt;div&gt;{user.name}&lt;/div&gt;;
 // }
 ```
 
@@ -15454,38 +15454,38 @@ import React, { Suspense, useState, useTransition } from "react";
 // 骨架屏 fallback
 function SkeletonCard() {
     return (
-        <div style={{ padding: 16, border: "1px solid #eee", borderRadius: 8 }}>
-            <div style={{ width: "60%", height: 20, background: "#f0f0f0", marginBottom: 8 }} />
-            <div style={{ width: "100%", height: 14, background: "#f0f0f0", marginBottom: 6 }} />
-            <div style={{ width: "80%", height: 14, background: "#f0f0f0" }} />
-        </div>
+        &lt;div style=&lbrace;&lbrace; padding: 16, border: "1px solid #eee", borderRadius: 8 &rbrace;&rbrace;&gt;
+            &lt;div style=&lbrace;&lbrace; width: "60%", height: 20, background: "#f0f0f0", marginBottom: 8 &rbrace;&rbrace; /&gt;
+            &lt;div style=&lbrace;&lbrace; width: "100%", height: 14, background: "#f0f0f0", marginBottom: 6 &rbrace;&rbrace; /&gt;
+            &lt;div style=&lbrace;&lbrace; width: "80%", height: 14, background: "#f0f0f0" &rbrace;&rbrace; /&gt;
+        &lt;/div&gt;
     );
 }
 
 // Spinner fallback
 function Spinner() {
     return (
-        <div style={{ textAlign: "center", padding: 40, color: "#999" }}>
-            <div style={{ fontSize: 24 }}>加载中...</div>
-        </div>
+        &lt;div style=&lbrace;&lbrace; textAlign: "center", padding: 40, color: "#999" &rbrace;&rbrace;&gt;
+            &lt;div style=&lbrace;&lbrace; fontSize: 24 &rbrace;&rbrace;&gt;加载中...&lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
-const UserProfile = React.lazy(() => import("./UserProfile"));
-const UserPosts = React.lazy(() => import("./UserPosts"));
+const UserProfile = React.lazy(() =&gt; import("./UserProfile"));
+const UserPosts = React.lazy(() =&gt; import("./UserPosts"));
 
 function UserPage() {
     return (
-        <div>
+        &lt;div&gt;
             {/* 不同区域使用不同的 fallback */}
-            <Suspense fallback={<SkeletonCard />}>
-                <UserProfile />
-            </Suspense>
+            &lt;Suspense fallback={&lt;SkeletonCard /&gt;}&gt;
+                &lt;UserProfile /&gt;
+            &lt;/Suspense&gt;
 
-            <Suspense fallback={<Spinner />}>
-                <UserPosts />
-            </Suspense>
-        </div>
+            &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+                &lt;UserPosts /&gt;
+            &lt;/Suspense&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15494,32 +15494,32 @@ function TabSwitchDemo() {
     const [tab, setTab] = useState("home");
     const [isPending, startTransition] = useTransition();
 
-    const handleTabChange = (newTab: string) => {
+    const handleTabChange = (newTab: string) =&gt; {
         // 过渡更新：先保持当前内容，不立即显示 fallback
-        startTransition(() => {
+        startTransition(() =&gt; {
             setTab(newTab);
         });
     };
 
-    const TabContent = React.lazy(() => {
+    const TabContent = React.lazy(() =&gt; {
         // 模拟根据 tab 动态导入
         return import(`./tabs/${tab}`);
     });
 
     return (
-        <div>
-            <nav>
-                <button onClick={() => handleTabChange("home")}>首页</button>
-                <button onClick={() => handleTabChange("about")}>关于</button>
-            </nav>
+        &lt;div&gt;
+            &lt;nav&gt;
+                &lt;button onClick={() =&gt; handleTabChange("home")}&gt;首页&lt;/button&gt;
+                &lt;button onClick={() =&gt; handleTabChange("about")}&gt;关于&lt;/button&gt;
+            &lt;/nav&gt;
 
             {/* isPending 为 true 时显示半透明，而不是立即切换到 fallback */}
-            <div style={{ opacity: isPending ? 0.6 : 1 }}>
-                <Suspense fallback={<Spinner />}>
-                    <TabContent />
-                </Suspense>
-            </div>
-        </div>
+            &lt;div style=&lbrace;&lbrace; opacity: isPending ? 0.6 : 1 &rbrace;&rbrace;&gt;
+                &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+                    &lt;TabContent /&gt;
+                &lt;/Suspense&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15567,7 +15567,7 @@ export default UserPage;
 
 ```tsx
 // 方案1：用 startTransition 延迟 fallback
-startTransition(() => {
+startTransition(() =&gt; {
     setShowComponent(true);
 });
 // 如果组件很快加载完，fallback 不会出现
@@ -15575,11 +15575,11 @@ startTransition(() => {
 // 方案2：给 fallback 加最小显示时间（CSS）
 function DelayedSpinner() {
     return (
-        <div style={{
+        &lt;div style=&lbrace;&lbrace;
             animation: "fadeIn 0.3s ease-in 0.2s both",  // 延迟 200ms 后才显示
-        }}>
+        &rbrace;&rbrace;&gt;
             加载中...
-        </div>
+        &lt;/div&gt;
     );
 }
 ```
@@ -15617,10 +15617,10 @@ Suspense 组件在处理异步加载时，可能遇到两种情况：Promise res
 import React, { Suspense, Component } from "react";
 
 // Error Boundary 组件（必须用类组件实现）
-class ErrorBoundary extends Component<
+class ErrorBoundary extends Component&lt;
     { fallback: React.ReactNode; children: React.ReactNode },
     { hasError: boolean; error: Error | null }
-> {
+&gt; {
     state = { hasError: false, error: null };
 
     // 捕获子组件的渲染错误
@@ -15642,8 +15642,8 @@ class ErrorBoundary extends Component<
 }
 
 // 可能加载失败的懒加载组件
-const RiskyComponent = React.lazy(() =>
-    import("./RiskyComponent").catch(() => {
+const RiskyComponent = React.lazy(() =&gt;
+    import("./RiskyComponent").catch(() =&gt; {
         // 模块加载失败时返回一个默认模块
         // 如果不处理，错误会传播到 Error Boundary
         throw new Error("组件加载失败，请检查网络连接");
@@ -15652,22 +15652,22 @@ const RiskyComponent = React.lazy(() =>
 
 function App() {
     return (
-        <div>
+        &lt;div&gt;
             {/* Error Boundary 在外层捕获错误 */}
-            <ErrorBoundary
+            &lt;ErrorBoundary
                 fallback={
-                    <div style={{ padding: 20, color: "red", border: "1px solid red" }}>
-                        <p>加载出错了</p>
-                        <button onClick={() => window.location.reload()}>重新加载</button>
-                    </div>
+                    &lt;div style=&lbrace;&lbrace; padding: 20, color: "red", border: "1px solid red" &rbrace;&rbrace;&gt;
+                        &lt;p&gt;加载出错了&lt;/p&gt;
+                        &lt;button onClick={() =&gt; window.location.reload()}&gt;重新加载&lt;/button&gt;
+                    &lt;/div&gt;
                 }
-            >
+            &gt;
                 {/* Suspense 在内层处理加载状态 */}
-                <Suspense fallback={<div>加载中...</div>}>
-                    <RiskyComponent />
-                </Suspense>
-            </ErrorBoundary>
-        </div>
+                &lt;Suspense fallback={&lt;div&gt;加载中...&lt;/div&gt;}&gt;
+                    &lt;RiskyComponent /&gt;
+                &lt;/Suspense&gt;
+            &lt;/ErrorBoundary&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15726,17 +15726,17 @@ export default App;
 **解决方案：**
 
 ```tsx
-class RetryErrorBoundary extends Component<
+class RetryErrorBoundary extends Component&lt;
     { children: React.ReactNode },
     { hasError: boolean }
-> {
+&gt; {
     state = { hasError: false };
 
     static getDerivedStateFromError() {
         return { hasError: true };
     }
 
-    handleRetry = () => {
+    handleRetry = () =&gt; {
         // 重置错误状态，触发重新渲染
         // 子组件会重新尝试加载
         this.setState({ hasError: false });
@@ -15745,10 +15745,10 @@ class RetryErrorBoundary extends Component<
     render() {
         if (this.state.hasError) {
             return (
-                <div>
-                    <p>加载失败</p>
-                    <button onClick={this.handleRetry}>重试</button>
-                </div>
+                &lt;div&gt;
+                    &lt;p&gt;加载失败&lt;/p&gt;
+                    &lt;button onClick={this.handleRetry}&gt;重试&lt;/button&gt;
+                &lt;/div&gt;
             );
         }
         return this.props.children;
@@ -15791,14 +15791,14 @@ Error Boundary 不能捕获以下场景的错误：事件处理器中的错误�
 import React, { Component, useState } from "react";
 
 // 通用 Error Boundary
-class ErrorBoundary extends Component<
+class ErrorBoundary extends Component&lt;
     {
         children: React.ReactNode;
         fallback?: React.ReactNode;
-        onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+        onError?: (error: Error, errorInfo: React.ErrorInfo) =&gt; void;
     },
     { hasError: boolean; error: Error | null }
-> {
+&gt; {
     state = { hasError: false, error: null as Error | null };
 
     // 渲染阶段捕获错误，更新 state 以显示备用 UI
@@ -15815,7 +15815,7 @@ class ErrorBoundary extends Component<
     }
 
     // 重置方法：允许用户重试
-    handleReset = () => {
+    handleReset = () =&gt; {
         this.setState({ hasError: false, error: null });
     };
 
@@ -15826,11 +15826,11 @@ class ErrorBoundary extends Component<
                 return this.props.fallback;
             }
             return (
-                <div style={{ padding: 20, border: "1px solid #ff4d4f", borderRadius: 8 }}>
-                    <h3 style={{ color: "#ff4d4f" }}>出错了</h3>
-                    <p>{this.state.error?.message}</p>
-                    <button onClick={this.handleReset}>重试</button>
-                </div>
+                &lt;div style=&lbrace;&lbrace; padding: 20, border: "1px solid #ff4d4f", borderRadius: 8 &rbrace;&rbrace;&gt;
+                    &lt;h3 style=&lbrace;&lbrace; color: "#ff4d4f" &rbrace;&rbrace;&gt;出错了&lt;/h3&gt;
+                    &lt;p&gt;{this.state.error?.message}&lt;/p&gt;
+                    &lt;button onClick={this.handleReset}&gt;重试&lt;/button&gt;
+                &lt;/div&gt;
             );
         }
         return this.props.children;
@@ -15846,29 +15846,29 @@ function BuggyCounter() {
     }
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1（到3会崩溃）</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1（到3会崩溃）&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 使用 Error Boundary
 function App() {
     return (
-        <div>
-            <h1>Error Boundary 示例</h1>
+        &lt;div&gt;
+            &lt;h1&gt;Error Boundary 示例&lt;/h1&gt;
 
             {/* 每个 Error Boundary 独立捕获各自子树的错误 */}
-            <ErrorBoundary onError={(err) => console.log("上报:", err.message)}>
-                <BuggyCounter />
-            </ErrorBoundary>
+            &lt;ErrorBoundary onError={(err) =&gt; console.log("上报:", err.message)}&gt;
+                &lt;BuggyCounter /&gt;
+            &lt;/ErrorBoundary&gt;
 
             {/* 这个组件不受上面错误的影响 */}
-            <ErrorBoundary>
-                <p>这个区域正常工作</p>
-            </ErrorBoundary>
-        </div>
+            &lt;ErrorBoundary&gt;
+                &lt;p&gt;这个区域正常工作&lt;/p&gt;
+            &lt;/ErrorBoundary&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -15921,7 +15921,7 @@ Error Boundary 不能捕获：
 
 ```tsx
 function SafeButton() {
-    const handleClick = () => {
+    const handleClick = () =&gt; {
         try {
             // 可能出错的逻辑
             riskyOperation();
@@ -15932,7 +15932,7 @@ function SafeButton() {
         }
     };
 
-    return <button onClick={handleClick}>操作</button>;
+    return &lt;button onClick={handleClick}&gt;操作&lt;/button&gt;;
 }
 ```
 
@@ -15984,10 +15984,10 @@ interface ErrorInfo {
 
 import React, { Component, useState } from "react";
 
-class ErrorReporter extends Component<
+class ErrorReporter extends Component&lt;
     { children: React.ReactNode },
     { hasError: boolean }
-> {
+&gt; {
     state = { hasError: false };
 
     // Render 阶段：更新 state 切换 UI
@@ -16013,7 +16013,7 @@ class ErrorReporter extends Component<
     }
 
     // 模拟错误上报
-    reportError(errorData: Record<string, unknown>) {
+    reportError(errorData: Record&lt;string, unknown&gt;) {
         // 实际项目中发送到 Sentry、Bugsnag 等服务
         console.log("上报错误:", errorData);
         // fetch("/api/error-report", {
@@ -16023,18 +16023,18 @@ class ErrorReporter extends Component<
         // });
     }
 
-    handleRetry = () => {
+    handleRetry = () =&gt; {
         this.setState({ hasError: false });
     };
 
     render() {
         if (this.state.hasError) {
             return (
-                <div style={{ padding: 20, background: "#fff2f0", border: "1px solid #ffccc7", borderRadius: 8 }}>
-                    <h3>页面出现了问题</h3>
-                    <p>错误已自动上报，我们会尽快修复</p>
-                    <button onClick={this.handleRetry}>重试</button>
-                </div>
+                &lt;div style=&lbrace;&lbrace; padding: 20, background: "#fff2f0", border: "1px solid #ffccc7", borderRadius: 8 &rbrace;&rbrace;&gt;
+                    &lt;h3&gt;页面出现了问题&lt;/h3&gt;
+                    &lt;p&gt;错误已自动上报，我们会尽快修复&lt;/p&gt;
+                    &lt;button onClick={this.handleRetry}&gt;重试&lt;/button&gt;
+                &lt;/div&gt;
             );
         }
         return this.props.children;
@@ -16045,23 +16045,23 @@ class ErrorReporter extends Component<
 function UnstableWidget() {
     const [clicks, setClicks] = useState(0);
 
-    if (clicks >= 2) {
+    if (clicks &gt;= 2) {
         throw new Error("Widget 崩溃了");
     }
 
     return (
-        <div>
-            <p>点击次数: {clicks}</p>
-            <button onClick={() => setClicks(c => c + 1)}>点击（第2次会崩溃）</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;点击次数: {clicks}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setClicks(c =&gt; c + 1)}&gt;点击（第2次会崩溃）&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 function App() {
     return (
-        <ErrorReporter>
-            <UnstableWidget />
-        </ErrorReporter>
+        &lt;ErrorReporter&gt;
+            &lt;UnstableWidget /&gt;
+        &lt;/ErrorReporter&gt;
     );
 }
 
@@ -16157,7 +16157,7 @@ componentDidCatch 在 Commit 阶段调用，接收 error 和 errorInfo（含组�
 ### API 签名与参数
 
 ```typescript
-static getDerivedStateFromError(error: Error): Partial<State>;
+static getDerivedStateFromError(error: Error): Partial&lt;State&gt;;
 ```
 
 | 参数 | 类型 | 说明 |
@@ -16178,10 +16178,10 @@ interface ErrorBoundaryState {
     errorMessage: string;
 }
 
-class ErrorBoundary extends Component<
+class ErrorBoundary extends Component&lt;
     { children: React.ReactNode },
     ErrorBoundaryState
-> {
+&gt; {
     state: ErrorBoundaryState = {
         hasError: false,
         errorMessage: "",
@@ -16189,7 +16189,7 @@ class ErrorBoundary extends Component<
 
     // 静态方法：Render 阶段调用
     // 根据错误返回新的 state
-    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    static getDerivedStateFromError(error: Error): Partial&lt;ErrorBoundaryState&gt; {
         // 不能在这里执行副作用（如 console.log、fetch）
         // 只能返回 state 更新
         return {
@@ -16204,18 +16204,18 @@ class ErrorBoundary extends Component<
         console.error("错误详情:", error, errorInfo.componentStack);
     }
 
-    handleReset = () => {
+    handleReset = () =&gt; {
         this.setState({ hasError: false, errorMessage: "" });
     };
 
     render() {
         if (this.state.hasError) {
             return (
-                <div style={{ padding: 16, background: "#fff1f0", borderRadius: 8 }}>
-                    <h3>渲染出错</h3>
-                    <p>错误信息: {this.state.errorMessage}</p>
-                    <button onClick={this.handleReset}>重试</button>
-                </div>
+                &lt;div style=&lbrace;&lbrace; padding: 16, background: "#fff1f0", borderRadius: 8 &rbrace;&rbrace;&gt;
+                    &lt;h3&gt;渲染出错&lt;/h3&gt;
+                    &lt;p&gt;错误信息: {this.state.errorMessage}&lt;/p&gt;
+                    &lt;button onClick={this.handleReset}&gt;重试&lt;/button&gt;
+                &lt;/div&gt;
             );
         }
         return this.props.children;
@@ -16223,10 +16223,10 @@ class ErrorBoundary extends Component<
 }
 
 // 根据错误类型显示不同 UI
-class SmartErrorBoundary extends Component<
+class SmartErrorBoundary extends Component&lt;
     { children: React.ReactNode },
     { errorType: "none" | "network" | "render" | "unknown" }
-> {
+&gt; {
     state = { errorType: "none" as const };
 
     static getDerivedStateFromError(error: Error) {
@@ -16243,11 +16243,11 @@ class SmartErrorBoundary extends Component<
     render() {
         switch (this.state.errorType) {
             case "network":
-                return <div>网络连接异常，请检查网络后重试</div>;
+                return &lt;div&gt;网络连接异常，请检查网络后重试&lt;/div&gt;;
             case "render":
-                return <div>页面渲染出错，请刷新页面</div>;
+                return &lt;div&gt;页面渲染出错，请刷新页面&lt;/div&gt;;
             case "unknown":
-                return <div>发生未知错误</div>;
+                return &lt;div&gt;发生未知错误&lt;/div&gt;;
             default:
                 return this.props.children;
         }
@@ -16350,10 +16350,10 @@ Error Boundary 的粒度决定了错误影响的范围。粒度太粗（比如�
 import React, { Component, Suspense } from "react";
 
 // 通用 Error Boundary 工厂
-class ErrorBoundary extends Component<
+class ErrorBoundary extends Component&lt;
     { children: React.ReactNode; level: string; fallback?: React.ReactNode },
     { hasError: boolean }
-> {
+&gt; {
     state = { hasError: false };
 
     static getDerivedStateFromError() {
@@ -16367,10 +16367,10 @@ class ErrorBoundary extends Component<
     render() {
         if (this.state.hasError) {
             return this.props.fallback || (
-                <div style={{ padding: 16, background: "#fff1f0", borderRadius: 8 }}>
-                    <p>{this.props.level} 出现错误</p>
-                    <button onClick={() => this.setState({ hasError: false })}>重试</button>
-                </div>
+                &lt;div style=&lbrace;&lbrace; padding: 16, background: "#fff1f0", borderRadius: 8 &rbrace;&rbrace;&gt;
+                    &lt;p&gt;{this.props.level} 出现错误&lt;/p&gt;
+                    &lt;button onClick={() =&gt; this.setState({ hasError: false })}&gt;重试&lt;/button&gt;
+                &lt;/div&gt;
             );
         }
         return this.props.children;
@@ -16380,69 +16380,69 @@ class ErrorBoundary extends Component<
 // 根级别：防止整个应用白屏
 function AppRoot() {
     return (
-        <ErrorBoundary level="应用" fallback={<FullPageError />}>
-            <App />
-        </ErrorBoundary>
+        &lt;ErrorBoundary level="应用" fallback={&lt;FullPageError /&gt;}&gt;
+            &lt;App /&gt;
+        &lt;/ErrorBoundary&gt;
     );
 }
 
 function FullPageError() {
     return (
-        <div style={{ textAlign: "center", padding: 100 }}>
-            <h1>应用出现了问题</h1>
-            <button onClick={() => window.location.reload()}>刷新页面</button>
-        </div>
+        &lt;div style=&lbrace;&lbrace; textAlign: "center", padding: 100 &rbrace;&rbrace;&gt;
+            &lt;h1&gt;应用出现了问题&lt;/h1&gt;
+            &lt;button onClick={() =&gt; window.location.reload()}&gt;刷新页面&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 页面级别：不同路由页面互不影响
 function App() {
     return (
-        <div>
-            <nav>导航栏（不会受子页面错误影响）</nav>
+        &lt;div&gt;
+            &lt;nav&gt;导航栏（不会受子页面错误影响）&lt;/nav&gt;
 
             {/* 页面级 Error Boundary */}
-            <ErrorBoundary level="仪表盘页面">
-                <DashboardPage />
-            </ErrorBoundary>
-        </div>
+            &lt;ErrorBoundary level="仪表盘页面"&gt;
+                &lt;DashboardPage /&gt;
+            &lt;/ErrorBoundary&gt;
+        &lt;/div&gt;
     );
 }
 
 // 模块级别：独立功能模块隔离
 function DashboardPage() {
     return (
-        <div>
-            <h1>仪表盘</h1>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        &lt;div&gt;
+            &lt;h1&gt;仪表盘&lt;/h1&gt;
+            &lt;div style=&lbrace;&lbrace; display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 &rbrace;&rbrace;&gt;
                 {/* 图表模块出错不影响数据表格 */}
-                <ErrorBoundary level="图表模块">
-                    <ChartModule />
-                </ErrorBoundary>
+                &lt;ErrorBoundary level="图表模块"&gt;
+                    &lt;ChartModule /&gt;
+                &lt;/ErrorBoundary&gt;
 
                 {/* 数据表格出错不影响图表 */}
-                <ErrorBoundary level="数据表格">
-                    <DataTableModule />
-                </ErrorBoundary>
+                &lt;ErrorBoundary level="数据表格"&gt;
+                    &lt;DataTableModule /&gt;
+                &lt;/ErrorBoundary&gt;
 
                 {/* 第三方组件单独隔离 */}
-                <ErrorBoundary level="第三方地图">
-                    <ThirdPartyMap />
-                </ErrorBoundary>
+                &lt;ErrorBoundary level="第三方地图"&gt;
+                    &lt;ThirdPartyMap /&gt;
+                &lt;/ErrorBoundary&gt;
 
-                <ErrorBoundary level="通知模块">
-                    <NotificationModule />
-                </ErrorBoundary>
-            </div>
-        </div>
+                &lt;ErrorBoundary level="通知模块"&gt;
+                    &lt;NotificationModule /&gt;
+                &lt;/ErrorBoundary&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
 // 模拟各模块组件
-function ChartModule() { return <div>图表内容</div>; }
-function DataTableModule() { return <div>数据表格</div>; }
-function ThirdPartyMap() { return <div>第三方地图</div>; }
-function NotificationModule() { return <div>通知列表</div>; }
+function ChartModule() { return &lt;div&gt;图表内容&lt;/div&gt;; }
+function DataTableModule() { return &lt;div&gt;数据表格&lt;/div&gt;; }
+function ThirdPartyMap() { return &lt;div&gt;第三方地图&lt;/div&gt;; }
+function NotificationModule() { return &lt;div&gt;通知列表&lt;/div&gt;; }
 
 export default AppRoot;
 ```
@@ -16541,17 +16541,17 @@ async function ProductList() {
     // const config = await fs.readFile("./config.json", "utf-8");
 
     return (
-        <div>
-            <h1>商品列表</h1>
-            <ul>
-                {products.map((product: any) => (
-                    <li key={product.id}>
-                        <h3>{product.name}</h3>
-                        <p>价格: ¥{product.price}</p>
-                    </li>
+        &lt;div&gt;
+            &lt;h1&gt;商品列表&lt;/h1&gt;
+            &lt;ul&gt;
+                {products.map((product: any) =&gt; (
+                    &lt;li key={product.id}&gt;
+                        &lt;h3&gt;{product.name}&lt;/h3&gt;
+                        &lt;p&gt;价格: ¥{product.price}&lt;/p&gt;
+                    &lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -16560,13 +16560,13 @@ async function UserProfile({ userId }: { userId: string }) {
     // 直接调用内部服务，不经过公开 API
     const user = await fetch(`http://internal-service/users/${userId}`, {
         headers: { Authorization: `Bearer ${process.env.SERVICE_TOKEN}` },
-    }).then(r => r.json());
+    }).then(r =&gt; r.json());
 
     return (
-        <div>
-            <h2>{user.name}</h2>
-            <p>{user.email}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;{user.name}&lt;/h2&gt;
+            &lt;p&gt;{user.email}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -16628,7 +16628,7 @@ export default ProductList;
 // Server Component：不能用 Hook 和事件
 // async function Page() {
 //     const [count, setCount] = useState(0);  // 错误！
-//     return <button onClick={() => {}}>点击</button>;  // 错误！
+//     return &lt;button onClick={() =&gt; {&rbrace;&rbrace;&gt;点击&lt;/button&gt;;  // 错误！
 // }
 
 // 需要交互的部分用 Client Component
@@ -16639,7 +16639,7 @@ import { useState } from "react";
 
 export function Counter() {
     const [count, setCount] = useState(0);
-    return <button onClick={() => setCount(c => c + 1)}>计数: {count}</button>;
+    return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;计数: {count}&lt;/button&gt;;
 }
 
 // Server Component 中导入 Client Component
@@ -16649,11 +16649,11 @@ import { Counter } from "@/components/Counter";
 async function Page() {
     const data = await db.query("SELECT * FROM items");
     return (
-        <div>
-            <h1>页面标题</h1>
-            <Counter />  {/* Client Component 嵌入 Server Component */}
-            <ul>{data.map((item: any) => <li key={item.id}>{item.name}</li>)}</ul>
-        </div>
+        &lt;div&gt;
+            &lt;h1&gt;页面标题&lt;/h1&gt;
+            &lt;Counter /&gt;  {/* Client Component 嵌入 Server Component */}
+            &lt;ul&gt;{data.map((item: any) =&gt; &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;)}&lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 ```
@@ -16707,12 +16707,12 @@ async function BlogPost({ params }: { params: { slug: string } }) {
     );
 
     if (!post) {
-        return <div>文章不存在</div>;
+        return &lt;div&gt;文章不存在&lt;/div&gt;;
     }
 
     // 在服务端解析 Markdown（使用代码高亮）
     marked.setOptions({
-        highlight: (code, lang) => {
+        highlight: (code, lang) =&gt; {
             return hljs.highlightAuto(code, lang ? [lang] : undefined).value;
         },
     });
@@ -16723,11 +16723,11 @@ async function BlogPost({ params }: { params: { slug: string } }) {
 
     // 渲染结果发送到客户端，marked/hljs/dompurify 的代码不发送
     return (
-        <article>
-            <h1>{post.title}</h1>
-            <time>{new Date(post.created_at).toLocaleDateString("zh-CN")}</time>
-            <div dangerouslySetInnerHTML={{ __html: safeHtml }} />
-        </article>
+        &lt;article&gt;
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;time&gt;{new Date(post.created_at).toLocaleDateString("zh-CN")}&lt;/time&gt;
+            &lt;div dangerouslySetInnerHTML=&lbrace;&lbrace; __html: safeHtml &rbrace;&rbrace; /&gt;
+        &lt;/article&gt;
     );
 }
 
@@ -16771,7 +16771,7 @@ Server Component 的渲染结果被序列化为 RSC Payload：
     children: [
         { type: "h1", children: "文章标题" },
         { type: "time", children: "2026-01-15" },
-        { type: "div", props: { dangerouslySetInnerHTML: { __html: "<p>...</p>" } } }
+        { type: "div", props: { dangerouslySetInnerHTML: { __html: "&lt;p&gt;...&lt;/p&gt;" } } }
     ]
 }
 
@@ -16862,17 +16862,17 @@ async function ProductPage({ params }: { params: { id: string } }) {
     const product = await db.query("SELECT * FROM products WHERE id = $1", [params.id]);
 
     return (
-        <div>
+        &lt;div&gt;
             {/* Server Component 渲染静态内容 */}
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
+            &lt;h1&gt;{product.name}&lt;/h1&gt;
+            &lt;p&gt;{product.description}&lt;/p&gt;
 
             {/* Server Component 可以导入和渲染 Client Component */}
-            <ProductCard product={product} />
+            &lt;ProductCard product={product} /&gt;
 
             {/* 将数据作为 props 传递给 Client Component */}
-            <AddToCartButton productId={product.id} price={product.price} />
-        </div>
+            &lt;AddToCartButton productId={product.id} price={product.price} /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -16887,16 +16887,16 @@ export default ProductPage;
 // export function AddToCartButton({ productId, price }: { productId: string; price: number }) {
 //     const [added, setAdded] = useState(false);
 //
-//     const handleClick = () => {
+//     const handleClick = () =&gt; {
 //         // 客户端交互逻辑
 //         addToCart(productId);
 //         setAdded(true);
 //     };
 //
 //     return (
-//         <button onClick={handleClick} disabled={added}>
+//         &lt;button onClick={handleClick} disabled={added}&gt;
 //             {added ? "已加入购物车" : `加入购物车 ¥${price}`}
-//         </button>
+//         &lt;/button&gt;
 //     );
 // }
 
@@ -16907,10 +16907,10 @@ export default ProductPage;
 // export function Sidebar({ children }: { children: React.ReactNode }) {
 //     const [isOpen, setIsOpen] = useState(true);
 //     return (
-//         <aside style={{ display: isOpen ? "block" : "none" }}>
-//             <button onClick={() => setIsOpen(o => !o)}>切换</button>
+//         &lt;aside style=&lbrace;&lbrace; display: isOpen ? "block" : "none" &rbrace;&rbrace;&gt;
+//             &lt;button onClick={() =&gt; setIsOpen(o =&gt; !o)}&gt;切换&lt;/button&gt;
 //             {children}  {/* 这里可以渲染 Server Component 的结果 */}
-//         </aside>
+//         &lt;/aside&gt;
 //     );
 // }
 
@@ -16920,12 +16920,12 @@ export default ProductPage;
 //
 // export default function Layout({ children }) {
 //     return (
-//         <div>
-//             <Sidebar>
-//                 <NavigationMenu />  {/* Server Component 作为 children 传入 */}
-//             </Sidebar>
-//             <main>{children}</main>
-//         </div>
+//         &lt;div&gt;
+//             &lt;Sidebar&gt;
+//                 &lt;NavigationMenu /&gt;  {/* Server Component 作为 children 传入 */}
+//             &lt;/Sidebar&gt;
+//             &lt;main&gt;{children}&lt;/main&gt;
+//         &lt;/div&gt;
 //     );
 // }
 ```
@@ -16939,7 +16939,7 @@ export default ProductPage;
   Server → Client ✅
   // Server Component 中
   import { Button } from "./Button";  // "use client" 组件
-  return <Button />;
+  return &lt;Button /&gt;;
 
 规则2：Client Component 不能导入 Server Component
   Client → Server ❌
@@ -16949,9 +16949,9 @@ export default ProductPage;
 规则3：Client Component 可以通过 props 接收 Server Component
   Server → Client(children=Server) ✅
   // Server Component 中
-  <ClientLayout>
-      <ServerContent />  {/* 作为 children 传递 */}
-  </ClientLayout>
+  &lt;ClientLayout&gt;
+      &lt;ServerContent /&gt;  {/* 作为 children 传递 */}
+  &lt;/ClientLayout&gt;
 
 规则4："use client" 是一个边界标记
   标记了 "use client" 的文件及其导入的所有模块都是客户端代码
@@ -17046,7 +17046,7 @@ async function Page() {
         "use server";
         // 在服务端执行
     }
-    return <form action={submitForm}>...</form>;
+    return &lt;form action={submitForm}&gt;...&lt;/form&gt;;
 }
 ```
 
@@ -17102,14 +17102,14 @@ async function Page() {
 //     );
 //
 //     return (
-//         <div>
-//             <h1>文章评论</h1>
+//         &lt;div&gt;
+//             &lt;h1&gt;文章评论&lt;/h1&gt;
 //             {/* 将 Server Action 传递给 Client Component */}
-//             <CommentForm postId={params.id} action={createComment} />
-//             <ul>
-//                 {comments.map(c => <li key={c.id}>{c.content}</li>)}
-//             </ul>
-//         </div>
+//             &lt;CommentForm postId={params.id} action={createComment} /&gt;
+//             &lt;ul&gt;
+//                 {comments.map(c =&gt; &lt;li key={c.id}&gt;{c.content}&lt;/li&gt;)}
+//             &lt;/ul&gt;
+//         &lt;/div&gt;
 //     );
 // }
 
@@ -17121,25 +17121,25 @@ import { useActionState } from "react";
 // 表单提交使用 Server Action
 export function CommentForm({ postId, action }: {
     postId: string;
-    action: (formData: FormData) => Promise<{ error?: string; success?: boolean }>;
+    action: (formData: FormData) =&gt; Promise&lt;{ error?: string; success?: boolean }&gt;;
 }) {
     // useActionState 管理表单状态
     const [state, formAction, isPending] = useActionState(
-        async (prevState: any, formData: FormData) => {
+        async (prevState: any, formData: FormData) =&gt; {
             return await action(formData);
         },
         { error: "", success: false }
     );
 
     return (
-        <form action={formAction}>
-            <input type="hidden" name="postId" value={postId} />
-            <textarea name="content" placeholder="写下你的评论..." required />
-            {state.error && <p style={{ color: "red" }}>{state.error}</p>}
-            <button type="submit" disabled={isPending}>
+        &lt;form action={formAction}&gt;
+            &lt;input type="hidden" name="postId" value={postId} /&gt;
+            &lt;textarea name="content" placeholder="写下你的评论..." required /&gt;
+            {state.error && &lt;p style=&lbrace;&lbrace; color: "red" &rbrace;&rbrace;&gt;{state.error}&lt;/p&gt;}
+            &lt;button type="submit" disabled={isPending}&gt;
                 {isPending ? "提交中..." : "提交评论"}
-            </button>
-        </form>
+            &lt;/button&gt;
+        &lt;/form&gt;
     );
 }
 
@@ -17246,8 +17246,8 @@ useActionState 返回三个值：当前 state（action 的最新返回值）、�
 ### API 签名与参数
 
 ```typescript
-const [state, formAction, isPending] = useActionState<State, Payload>(
-    action: (previousState: State, payload: Payload) => State | Promise<State>,
+const [state, formAction, isPending] = useActionState&lt;State, Payload&gt;(
+    action: (previousState: State, payload: Payload) =&gt; State | Promise&lt;State&gt;,
     initialState: State,
     permalink?: string
 );
@@ -17277,33 +17277,33 @@ import { useActionState } from "react";
 // 定义表单状态类型
 interface FormState {
     message: string;
-    errors: Record<string, string>;
+    errors: Record&lt;string, string&gt;;
     success: boolean;
 }
 
 // 模拟 Server Action（实际项目中用 "use server" 标记）
-async function registerUser(prevState: FormState, formData: FormData): Promise<FormState> {
+async function registerUser(prevState: FormState, formData: FormData): Promise&lt;FormState&gt; {
     // 模拟网络延迟
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve =&gt; setTimeout(resolve, 1500));
 
     const username = formData.get("username") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
     // 服务端校验
-    const errors: Record<string, string> = {};
+    const errors: Record&lt;string, string&gt; = {};
 
-    if (!username || username.length < 3) {
+    if (!username || username.length &lt; 3) {
         errors.username = "用户名至少3个字符";
     }
     if (!email || !email.includes("@")) {
         errors.email = "请输入有效的邮箱地址";
     }
-    if (!password || password.length < 6) {
+    if (!password || password.length &lt; 6) {
         errors.password = "密码至少6个字符";
     }
 
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length &gt; 0) {
         return { message: "请修正以下错误", errors, success: false };
     }
 
@@ -17320,47 +17320,47 @@ function RegisterForm() {
     });
 
     return (
-        <form action={formAction} style={{ maxWidth: 400 }}>
-            <h2>用户注册</h2>
+        &lt;form action={formAction} style=&lbrace;&lbrace; maxWidth: 400 &rbrace;&rbrace;&gt;
+            &lt;h2&gt;用户注册&lt;/h2&gt;
 
             {/* 全局消息 */}
             {state.message && (
-                <p style={{ color: state.success ? "green" : "red" }}>
+                &lt;p style=&lbrace;&lbrace; color: state.success ? "green" : "red" &rbrace;&rbrace;&gt;
                     {state.message}
-                </p>
+                &lt;/p&gt;
             )}
 
             {/* 用户名 */}
-            <div style={{ marginBottom: 12 }}>
-                <label>用户名</label>
-                <input name="username" type="text" disabled={isPending} />
+            &lt;div style=&lbrace;&lbrace; marginBottom: 12 &rbrace;&rbrace;&gt;
+                &lt;label&gt;用户名&lt;/label&gt;
+                &lt;input name="username" type="text" disabled={isPending} /&gt;
                 {state.errors.username && (
-                    <span style={{ color: "red", fontSize: 12 }}>{state.errors.username}</span>
+                    &lt;span style=&lbrace;&lbrace; color: "red", fontSize: 12 &rbrace;&rbrace;&gt;{state.errors.username}&lt;/span&gt;
                 )}
-            </div>
+            &lt;/div&gt;
 
             {/* 邮箱 */}
-            <div style={{ marginBottom: 12 }}>
-                <label>邮箱</label>
-                <input name="email" type="email" disabled={isPending} />
+            &lt;div style=&lbrace;&lbrace; marginBottom: 12 &rbrace;&rbrace;&gt;
+                &lt;label&gt;邮箱&lt;/label&gt;
+                &lt;input name="email" type="email" disabled={isPending} /&gt;
                 {state.errors.email && (
-                    <span style={{ color: "red", fontSize: 12 }}>{state.errors.email}</span>
+                    &lt;span style=&lbrace;&lbrace; color: "red", fontSize: 12 &rbrace;&rbrace;&gt;{state.errors.email}&lt;/span&gt;
                 )}
-            </div>
+            &lt;/div&gt;
 
             {/* 密码 */}
-            <div style={{ marginBottom: 12 }}>
-                <label>密码</label>
-                <input name="password" type="password" disabled={isPending} />
+            &lt;div style=&lbrace;&lbrace; marginBottom: 12 &rbrace;&rbrace;&gt;
+                &lt;label&gt;密码&lt;/label&gt;
+                &lt;input name="password" type="password" disabled={isPending} /&gt;
                 {state.errors.password && (
-                    <span style={{ color: "red", fontSize: 12 }}>{state.errors.password}</span>
+                    &lt;span style=&lbrace;&lbrace; color: "red", fontSize: 12 &rbrace;&rbrace;&gt;{state.errors.password}&lt;/span&gt;
                 )}
-            </div>
+            &lt;/div&gt;
 
-            <button type="submit" disabled={isPending}>
+            &lt;button type="submit" disabled={isPending}&gt;
                 {isPending ? "注册中..." : "注册"}
-            </button>
-        </form>
+            &lt;/button&gt;
+        &lt;/form&gt;
     );
 }
 
@@ -17423,9 +17423,9 @@ const [state, formAction, isPending] = useActionState(action, initialState);
 // 用在 form 内部的子组件中
 // function SubmitButton() {
 //     const { pending } = useFormStatus();
-//     return <button disabled={pending}>提交</button>;
+//     return &lt;button disabled={pending}&gt;提交&lt;/button&gt;;
 // }
-// 注意：useFormStatus 必须在 <form> 内部的子组件中使用
+// 注意：useFormStatus 必须在 &lt;form&gt; 内部的子组件中使用
 ```
 
 ### 注意事项
@@ -17459,9 +17459,9 @@ useOptimistic 接收当前的真实状态和一个更新函数，返回乐观状
 ### API 签名与参数
 
 ```typescript
-const [optimisticState, addOptimistic] = useOptimistic<State, UpdateValue>(
+const [optimisticState, addOptimistic] = useOptimistic&lt;State, UpdateValue&gt;(
     state: State,
-    updateFn: (currentState: State, optimisticValue: UpdateValue) => State
+    updateFn: (currentState: State, optimisticValue: UpdateValue) =&gt; State
 );
 ```
 
@@ -17492,10 +17492,10 @@ interface Message {
 }
 
 // 模拟 API 请求
-async function toggleLikeAPI(messageId: string): Promise<boolean> {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+async function toggleLikeAPI(messageId: string): Promise&lt;boolean&gt; {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
     // 模拟偶尔失败
-    if (Math.random() < 0.1) {
+    if (Math.random() &lt; 0.1) {
         throw new Error("网络错误");
     }
     return true;
@@ -17509,8 +17509,8 @@ function MessageList({ initialMessages }: { initialMessages: Message[] }) {
     const [optimisticMessages, addOptimisticMessage] = useOptimistic(
         messages,
         // 更新函数：计算乐观状态
-        (currentMessages: Message[], updatedId: string) => {
-            return currentMessages.map(msg =>
+        (currentMessages: Message[], updatedId: string) =&gt; {
+            return currentMessages.map(msg =&gt;
                 msg.id === updatedId
                     ? { ...msg, liked: !msg.liked, likes: msg.liked ? msg.likes - 1 : msg.likes + 1 }
                     : msg
@@ -17518,8 +17518,8 @@ function MessageList({ initialMessages }: { initialMessages: Message[] }) {
         }
     );
 
-    const handleLike = (messageId: string) => {
-        startTransition(async () => {
+    const handleLike = (messageId: string) =&gt; {
+        startTransition(async () =&gt; {
             // 立即显示乐观更新（不等待服务器）
             addOptimisticMessage(messageId);
 
@@ -17528,8 +17528,8 @@ function MessageList({ initialMessages }: { initialMessages: Message[] }) {
                 await toggleLikeAPI(messageId);
 
                 // 请求成功：更新真实状态
-                setMessages(prev =>
-                    prev.map(msg =>
+                setMessages(prev =&gt;
+                    prev.map(msg =&gt;
                         msg.id === messageId
                             ? { ...msg, liked: !msg.liked, likes: msg.liked ? msg.likes - 1 : msg.likes + 1 }
                             : msg
@@ -17543,20 +17543,20 @@ function MessageList({ initialMessages }: { initialMessages: Message[] }) {
     };
 
     return (
-        <ul>
+        &lt;ul&gt;
             {/* 渲染乐观状态而非真实状态 */}
-            {optimisticMessages.map(msg => (
-                <li key={msg.id} style={{ marginBottom: 12, padding: 12, border: "1px solid #eee" }}>
-                    <p>{msg.text}</p>
-                    <button
-                        onClick={() => handleLike(msg.id)}
-                        style={{ color: msg.liked ? "red" : "#999" }}
-                    >
+            {optimisticMessages.map(msg =&gt; (
+                &lt;li key={msg.id} style=&lbrace;&lbrace; marginBottom: 12, padding: 12, border: "1px solid #eee" &rbrace;&rbrace;&gt;
+                    &lt;p&gt;{msg.text}&lt;/p&gt;
+                    &lt;button
+                        onClick={() =&gt; handleLike(msg.id)}
+                        style=&lbrace;&lbrace; color: msg.liked ? "red" : "#999" &rbrace;&rbrace;
+                    &gt;
                         {msg.liked ? "已赞" : "点赞"} ({msg.likes})
-                    </button>
-                </li>
+                    &lt;/button&gt;
+                &lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 
@@ -17617,12 +17617,12 @@ export default MessageList;
 **解决方案：**
 
 ```tsx
-const handleLike = (messageId: string) => {
-    startTransition(async () => {
+const handleLike = (messageId: string) =&gt; {
+    startTransition(async () =&gt; {
         addOptimisticMessage(messageId);
         try {
             await toggleLikeAPI(messageId);
-            setMessages(prev => /* 更新真实状态 */);
+            setMessages(prev =&gt; /* 更新真实状态 */);
         } catch (error) {
             // 状态会自动回滚
             // 额外通知用户
@@ -17691,20 +17691,20 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
     const { pending } = useFormStatus();
 
     return (
-        <button
+        &lt;button
             type="submit"
             disabled={pending}
-            style={{
+            style=&lbrace;&lbrace;
                 padding: "8px 24px",
                 backgroundColor: pending ? "#ccc" : "#1677ff",
                 color: "#fff",
                 border: "none",
                 borderRadius: 6,
                 cursor: pending ? "not-allowed" : "pointer",
-            }}
-        >
+            &rbrace;&rbrace;
+        &gt;
             {pending ? "提交中..." : children}
-        </button>
+        &lt;/button&gt;
     );
 }
 
@@ -17717,21 +17717,21 @@ function FormInput({ label, name, type = "text" }: {
     const { pending } = useFormStatus();
 
     return (
-        <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>{label}</label>
-            <input
+        &lt;div style=&lbrace;&lbrace; marginBottom: 12 &rbrace;&rbrace;&gt;
+            &lt;label style=&lbrace;&lbrace; display: "block", marginBottom: 4 &rbrace;&rbrace;&gt;{label}&lt;/label&gt;
+            &lt;input
                 name={name}
                 type={type}
                 disabled={pending}
-                style={{
+                style=&lbrace;&lbrace;
                     padding: "6px 12px",
                     border: "1px solid #d9d9d9",
                     borderRadius: 4,
                     width: "100%",
                     opacity: pending ? 0.6 : 1,
-                }}
-            />
-        </div>
+                &rbrace;&rbrace;
+            /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -17745,15 +17745,15 @@ function FormStatusIndicator() {
     const username = data?.get("username");
 
     return (
-        <div style={{ padding: 8, background: "#e6f7ff", borderRadius: 4, marginBottom: 12 }}>
+        &lt;div style=&lbrace;&lbrace; padding: 8, background: "#e6f7ff", borderRadius: 4, marginBottom: 12 &rbrace;&rbrace;&gt;
             正在提交{username ? ` ${username} 的` : ""}数据...
-        </div>
+        &lt;/div&gt;
     );
 }
 
 // 模拟 Server Action
 async function loginAction(prevState: any, formData: FormData) {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve =&gt; setTimeout(resolve, 2000));
     const username = formData.get("username") as string;
     if (!username) return { error: "请输入用户名" };
     return { success: true, message: `欢迎, ${username}！` };
@@ -17765,19 +17765,19 @@ function LoginForm() {
 
     return (
         // useFormStatus 的子组件必须在 form 内部
-        <form action={formAction} style={{ maxWidth: 360, padding: 24 }}>
-            <h2>登录</h2>
+        &lt;form action={formAction} style=&lbrace;&lbrace; maxWidth: 360, padding: 24 &rbrace;&rbrace;&gt;
+            &lt;h2&gt;登录&lt;/h2&gt;
 
-            <FormStatusIndicator />
+            &lt;FormStatusIndicator /&gt;
 
-            {state.error && <p style={{ color: "red" }}>{state.error}</p>}
-            {state.success && <p style={{ color: "green" }}>{state.message}</p>}
+            {state.error && &lt;p style=&lbrace;&lbrace; color: "red" &rbrace;&rbrace;&gt;{state.error}&lt;/p&gt;}
+            {state.success && &lt;p style=&lbrace;&lbrace; color: "green" &rbrace;&rbrace;&gt;{state.message}&lt;/p&gt;}
 
             {/* 这些子组件内部用 useFormStatus 自动感知状态 */}
-            <FormInput label="用户名" name="username" />
-            <FormInput label="密码" name="password" type="password" />
-            <SubmitButton>登录</SubmitButton>
-        </form>
+            &lt;FormInput label="用户名" name="username" /&gt;
+            &lt;FormInput label="密码" name="password" type="password" /&gt;
+            &lt;SubmitButton&gt;登录&lt;/SubmitButton&gt;
+        &lt;/form&gt;
     );
 }
 
@@ -17793,7 +17793,7 @@ export default LoginForm;
 ```
 组件树：
   LoginForm
-    └── <form action={formAction}>
+    └── &lt;form action={formAction}&gt;
             ├── FormStatusIndicator   ← useFormStatus() ✅ 能获取状态
             ├── FormInput             ← useFormStatus() ✅ 能获取状态
             └── SubmitButton          ← useFormStatus() ✅ 能获取状态
@@ -17801,7 +17801,7 @@ export default LoginForm;
 注意：
   LoginForm 组件自身 ← useFormStatus() ❌ 获取不到（不在 form 内部）
 
-useFormStatus 查找最近的父级 <form> 元素
+useFormStatus 查找最近的父级 &lt;form&gt; 元素
 如果没有父级 form，返回 { pending: false, data: null, method: null, action: null }
 ```
 
@@ -17833,20 +17833,20 @@ useFormStatus 查找最近的父级 <form> 元素
 // 错误：在定义 form 的组件中调用
 // function MyForm() {
 //     const { pending } = useFormStatus();  // 永远是 false！
-//     return <form>...</form>;
+//     return &lt;form&gt;...&lt;/form&gt;;
 // }
 
 // 正确：在 form 内部的子组件中调用
 function SubmitButton() {
     const { pending } = useFormStatus();  // 正常工作
-    return <button disabled={pending}>提交</button>;
+    return &lt;button disabled={pending}&gt;提交&lt;/button&gt;;
 }
 
 function MyForm() {
     return (
-        <form action={someAction}>
-            <SubmitButton />  {/* 在 form 内部 */}
-        </form>
+        &lt;form action={someAction}&gt;
+            &lt;SubmitButton /&gt;  {/* 在 form 内部 */}
+        &lt;/form&gt;
     );
 }
 ```
@@ -17887,57 +17887,57 @@ import React from "react";
 // 页面组件：直接渲染 title 和 meta 标签
 function ProductPage({ product }: { product: { name: string; description: string; image: string } }) {
     return (
-        <div>
-            {/* 这些标签会被 React 自动提升到 <head> 中 */}
-            <title>{product.name} - 商城</title>
-            <meta name="description" content={product.description} />
-            <meta property="og:title" content={product.name} />
-            <meta property="og:description" content={product.description} />
-            <meta property="og:image" content={product.image} />
-            <link rel="canonical" href={`https://example.com/products/${product.name}`} />
+        &lt;div&gt;
+            {/* 这些标签会被 React 自动提升到 &lt;head&gt; 中 */}
+            &lt;title&gt;{product.name} - 商城&lt;/title&gt;
+            &lt;meta name="description" content={product.description} /&gt;
+            &lt;meta property="og:title" content={product.name} /&gt;
+            &lt;meta property="og:description" content={product.description} /&gt;
+            &lt;meta property="og:image" content={product.image} /&gt;
+            &lt;link rel="canonical" href={`https://example.com/products/${product.name}`} /&gt;
 
             {/* 页面内容 */}
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
-            <img src={product.image} alt={product.name} />
-        </div>
+            &lt;h1&gt;{product.name}&lt;/h1&gt;
+            &lt;p&gt;{product.description}&lt;/p&gt;
+            &lt;img src={product.image} alt={product.name} /&gt;
+        &lt;/div&gt;
     );
 }
 
 // 博客文章页面
 function BlogPost({ post }: { post: { title: string; excerpt: string; author: string } }) {
     return (
-        <article>
+        &lt;article&gt;
             {/* 文章特有的元数据 */}
-            <title>{post.title} - 技术博客</title>
-            <meta name="description" content={post.excerpt} />
-            <meta name="author" content={post.author} />
+            &lt;title&gt;{post.title} - 技术博客&lt;/title&gt;
+            &lt;meta name="description" content={post.excerpt} /&gt;
+            &lt;meta name="author" content={post.author} /&gt;
 
-            <h1>{post.title}</h1>
-            <p>作者: {post.author}</p>
-            <p>{post.excerpt}</p>
-        </article>
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;p&gt;作者: {post.author}&lt;/p&gt;
+            &lt;p&gt;{post.excerpt}&lt;/p&gt;
+        &lt;/article&gt;
     );
 }
 
 // 嵌套组件中也可以渲染元数据
 function SEOTags({ title, description }: { title: string; description: string }) {
     return (
-        <>
-            <title>{title}</title>
-            <meta name="description" content={description} />
-        </>
+        &lt;&gt;
+            &lt;title&gt;{title}&lt;/title&gt;
+            &lt;meta name="description" content={description} /&gt;
+        &lt;/&gt;
     );
 }
 
 function AboutPage() {
     return (
-        <div>
+        &lt;div&gt;
             {/* 通过子组件设置元数据 */}
-            <SEOTags title="关于我们" description="了解我们的团队和使命" />
-            <h1>关于我们</h1>
-            <p>我们是一个技术团队...</p>
-        </div>
+            &lt;SEOTags title="关于我们" description="了解我们的团队和使命" /&gt;
+            &lt;h1&gt;关于我们&lt;/h1&gt;
+            &lt;p&gt;我们是一个技术团队...&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -17952,30 +17952,30 @@ export default ProductPage;
 
 ```
 组件渲染时：
-  <div>
-      <title>页面标题</title>       ← React 识别为元数据标签
-      <meta name="description" />  ← React 识别为元数据标签
-      <h1>内容</h1>                ← 普通 DOM 元素
-  </div>
+  &lt;div&gt;
+      &lt;title&gt;页面标题&lt;/title&gt;       ← React 识别为元数据标签
+      &lt;meta name="description" /&gt;  ← React 识别为元数据标签
+      &lt;h1&gt;内容&lt;/h1&gt;                ← 普通 DOM 元素
+  &lt;/div&gt;
 
 React 内部处理：
-1. 识别 <title>、<meta>、<link> 等元数据标签
+1. 识别 &lt;title&gt;、&lt;meta&gt;、&lt;link&gt; 等元数据标签
 2. 不在原位置渲染，而是提升到 document.head
 3. 更新时自动替换旧的同名标签
 4. 组件卸载时自动清理
 
 最终的 DOM 结构：
-  <head>
-      <title>页面标题</title>
-      <meta name="description" content="..." />
-  </head>
-  <body>
-      <div id="root">
-          <div>
-              <h1>内容</h1>   ← title 和 meta 不在这里
-          </div>
-      </div>
-  </body>
+  &lt;head&gt;
+      &lt;title&gt;页面标题&lt;/title&gt;
+      &lt;meta name="description" content="..." /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+      &lt;div id="root"&gt;
+          &lt;div&gt;
+              &lt;h1&gt;内容&lt;/h1&gt;   ← title 和 meta 不在这里
+          &lt;/div&gt;
+      &lt;/div&gt;
+  &lt;/body&gt;
 ```
 
 ### 与相关API的对比
@@ -18004,27 +18004,27 @@ React 内部处理：
 **解决方案：**
 
 ```tsx
-// React 会使用最后渲染的 <title>
+// React 会使用最后渲染的 &lt;title&gt;
 // 通常是组件树中最深层的那个
 
 function Layout() {
     return (
-        <div>
-            <title>默认标题 - 网站</title>  {/* 父级设置的 */}
-            <main>
-                <ProductPage />  {/* 子组件会覆盖 title */}
-            </main>
-        </div>
+        &lt;div&gt;
+            &lt;title&gt;默认标题 - 网站&lt;/title&gt;  {/* 父级设置的 */}
+            &lt;main&gt;
+                &lt;ProductPage /&gt;  {/* 子组件会覆盖 title */}
+            &lt;/main&gt;
+        &lt;/div&gt;
     );
 }
 
 function ProductPage() {
     // 这个 title 会覆盖 Layout 中的 title
     return (
-        <div>
-            <title>商品详情 - 网站</title>
-            <h1>商品详情</h1>
-        </div>
+        &lt;div&gt;
+            &lt;title&gt;商品详情 - 网站&lt;/title&gt;
+            &lt;h1&gt;商品详情&lt;/h1&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -18069,7 +18069,7 @@ ReactElement 是一个普通的不可变（immutable）JavaScript 对象，描�
 import React from "react";
 
 // JSX 写法
-const element = <h1 className="title">Hello, React</h1>;
+const element = &lt;h1 className="title"&gt;Hello, React&lt;/h1&gt;;
 
 // 编译后等价于（React 17 之前）
 const element2 = React.createElement(
@@ -18093,10 +18093,10 @@ const element2 = React.createElement(
 
 // 组件元素
 function Welcome({ name }: { name: string }) {
-    return <h1>Hello, {name}</h1>;
+    return &lt;h1&gt;Hello, {name}&lt;/h1&gt;;
 }
 
-const componentElement = <Welcome name="张三" />;
+const componentElement = &lt;Welcome name="张三" /&gt;;
 // {
 //     $$typeof: Symbol(react.element),
 //     type: Welcome,                    // type 是函数引用
@@ -18107,10 +18107,10 @@ const componentElement = <Welcome name="张三" />;
 
 // 嵌套结构
 const tree = (
-    <div>
-        <h1>标题</h1>
-        <p>段落</p>
-    </div>
+    &lt;div&gt;
+        &lt;h1&gt;标题&lt;/h1&gt;
+        &lt;p&gt;段落&lt;/p&gt;
+    &lt;/div&gt;
 );
 // {
 //     type: "div",
@@ -18124,7 +18124,7 @@ const tree = (
 
 export default function App() {
     // 可以用 console.log 查看 ReactElement 结构
-    const el = <div id="test">内容</div>;
+    const el = &lt;div id="test"&gt;内容&lt;/div&gt;;
     console.log(el);
     return el;
 }
@@ -18160,7 +18160,7 @@ function createElement(type, config, ...children) {
     // 处理 children
     if (children.length === 1) {
         props.children = children[0];
-    } else if (children.length > 1) {
+    } else if (children.length &gt; 1) {
         props.children = children;
     }
 
@@ -18260,33 +18260,33 @@ import React from "react";
 
 // === type 属性 ===
 // DOM 元素：type 是标签名字符串
-<div />           // type: "div"
-<input />         // type: "input"
-<span />          // type: "span"
+&lt;div /&gt;           // type: "div"
+&lt;input /&gt;         // type: "input"
+&lt;span /&gt;          // type: "span"
 
 // 函数组件：type 是函数引用
-function MyButton() { return <button>点击</button>; }
-<MyButton />      // type: MyButton（函数本身）
+function MyButton() { return &lt;button&gt;点击&lt;/button&gt;; }
+&lt;MyButton /&gt;      // type: MyButton（函数本身）
 
 // 类组件：type 是类引用
-// class MyClass extends React.Component { render() { return <div />; } }
-// <MyClass />    // type: MyClass（类本身）
+// class MyClass extends React.Component { render() { return &lt;div /&gt;; } }
+// &lt;MyClass /&gt;    // type: MyClass（类本身）
 
 // Fragment：type 是 Symbol
-<></>             // type: Symbol(react.fragment)
+&lt;&gt;&lt;/&gt;             // type: Symbol(react.fragment)
 
 // === key 属性 ===
 // 默认为 null
-<div />           // key: null
+&lt;div /&gt;           // key: null
 // 列表中指定 key
-<li key="item-1">苹果</li>  // key: "item-1"
+&lt;li key="item-1"&gt;苹果&lt;/li&gt;  // key: "item-1"
 // key 总是被转为字符串
-<li key={42}>橙子</li>      // key: "42"
+&lt;li key={42}&gt;橙子&lt;/li&gt;      // key: "42"
 
 // === props 属性 ===
-<div className="box" id="main" onClick={handleClick}>
+&lt;div className="box" id="main" onClick={handleClick}&gt;
     内容
-</div>
+&lt;/div&gt;
 // props: {
 //     className: "box",
 //     id: "main",
@@ -18296,34 +18296,34 @@ function MyButton() { return <button>点击</button>; }
 
 // === children 属性（在 props 内部）===
 // 单个子元素：children 是该元素
-<div><span>文本</span></div>
+&lt;div&gt;&lt;span&gt;文本&lt;/span&gt;&lt;/div&gt;
 // props.children: { type: "span", props: { children: "文本" } }
 
 // 多个子元素：children 是数组
-<div>
-    <h1>标题</h1>
-    <p>段落</p>
-</div>
+&lt;div&gt;
+    &lt;h1&gt;标题&lt;/h1&gt;
+    &lt;p&gt;段落&lt;/p&gt;
+&lt;/div&gt;
 // props.children: [
 //     { type: "h1", props: { children: "标题" } },
 //     { type: "p", props: { children: "段落" } }
 // ]
 
 // 纯文本：children 是字符串
-<p>Hello</p>
+&lt;p&gt;Hello&lt;/p&gt;
 // props.children: "Hello"
 
 // 无子元素：children 不存在
-<input />
+&lt;input /&gt;
 // props: {}（没有 children 属性）
 
 function App() {
     // 实际查看 ReactElement 结构
     const el = (
-        <div className="container" key="main">
-            <h1>标题</h1>
-            <p>内容</p>
-        </div>
+        &lt;div className="container" key="main"&gt;
+            &lt;h1&gt;标题&lt;/h1&gt;
+            &lt;p&gt;内容&lt;/p&gt;
+        &lt;/div&gt;
     );
     console.log("type:", el.type);         // "div"
     console.log("key:", el.key);           // "main"
@@ -18386,16 +18386,16 @@ React 比较新旧元素时的判断逻辑：
 
 ```tsx
 // 问题：type 从 input 变成 textarea，状态丢失
-// {isMultiline ? <textarea /> : <input />}
+// {isMultiline ? &lt;textarea /&gt; : &lt;input /&gt;}
 // 每次切换 isMultiline，type 变了，DOM 节点重建
 
 // 方案1：保持相同的 type
-// <input type={isMultiline ? "textarea" : "text"} />
+// &lt;input type={isMultiline ? "textarea" : "text"} /&gt;
 
 // 方案2：给不同分支指定相同的 key
 // {isMultiline
-//     ? <textarea key="editor" />
-//     : <input key="editor" />
+//     ? &lt;textarea key="editor" /&gt;
+//     : &lt;input key="editor" /&gt;
 // }
 // key 相同但 type 不同，仍然会重建（但可以控制行为）
 ```
@@ -18443,22 +18443,22 @@ function TwoPhaseDemo() {
 
     // ===== Commit 阶段 =====
     // useLayoutEffect 在 Commit 阶段的 Layout 子阶段同步执行
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         console.log("Commit - Layout 阶段: DOM 已更新，浏览器未绘制");
         // 可以读取 DOM 布局信息
     }, [count]);
 
     // useEffect 在 Commit 阶段之后异步执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("Commit 后: 浏览器已绘制，执行副作用");
         // 可以发起网络请求、订阅等
     }, [count]);
 
     return (
-        <div>
-            <p>计数: {count}（翻倍: {doubled}）</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}（翻倍: {doubled}）&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -18598,13 +18598,13 @@ function App() {
     //    - button 没变 → 跳过
 
     return (
-        <div>
-            <h1>颜色切换</h1>
-            <p style={{ color }}>当前颜色: {color}</p>
-            <button onClick={() => setColor(c => c === "blue" ? "red" : "blue")}>
+        &lt;div&gt;
+            &lt;h1&gt;颜色切换&lt;/h1&gt;
+            &lt;p style=&lbrace;&lbrace; color &rbrace;&rbrace;&gt;当前颜色: {color}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setColor(c =&gt; c === "blue" ? "red" : "blue")}&gt;
                 切换颜色
-            </button>
-        </div>
+            &lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -18745,10 +18745,10 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 function CommitPhaseDemo() {
     const [count, setCount] = useState(0);
-    const divRef = useRef<HTMLDivElement>(null);
+    const divRef = useRef&lt;HTMLDivElement&gt;(null);
 
     // Commit - Layout 子阶段（同步，DOM 已更新，浏览器未绘制）
-    useLayoutEffect(() => {
+    useLayoutEffect(() =&gt; {
         // 此时 DOM 已经更新，可以安全读取新的布局信息
         if (divRef.current) {
             const height = divRef.current.offsetHeight;
@@ -18757,17 +18757,17 @@ function CommitPhaseDemo() {
             // 不会出现视觉闪烁
         }
 
-        return () => {
+        return () =&gt; {
             console.log("Layout 清理: 在下次 Layout 之前执行");
         };
     }, [count]);
 
     // Commit 之后（异步，浏览器已绘制）
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.log("Effect: 浏览器已绘制，执行异步副作用");
         // 适合发起网络请求、订阅事件等
 
-        return () => {
+        return () =&gt; {
             console.log("Effect 清理: 在下次 Effect 之前执行");
         };
     }, [count]);
@@ -18775,10 +18775,10 @@ function CommitPhaseDemo() {
     console.log("Render 阶段: 组件函数执行");
 
     return (
-        <div ref={divRef}>
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div ref={divRef}&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -18900,34 +18900,34 @@ Commit 阶段同步执行 DOM 变更，分为三个子阶段：Before Mutation�
 import React, { useState } from "react";
 
 function SingleNodeDiffDemo() {
-    const [type, setType] = useState<"div" | "span" | "p">("div");
+    const [type, setType] = useState&lt;"div" | "span" | "p"&gt;("div");
 
     // 场景1：type 相同，props 变化 → 复用节点，更新 props
-    // 旧：<div className="old">内容</div>
-    // 新：<div className="new">内容</div>
+    // 旧：&lt;div className="old"&gt;内容&lt;/div&gt;
+    // 新：&lt;div className="new"&gt;内容&lt;/div&gt;
     // 结果：复用 div DOM 节点，只更新 className
 
     // 场景2：type 不同 → 销毁旧节点，创建新节点
-    // 旧：<div>内容</div>
-    // 新：<span>内容</span>
+    // 旧：&lt;div&gt;内容&lt;/div&gt;
+    // 新：&lt;span&gt;内容&lt;/span&gt;
     // 结果：删除 div，创建 span（组件状态丢失）
 
     // 场景3：key 相同 type 不同 → 销毁旧节点及所有兄弟
-    // 旧：<div key="a">1</div> <p key="b">2</p>
-    // 新：<span key="a">1</span>
+    // 旧：&lt;div key="a"&gt;1&lt;/div&gt; &lt;p key="b"&gt;2&lt;/p&gt;
+    // 新：&lt;span key="a"&gt;1&lt;/span&gt;
     // 结果：div 和 p 都被删除（key="a" 匹配但 type 不同）
 
     return (
-        <div>
-            <button onClick={() => setType("div")}>div</button>
-            <button onClick={() => setType("span")}>span</button>
-            <button onClick={() => setType("p")}>p</button>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setType("div")}&gt;div&lt;/button&gt;
+            &lt;button onClick={() =&gt; setType("span")}&gt;span&lt;/button&gt;
+            &lt;button onClick={() =&gt; setType("p")}&gt;p&lt;/button&gt;
 
             {/* type 变化时，整个子树被替换 */}
-            {type === "div" && <div style={{ padding: 10, border: "1px solid blue" }}>我是 div</div>}
-            {type === "span" && <span style={{ padding: 10, border: "1px solid red" }}>我是 span</span>}
-            {type === "p" && <p style={{ padding: 10, border: "1px solid green" }}>我是 p</p>}
-        </div>
+            {type === "div" && &lt;div style=&lbrace;&lbrace; padding: 10, border: "1px solid blue" &rbrace;&rbrace;&gt;我是 div&lt;/div&gt;}
+            {type === "span" && &lt;span style=&lbrace;&lbrace; padding: 10, border: "1px solid red" &rbrace;&rbrace;&gt;我是 span&lt;/span&gt;}
+            {type === "p" && &lt;p style=&lbrace;&lbrace; padding: 10, border: "1px solid green" &rbrace;&rbrace;&gt;我是 p&lt;/p&gt;}
+        &lt;/div&gt;
     );
 }
 
@@ -19072,7 +19072,7 @@ function MultiNodeDiffDemo() {
     ]);
 
     // 场景1：节点更新（最常见）
-    const handleUpdate = () => {
+    const handleUpdate = () =&gt; {
         setItems([
             { id: "a", text: "红苹果" },   // key="a" 不变，text 更新
             { id: "b", text: "黄香蕉" },   // key="b" 不变，text 更新
@@ -19081,7 +19081,7 @@ function MultiNodeDiffDemo() {
     };
 
     // 场景2：新增和删除
-    const handleAddRemove = () => {
+    const handleAddRemove = () =&gt; {
         setItems([
             { id: "a", text: "苹果" },     // 保留
             { id: "d", text: "葡萄" },     // 新增
@@ -19090,7 +19090,7 @@ function MultiNodeDiffDemo() {
     };
 
     // 场景3：节点移动
-    const handleMove = () => {
+    const handleMove = () =&gt; {
         setItems([
             { id: "c", text: "橙子" },     // c 从末尾移到开头
             { id: "a", text: "苹果" },     // a 从开头移到中间
@@ -19099,16 +19099,16 @@ function MultiNodeDiffDemo() {
     };
 
     return (
-        <div>
-            <button onClick={handleUpdate}>更新文本</button>
-            <button onClick={handleAddRemove}>增删节点</button>
-            <button onClick={handleMove}>移动节点</button>
-            <ul>
-                {items.map(item => (
-                    <li key={item.id}>{item.text}</li>
+        &lt;div&gt;
+            &lt;button onClick={handleUpdate}&gt;更新文本&lt;/button&gt;
+            &lt;button onClick={handleAddRemove}&gt;增删节点&lt;/button&gt;
+            &lt;button onClick={handleMove}&gt;移动节点&lt;/button&gt;
+            &lt;ul&gt;
+                {items.map(item =&gt; (
+                    &lt;li key={item.id}&gt;{item.text}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -19128,7 +19128,7 @@ let newIdx = 0;
 let oldFiber = currentFirstChild;
 let lastPlacedIndex = 0;
 
-for (; newIdx < newChildren.length && oldFiber !== null; newIdx++) {
+for (; newIdx &lt; newChildren.length && oldFiber !== null; newIdx++) {
     // 比较新旧节点的 key
     if (oldFiber.key !== newChildren[newIdx].key) {
         break;  // key 不同，跳出第一轮
@@ -19151,7 +19151,7 @@ if (newIdx === newChildren.length) {
 
 // 情况2：旧节点遍历完，新节点还有剩余 → 新增剩余新节点
 if (oldFiber === null) {
-    for (; newIdx < newChildren.length; newIdx++) {
+    for (; newIdx &lt; newChildren.length; newIdx++) {
         const newFiber = createChild(newChildren[newIdx]);
         // 标记为 Placement（插入）
     }
@@ -19164,7 +19164,7 @@ if (oldFiber === null) {
 // 将剩余旧节点存入 Map（key → Fiber）
 const existingChildren = mapRemainingChildren(oldFiber);
 
-for (; newIdx < newChildren.length; newIdx++) {
+for (; newIdx &lt; newChildren.length; newIdx++) {
     // 从 Map 中查找 key 匹配的旧 Fiber
     const newFiber = updateFromMap(existingChildren, newChildren[newIdx]);
     if (newFiber !== null) {
@@ -19176,7 +19176,7 @@ for (; newIdx < newChildren.length; newIdx++) {
 }
 
 // Map 中剩余的旧节点 → 标记为删除
-existingChildren.forEach(child => deleteChild(child));
+existingChildren.forEach(child =&gt; deleteChild(child));
 ```
 
 ### 与相关API的对比
@@ -19255,14 +19255,14 @@ interface Todo {
 }
 
 function TodoList() {
-    const [todos, setTodos] = useState<Todo[]>([
+    const [todos, setTodos] = useState&lt;Todo[]&gt;([
         { id: "t1", text: "学习 React" },
         { id: "t2", text: "学习 TypeScript" },
         { id: "t3", text: "练习算法" },
     ]);
 
     // 在列表头部插入新项
-    const addToTop = () => {
+    const addToTop = () =&gt; {
         setTodos([
             { id: `t${Date.now()}`, text: "新任务" },
             ...todos,
@@ -19270,30 +19270,30 @@ function TodoList() {
     };
 
     // 删除中间项
-    const removeSecond = () => {
-        setTodos(todos.filter((_, i) => i !== 1));
+    const removeSecond = () =&gt; {
+        setTodos(todos.filter((_, i) =&gt; i !== 1));
     };
 
     // 反转列表
-    const reverse = () => {
+    const reverse = () =&gt; {
         setTodos([...todos].reverse());
     };
 
     return (
-        <div>
-            <button onClick={addToTop}>头部添加</button>
-            <button onClick={removeSecond}>删除第二项</button>
-            <button onClick={reverse}>反转列表</button>
-            <ul>
-                {todos.map(todo => (
+        &lt;div&gt;
+            &lt;button onClick={addToTop}&gt;头部添加&lt;/button&gt;
+            &lt;button onClick={removeSecond}&gt;删除第二项&lt;/button&gt;
+            &lt;button onClick={reverse}&gt;反转列表&lt;/button&gt;
+            &lt;ul&gt;
+                {todos.map(todo =&gt; (
                     // 使用稳定的 id 作为 key
                     // React 通过 key 追踪每个元素的身份
-                    <li key={todo.id}>
-                        <input defaultValue={todo.text} />
-                    </li>
+                    &lt;li key={todo.id}&gt;
+                        &lt;input defaultValue={todo.text} /&gt;
+                    &lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -19359,7 +19359,7 @@ function App() {
 
     // 改变 key 会导致 Profile 组件完全卸载并重新挂载
     // 内部状态被重置，useEffect 重新执行
-    return <Profile key={userId} userId={userId} />;
+    return &lt;Profile key={userId} userId={userId} /&gt;;
 }
 
 // 常见用途：
@@ -19409,23 +19409,23 @@ interface Item {
 // 列表项组件：包含不受控的 input
 function ListItem({ name }: { name: string }) {
     return (
-        <li>
-            <span>{name}: </span>
+        &lt;li&gt;
+            &lt;span&gt;{name}: &lt;/span&gt;
             {/* defaultValue 只在首次渲染时设置 */}
             {/* 组件复用时 defaultValue 不会更新 */}
-            <input defaultValue={name} />
-        </li>
+            &lt;input defaultValue={name} /&gt;
+        &lt;/li&gt;
     );
 }
 
 function IndexKeyBugDemo() {
-    const [items, setItems] = useState<Item[]>([
+    const [items, setItems] = useState&lt;Item[]&gt;([
         { id: "a", name: "苹果" },
         { id: "b", name: "香蕉" },
         { id: "c", name: "橙子" },
     ]);
 
-    const addToTop = () => {
+    const addToTop = () =&gt; {
         setItems([
             { id: `${Date.now()}`, name: "葡萄" },
             ...items,
@@ -19433,25 +19433,25 @@ function IndexKeyBugDemo() {
     };
 
     return (
-        <div>
-            <h3>index 作为 key（有 Bug）</h3>
-            <button onClick={addToTop}>在头部添加"葡萄"</button>
-            <ul>
-                {items.map((item, index) => (
+        &lt;div&gt;
+            &lt;h3&gt;index 作为 key（有 Bug）&lt;/h3&gt;
+            &lt;button onClick={addToTop}&gt;在头部添加"葡萄"&lt;/button&gt;
+            &lt;ul&gt;
+                {items.map((item, index) =&gt; (
                     // 反模式：用 index 作为 key
-                    <ListItem key={index} name={item.name} />
+                    &lt;ListItem key={index} name={item.name} /&gt;
                 ))}
-            </ul>
+            &lt;/ul&gt;
 
-            <h3>id 作为 key（正确）</h3>
-            <button onClick={addToTop}>在头部添加"葡萄"</button>
-            <ul>
-                {items.map(item => (
+            &lt;h3&gt;id 作为 key（正确）&lt;/h3&gt;
+            &lt;button onClick={addToTop}&gt;在头部添加"葡萄"&lt;/button&gt;
+            &lt;ul&gt;
+                {items.map(item =&gt; (
                     // 正确：用稳定的 id 作为 key
-                    <ListItem key={item.id} name={item.name} />
+                    &lt;ListItem key={item.id} name={item.name} /&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -19520,19 +19520,19 @@ React 的处理：
 
 ```tsx
 // 方案1：在数据到达时生成 ID
-const processedData = rawData.map(item => ({
+const processedData = rawData.map(item =&gt; ({
     ...item,
     id: crypto.randomUUID(),  // 只在数据加载时生成一次
 }));
 
 // 方案2：用多个字段组合成唯一标识
-<li key={`${item.type}-${item.name}-${item.date}`}>
+&lt;li key={`${item.type}-${item.name}-${item.date}`}&gt;
 
 // 方案3：如果数据本身有唯一的组合
-<li key={item.email}>  {/* 邮箱天然唯一 */}
+&lt;li key={item.email}&gt;  {/* 邮箱天然唯一 */}
 
 // 注意：不要在 render 中生成随机 ID
-// 错误：<li key={Math.random()}>  ← 每次渲染 key 都变
+// 错误：&lt;li key={Math.random()}&gt;  ← 每次渲染 key 都变
 ```
 
 ### 注意事项
@@ -19579,33 +19579,33 @@ function KeyUniquenessDemo() {
     ];
 
     return (
-        <div>
+        &lt;div&gt;
             {/* 这两个列表在不同父节点下，key 可以重复 */}
-            <ul>
-                {fruits.map(item => (
-                    <li key={item.id}>{item.name}</li>
+            &lt;ul&gt;
+                {fruits.map(item =&gt; (
+                    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
                     // key="apple" 和 key="banana" — 在 ul 内唯一
                 ))}
-            </ul>
+            &lt;/ul&gt;
 
-            <ol>
-                {drinks.map(item => (
-                    <li key={item.id}>{item.name}</li>
+            &lt;ol&gt;
+                {drinks.map(item =&gt; (
+                    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
                     // key="apple" 和 key="tea" — 在 ol 内唯一
                     // 虽然和上面的 ul 中有相同的 key="apple"
                     // 但因为父节点不同，不会冲突
                 ))}
-            </ol>
+            &lt;/ol&gt;
 
             {/* 错误示例：同级元素 key 重复 */}
             {/* 
-            <ul>
-                <li key="same">项目A</li>
-                <li key="same">项目B</li>  // 警告：同级 key 重复
-                <li key="same">项目C</li>  // 警告：同级 key 重复
-            </ul>
+            &lt;ul&gt;
+                &lt;li key="same"&gt;项目A&lt;/li&gt;
+                &lt;li key="same"&gt;项目B&lt;/li&gt;  // 警告：同级 key 重复
+                &lt;li key="same"&gt;项目C&lt;/li&gt;  // 警告：同级 key 重复
+            &lt;/ul&gt;
             */}
-        </div>
+        &lt;/div&gt;
     );
 }
 
@@ -19635,14 +19635,14 @@ export default KeyUniquenessDemo;
 #### key 的作用域规则
 
 ```
-<div>               ← 父级1
-    <A key="1" />   ← 在父级1内唯一即可
-    <B key="2" />
-    <div>           ← 父级2
-        <C key="1" />   ← 在父级2内唯一即可
-        <D key="2" />   ← 与父级1中的 key="2" 不冲突
-    </div>
-</div>
+&lt;div&gt;               ← 父级1
+    &lt;A key="1" /&gt;   ← 在父级1内唯一即可
+    &lt;B key="2" /&gt;
+    &lt;div&gt;           ← 父级2
+        &lt;C key="1" /&gt;   ← 在父级2内唯一即可
+        &lt;D key="2" /&gt;   ← 与父级1中的 key="2" 不冲突
+    &lt;/div&gt;
+&lt;/div&gt;
 
 Diff 只在同一父级的子节点之间进行：
   → 父级1 的子节点：A, B, div — 各自 key 唯一
@@ -19676,19 +19676,19 @@ Diff 只在同一父级的子节点之间进行：
 ```tsx
 // 方案：添加前缀区分数据来源
 function MergedList({ users, products }: {
-    users: Array<{ id: number; name: string }>;
-    products: Array<{ id: number; name: string }>;
+    users: Array&lt;{ id: number; name: string }&gt;;
+    products: Array&lt;{ id: number; name: string }&gt;;
 }) {
     return (
-        <ul>
+        &lt;ul&gt;
             {/* 用前缀保证同级唯一 */}
-            {users.map(user => (
-                <li key={`user-${user.id}`}>{user.name}</li>
+            {users.map(user =&gt; (
+                &lt;li key={`user-${user.id}`}&gt;{user.name}&lt;/li&gt;
             ))}
-            {products.map(product => (
-                <li key={`product-${product.id}`}>{product.name}</li>
+            {products.map(product =&gt; (
+                &lt;li key={`product-${product.id}`}&gt;{product.name}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 ```
@@ -19735,7 +19735,7 @@ function KeyMapDemo() {
     ]);
 
     // 复杂变化：删除、新增、移动同时发生
-    const handleComplexChange = () => {
+    const handleComplexChange = () =&gt; {
         setItems([
             { id: "e", name: "西瓜" },     // 从末尾移到开头
             { id: "f", name: "草莓" },     // 新增
@@ -19756,14 +19756,14 @@ function KeyMapDemo() {
     // Map 中剩余：FiberB, FiberD → 标记删除
 
     return (
-        <div>
-            <button onClick={handleComplexChange}>复杂变化</button>
-            <ul>
-                {items.map(item => (
-                    <li key={item.id}>{item.name}</li>
+        &lt;div&gt;
+            &lt;button onClick={handleComplexChange}&gt;复杂变化&lt;/button&gt;
+            &lt;ul&gt;
+                {items.map(item =&gt; (
+                    &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -19915,26 +19915,26 @@ function MoveDetectionDemo() {
 
     // 示例变化：A B C D → D A B C
     // 将 D 移到开头
-    const moveDToFront = () => {
+    const moveDToFront = () =&gt; {
         setItems(["D", "A", "B", "C"]);
     };
 
     // 示例变化：A B C D → A C D B
     // 将 B 移到末尾
-    const moveBToEnd = () => {
+    const moveBToEnd = () =&gt; {
         setItems(["A", "C", "D", "B"]);
     };
 
     return (
-        <div>
-            <button onClick={moveDToFront}>D移到开头</button>
-            <button onClick={moveBToEnd}>B移到末尾</button>
-            <ul>
-                {items.map(item => (
-                    <li key={item}>{item}</li>
+        &lt;div&gt;
+            &lt;button onClick={moveDToFront}&gt;D移到开头&lt;/button&gt;
+            &lt;button onClick={moveBToEnd}&gt;B移到末尾&lt;/button&gt;
+            &lt;ul&gt;
+                {items.map(item =&gt; (
+                    &lt;li key={item}&gt;{item}&lt;/li&gt;
                 ))}
-            </ul>
-        </div>
+            &lt;/ul&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -19954,13 +19954,13 @@ function placeChild(newFiber, lastPlacedIndex, newIndex) {
     if (current !== null) {
         const oldIndex = current.index;  // 旧位置
 
-        if (oldIndex < lastPlacedIndex) {
+        if (oldIndex &lt; lastPlacedIndex) {
             // 旧位置在 lastPlacedIndex 左边
             // → 需要向右移动
             newFiber.flags |= Placement;
             return lastPlacedIndex;  // 不更新 lastPlacedIndex
         } else {
-            // 旧位置 >= lastPlacedIndex
+            // 旧位置 &gt;= lastPlacedIndex
             // → 不需要移动
             return oldIndex;  // 更新 lastPlacedIndex 为 oldIndex
         }
@@ -19981,10 +19981,10 @@ function placeChild(newFiber, lastPlacedIndex, newIndex) {
 lastPlacedIndex 初始值 = 0
 
 处理新列表：
-  D(oldIndex=3)：3 >= 0 → 不移动，lastPlacedIndex = 3
-  A(oldIndex=0)：0 < 3  → 移动！  lastPlacedIndex = 3
-  B(oldIndex=1)：1 < 3  → 移动！  lastPlacedIndex = 3
-  C(oldIndex=2)：2 < 3  → 移动！  lastPlacedIndex = 3
+  D(oldIndex=3)：3 &gt;= 0 → 不移动，lastPlacedIndex = 3
+  A(oldIndex=0)：0 &lt; 3  → 移动！  lastPlacedIndex = 3
+  B(oldIndex=1)：1 &lt; 3  → 移动！  lastPlacedIndex = 3
+  C(oldIndex=2)：2 &lt; 3  → 移动！  lastPlacedIndex = 3
 
 结果：A、B、C 被标记移动（3次移动）
 实际上只移动 D 到开头就行（1次），但算法不支持"向左移动"
@@ -19995,10 +19995,10 @@ lastPlacedIndex 初始值 = 0
 lastPlacedIndex 初始值 = 0
 
 处理新列表：
-  A(oldIndex=0)：0 >= 0 → 不移动，lastPlacedIndex = 0
-  C(oldIndex=2)：2 >= 0 → 不移动，lastPlacedIndex = 2
-  D(oldIndex=3)：3 >= 2 → 不移动，lastPlacedIndex = 3
-  B(oldIndex=1)：1 < 3  → 移动！  lastPlacedIndex = 3
+  A(oldIndex=0)：0 &gt;= 0 → 不移动，lastPlacedIndex = 0
+  C(oldIndex=2)：2 &gt;= 0 → 不移动，lastPlacedIndex = 2
+  D(oldIndex=3)：3 &gt;= 2 → 不移动，lastPlacedIndex = 3
+  B(oldIndex=1)：1 &lt; 3  → 移动！  lastPlacedIndex = 3
 
 结果：只有 B 被标记移动（1次移动）
 这种情况下算法效率很高
@@ -20095,10 +20095,10 @@ function DoubleBufferDemo() {
     // 6. 现在屏幕显示 count=1（新的 current 树）
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -20249,19 +20249,19 @@ function BatchingDemo() {
     console.log("组件渲染"); // 观察渲染次数
 
     // React 事件中：自动批处理（React 17 和 18 都支持）
-    const handleClick = () => {
-        setCount(c => c + 1);    // 不会立即渲染
-        setFlag(f => !f);        // 不会立即渲染
+    const handleClick = () =&gt; {
+        setCount(c =&gt; c + 1);    // 不会立即渲染
+        setFlag(f =&gt; !f);        // 不会立即渲染
         setText("已更新");       // 不会立即渲染
         // 三次 setState 合并为一次渲染
         // console.log("组件渲染") 只打印一次
     };
 
     // React 18：setTimeout 中也自动批处理
-    const handleTimeout = () => {
-        setTimeout(() => {
-            setCount(c => c + 1);    // React 18：不会立即渲染
-            setFlag(f => !f);        // React 18：不会立即渲染
+    const handleTimeout = () =&gt; {
+        setTimeout(() =&gt; {
+            setCount(c =&gt; c + 1);    // React 18：不会立即渲染
+            setFlag(f =&gt; !f);        // React 18：不会立即渲染
             setText("延时更新");     // React 18：不会立即渲染
             // React 18：合并为一次渲染
             // React 17：渲染三次（每次 setState 都触发）
@@ -20269,11 +20269,11 @@ function BatchingDemo() {
     };
 
     return (
-        <div>
-            <p>count: {count}, flag: {String(flag)}, text: {text}</p>
-            <button onClick={handleClick}>同步批处理</button>
-            <button onClick={handleTimeout}>setTimeout 批处理</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}, flag: {String(flag)}, text: {text}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;同步批处理&lt;/button&gt;
+            &lt;button onClick={handleTimeout}&gt;setTimeout 批处理&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -20343,13 +20343,13 @@ import { flushSync } from "react-dom";
 
 function handleClick() {
     // flushSync 强制同步更新
-    flushSync(() => {
-        setCount(c => c + 1);
+    flushSync(() =&gt; {
+        setCount(c =&gt; c + 1);
     });
     // 此时 DOM 已更新
 
-    flushSync(() => {
-        setFlag(f => !f);
+    flushSync(() =&gt; {
+        setFlag(f =&gt; !f);
     });
     // 此时 DOM 再次更新
 
@@ -20402,9 +20402,9 @@ function AsyncBatchingDemo() {
     console.log("渲染:", { count, name });
 
     // setTimeout 中的多次 setState
-    const handleTimeout = () => {
-        setTimeout(() => {
-            setCount(c => c + 1);
+    const handleTimeout = () =&gt; {
+        setTimeout(() =&gt; {
+            setCount(c =&gt; c + 1);
             setName("timeout更新");
             // React 17：渲染两次
             //   渲染1: { count: 1, name: "初始" }
@@ -20415,9 +20415,9 @@ function AsyncBatchingDemo() {
     };
 
     // Promise 中的多次 setState
-    const handlePromise = () => {
-        fetch("/api/data").then(() => {
-            setCount(c => c + 1);
+    const handlePromise = () =&gt; {
+        fetch("/api/data").then(() =&gt; {
+            setCount(c =&gt; c + 1);
             setName("promise更新");
             // React 17：渲染两次
             // React 18：渲染一次
@@ -20425,10 +20425,10 @@ function AsyncBatchingDemo() {
     };
 
     // 原生事件中的多次 setState
-    // const ref = useRef<HTMLButtonElement>(null);
-    // useEffect(() => {
-    //     ref.current?.addEventListener("click", () => {
-    //         setCount(c => c + 1);
+    // const ref = useRef&lt;HTMLButtonElement&gt;(null);
+    // useEffect(() =&gt; {
+    //     ref.current?.addEventListener("click", () =&gt; {
+    //         setCount(c =&gt; c + 1);
     //         setName("native更新");
     //         // React 17：渲染两次
     //         // React 18：渲染一次
@@ -20436,11 +20436,11 @@ function AsyncBatchingDemo() {
     // }, []);
 
     return (
-        <div>
-            <p>count: {count}, name: {name}</p>
-            <button onClick={handleTimeout}>setTimeout 测试</button>
-            <button onClick={handlePromise}>Promise 测试</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;count: {count}, name: {name}&lt;/p&gt;
+            &lt;button onClick={handleTimeout}&gt;setTimeout 测试&lt;/button&gt;
+            &lt;button onClick={handlePromise}&gt;Promise 测试&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -20472,10 +20472,10 @@ function setState(update) {
 }
 
 // 问题：setTimeout 中的 setState
-onClick = () => {
+onClick = () =&gt; {
     // batchedUpdates 包裹了 onClick
     // isBatchingUpdates = true
-    setTimeout(() => {
+    setTimeout(() =&gt; {
         // 执行到这里时 batchedUpdates 已经结束
         // isBatchingUpdates = false
         setState(A);  // → 立即渲染（不在批处理中）
@@ -20508,7 +20508,7 @@ function ensureRootIsScheduled(root) {
     }
     // 调度一个新的渲染任务
     // 使用 MessageChannel 或微任务
-    scheduleMicrotask(() => {
+    scheduleMicrotask(() =&gt; {
         performConcurrentWorkOnRoot(root);
     });
 }
@@ -20550,14 +20550,14 @@ import { flushSync } from "react-dom";
 
 // 如果升级 React 18 后需要保持旧行为：
 function handleTimeout() {
-    setTimeout(() => {
+    setTimeout(() =&gt; {
         // 用 flushSync 强制同步渲染
-        flushSync(() => {
-            setCount(c => c + 1);
+        flushSync(() =&gt; {
+            setCount(c =&gt; c + 1);
         });
         // DOM 已更新，可以读取新的 DOM 状态
 
-        flushSync(() => {
+        flushSync(() =&gt; {
             setName("更新");
         });
         // DOM 再次更新
@@ -20610,49 +20610,49 @@ function FullAutoBatchingDemo() {
     console.log(`渲染第 ${renderCount.current} 次: a=${a}, b=${b}, c=${c}`);
 
     // 场景1：React 事件处理（React 17 和 18 都批处理）
-    const handleEvent = () => {
-        setA(v => v + 1);
-        setB(v => v + 1);
-        setC(v => v + 1);
+    const handleEvent = () =&gt; {
+        setA(v =&gt; v + 1);
+        setB(v =&gt; v + 1);
+        setC(v =&gt; v + 1);
         // 一次渲染
     };
 
     // 场景2：setTimeout（React 18 自动批处理）
-    const handleTimeout = () => {
-        setTimeout(() => {
-            setA(v => v + 1);
-            setB(v => v + 1);
-            setC(v => v + 1);
+    const handleTimeout = () =&gt; {
+        setTimeout(() =&gt; {
+            setA(v =&gt; v + 1);
+            setB(v =&gt; v + 1);
+            setC(v =&gt; v + 1);
             // React 18：一次渲染
         }, 0);
     };
 
     // 场景3：Promise（React 18 自动批处理）
-    const handlePromise = () => {
-        Promise.resolve().then(() => {
-            setA(v => v + 1);
-            setB(v => v + 1);
-            setC(v => v + 1);
+    const handlePromise = () =&gt; {
+        Promise.resolve().then(() =&gt; {
+            setA(v =&gt; v + 1);
+            setB(v =&gt; v + 1);
+            setC(v =&gt; v + 1);
             // React 18：一次渲染
         });
     };
 
     // 场景4：原生事件（React 18 自动批处理）
-    const btnRef = useRef<HTMLButtonElement>(null);
-    useEffect(() => {
-        const handler = () => {
-            setA(v => v + 1);
-            setB(v => v + 1);
-            setC(v => v + 1);
+    const btnRef = useRef&lt;HTMLButtonElement&gt;(null);
+    useEffect(() =&gt; {
+        const handler = () =&gt; {
+            setA(v =&gt; v + 1);
+            setB(v =&gt; v + 1);
+            setC(v =&gt; v + 1);
             // React 18：一次渲染
         };
         btnRef.current?.addEventListener("click", handler);
-        return () => btnRef.current?.removeEventListener("click", handler);
+        return () =&gt; btnRef.current?.removeEventListener("click", handler);
     }, []);
 
     // 场景5：混合异步（React 18 自动批处理）
-    const handleMixed = async () => {
-        const data = await fetch("/api/data").then(r => r.json());
+    const handleMixed = async () =&gt; {
+        const data = await fetch("/api/data").then(r =&gt; r.json());
         setA(data.a);
         setB(data.b);
         setC(data.c);
@@ -20660,13 +20660,13 @@ function FullAutoBatchingDemo() {
     };
 
     return (
-        <div>
-            <p>a={a}, b={b}, c={c} | 总渲染次数: {renderCount.current}</p>
-            <button onClick={handleEvent}>React 事件</button>
-            <button onClick={handleTimeout}>setTimeout</button>
-            <button onClick={handlePromise}>Promise</button>
-            <button ref={btnRef}>原生事件</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;a={a}, b={b}, c={c} | 总渲染次数: {renderCount.current}&lt;/p&gt;
+            &lt;button onClick={handleEvent}&gt;React 事件&lt;/button&gt;
+            &lt;button onClick={handleTimeout}&gt;setTimeout&lt;/button&gt;
+            &lt;button onClick={handlePromise}&gt;Promise&lt;/button&gt;
+            &lt;button ref={btnRef}&gt;原生事件&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -20682,13 +20682,13 @@ export default FullAutoBatchingDemo;
 import { createRoot } from "react-dom/client";
 
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(&lt;App /&gt;);
 // → 全面自动批处理
 // → 支持并发特性（useTransition, Suspense 等）
 
 // React 17 旧的 API（Legacy 模式，不支持全面批处理）
 // import ReactDOM from "react-dom";
-// ReactDOM.render(<App />, document.getElementById("root"));
+// ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));
 // → 只在 React 事件中批处理
 // → 不支持并发特性
 ```
@@ -20737,15 +20737,15 @@ React 18（Concurrent 模式）：
 
 // 1. 修改入口文件
 // 旧代码：
-// ReactDOM.render(<App />, document.getElementById("root"));
+// ReactDOM.render(&lt;App /&gt;, document.getElementById("root"));
 
 // 新代码：
 // const root = createRoot(document.getElementById("root")!);
-// root.render(<App />);
+// root.render(&lt;App /&gt;);
 
 // 2. 检查依赖"每次 setState 立即渲染"的代码
 // 如果有类似逻辑：
-// setTimeout(() => {
+// setTimeout(() =&gt; {
 //     setCount(1);
 //     console.log(domRef.current.textContent); // React 17: 已更新
 //     // React 18: 还未更新（批处理中）
@@ -20802,7 +20802,7 @@ interface CounterState {
     name: string;
 }
 
-class Counter extends Component<CounterProps, CounterState> {
+class Counter extends Component&lt;CounterProps, CounterState&gt; {
     // 构造函数：组件创建时第一个执行
     constructor(props: CounterProps) {
         // 必须首先调用 super(props)
@@ -20830,17 +20830,17 @@ class Counter extends Component<CounterProps, CounterState> {
 
     render() {
         return (
-            <div>
-                <h2>{this.state.name}: {this.state.count}</h2>
-                <button onClick={this.handleIncrement}>+1</button>
-                <button onClick={this.handleDecrement}>-1</button>
-            </div>
+            &lt;div&gt;
+                &lt;h2&gt;{this.state.name}: {this.state.count}&lt;/h2&gt;
+                &lt;button onClick={this.handleIncrement}&gt;+1&lt;/button&gt;
+                &lt;button onClick={this.handleDecrement}&gt;-1&lt;/button&gt;
+            &lt;/div&gt;
         );
     }
 }
 
 // 更简洁的写法（不需要 constructor）
-class ModernCounter extends Component<CounterProps, CounterState> {
+class ModernCounter extends Component&lt;CounterProps, CounterState&gt; {
     // 类属性语法直接初始化 state（等价于 constructor 中赋值）
     state: CounterState = {
         count: this.props.initialCount,
@@ -20848,21 +20848,21 @@ class ModernCounter extends Component<CounterProps, CounterState> {
     };
 
     // 箭头函数自动绑定 this（不需要手动 bind）
-    handleIncrement = () => {
+    handleIncrement = () =&gt; {
         this.setState({ count: this.state.count + 1 });
     };
 
-    handleDecrement = () => {
+    handleDecrement = () =&gt; {
         this.setState({ count: this.state.count - 1 });
     };
 
     render() {
         return (
-            <div>
-                <h2>{this.state.name}: {this.state.count}</h2>
-                <button onClick={this.handleIncrement}>+1</button>
-                <button onClick={this.handleDecrement}>-1</button>
-            </div>
+            &lt;div&gt;
+                &lt;h2&gt;{this.state.name}: {this.state.count}&lt;/h2&gt;
+                &lt;button onClick={this.handleIncrement}&gt;+1&lt;/button&gt;
+                &lt;button onClick={this.handleDecrement}&gt;-1&lt;/button&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -20938,9 +20938,9 @@ constructor 是类组件挂载阶段的第一个方法，用于初始化 state �
 
 ```typescript
 static getDerivedStateFromProps(
-    props: Readonly<Props>,
-    state: Readonly<State>
-): Partial<State> | null
+    props: Readonly&lt;Props&gt;,
+    state: Readonly&lt;State&gt;
+): Partial&lt;State&gt; | null
 ```
 
 | 参数 | 类型 | 说明 |
@@ -20965,7 +20965,7 @@ interface EmailInputState {
     prevPropsEmail: string; // 保存上一次的 props 值用于对比
 }
 
-class EmailInput extends Component<EmailInputProps, EmailInputState> {
+class EmailInput extends Component&lt;EmailInputProps, EmailInputState&gt; {
     state: EmailInputState = {
         email: this.props.userEmail,
         prevPropsEmail: this.props.userEmail,
@@ -20975,7 +20975,7 @@ class EmailInput extends Component<EmailInputProps, EmailInputState> {
     static getDerivedStateFromProps(
         props: EmailInputProps,
         state: EmailInputState
-    ): Partial<EmailInputState> | null {
+    ): Partial&lt;EmailInputState&gt; | null {
         // 只有当 props.userEmail 变化时才更新 state
         if (props.userEmail !== state.prevPropsEmail) {
             return {
@@ -20987,17 +20987,17 @@ class EmailInput extends Component<EmailInputProps, EmailInputState> {
         return null;
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         // 用户输入时只更新 state，不影响 props 对比
         this.setState({ email: e.target.value });
     };
 
     render() {
         return (
-            <input
+            &lt;input
                 value={this.state.email}
                 onChange={this.handleChange}
-            />
+            /&gt;
         );
     }
 }
@@ -21088,29 +21088,29 @@ render 必须是一个纯函数：给定相同的 props 和 state，每次调用
 import React, { Component } from "react";
 
 // 返回 JSX 元素（最常见）
-class UserCard extends Component<{ name: string; age: number }> {
+class UserCard extends Component&lt;{ name: string; age: number }&gt; {
     render() {
         // render 中可以进行纯计算
-        const isAdult = this.props.age >= 18;
+        const isAdult = this.props.age &gt;= 18;
         const greeting = isAdult ? "先生/女士" : "同学";
 
         // 返回 JSX（ReactElement）
         return (
-            <div className="user-card">
-                <h2>{this.props.name} {greeting}</h2>
-                <p>年龄: {this.props.age}</p>
-            </div>
+            &lt;div className="user-card"&gt;
+                &lt;h2&gt;{this.props.name} {greeting}&lt;/h2&gt;
+                &lt;p&gt;年龄: {this.props.age}&lt;/p&gt;
+            &lt;/div&gt;
         );
     }
 }
 
 // 条件渲染：返回 null 表示不渲染任何内容
-class ConditionalRender extends Component<{ visible: boolean }> {
+class ConditionalRender extends Component&lt;{ visible: boolean }&gt; {
     render() {
         if (!this.props.visible) {
             return null;  // 不渲染任何 DOM 节点
         }
-        return <div>我是可见的内容</div>;
+        return &lt;div&gt;我是可见的内容&lt;/div&gt;;
     }
 }
 
@@ -21119,9 +21119,9 @@ class MultipleElements extends Component {
     render() {
         // 返回数组时每个元素需要 key
         return [
-            <li key="1">第一项</li>,
-            <li key="2">第二项</li>,
-            <li key="3">第三项</li>,
+            &lt;li key="1"&gt;第一项&lt;/li&gt;,
+            &lt;li key="2"&gt;第二项&lt;/li&gt;,
+            &lt;li key="3"&gt;第三项&lt;/li&gt;,
         ];
     }
 }
@@ -21130,10 +21130,10 @@ class MultipleElements extends Component {
 class FragmentExample extends Component {
     render() {
         return (
-            <>
-                <td>姓名</td>
-                <td>年龄</td>
-            </>
+            &lt;&gt;
+                &lt;td&gt;姓名&lt;/td&gt;
+                &lt;td&gt;年龄&lt;/td&gt;
+            &lt;/&gt;
         );
     }
 }
@@ -21201,7 +21201,7 @@ class Wrong extends Component {
         // setState → 触发更新 → 调用 render → 又 setState → 无限循环
 
         // 正确：在 componentDidMount 或事件处理器中调用 setState
-        return <div>{this.state.count}</div>;
+        return &lt;div&gt;{this.state.count}&lt;/div&gt;;
     }
 }
 ```
@@ -21251,7 +21251,7 @@ interface UserListState {
     error: string | null;
 }
 
-class UserList extends Component<{}, UserListState> {
+class UserList extends Component&lt;{}, UserListState&gt; {
     // 定时器 ID，用于清理
     private timerID: number | null = null;
 
@@ -21267,7 +21267,7 @@ class UserList extends Component<{}, UserListState> {
         this.fetchUsers();
 
         // 用途2：设置定时器
-        this.timerID = window.setInterval(() => {
+        this.timerID = window.setInterval(() =&gt; {
             this.fetchUsers();  // 每30秒刷新数据
         }, 30000);
 
@@ -21288,7 +21288,7 @@ class UserList extends Component<{}, UserListState> {
         window.removeEventListener("resize", this.handleResize);
     }
 
-    handleResize = () => {
+    handleResize = () =&gt; {
         console.log("窗口大小变化");
     };
 
@@ -21305,15 +21305,15 @@ class UserList extends Component<{}, UserListState> {
     render() {
         const { users, loading, error } = this.state;
 
-        if (loading) return <p>加载中...</p>;
-        if (error) return <p style={{ color: "red" }}>{error}</p>;
+        if (loading) return &lt;p&gt;加载中...&lt;/p&gt;;
+        if (error) return &lt;p style=&lbrace;&lbrace; color: "red" &rbrace;&rbrace;&gt;{error}&lt;/p&gt;;
 
         return (
-            <ul>
-                {users.map(user => (
-                    <li key={user.id}>{user.name} - {user.email}</li>
+            &lt;ul&gt;
+                {users.map(user =&gt; (
+                    &lt;li key={user.id}&gt;{user.name} - {user.email}&lt;/li&gt;
                 ))}
-            </ul>
+            &lt;/ul&gt;
         );
     }
 }
@@ -21403,7 +21403,7 @@ interface FilterState {
     prevItems: string[];    // 保存上一次的 props.items 用于对比
 }
 
-class FilterableList extends Component<FilterProps, FilterState> {
+class FilterableList extends Component&lt;FilterProps, FilterState&gt; {
     state: FilterState = {
         filterText: "",
         filteredItems: this.props.items,
@@ -21413,13 +21413,13 @@ class FilterableList extends Component<FilterProps, FilterState> {
     static getDerivedStateFromProps(
         props: FilterProps,
         state: FilterState
-    ): Partial<FilterState> | null {
+    ): Partial&lt;FilterState&gt; | null {
         // 只有当 props.items 引用变化时才重新计算
         if (props.items !== state.prevItems) {
             return {
                 prevItems: props.items,
                 // 用新的 items 和当前的 filterText 重新筛选
-                filteredItems: props.items.filter(item =>
+                filteredItems: props.items.filter(item =&gt;
                     item.includes(state.filterText)
                 ),
             };
@@ -21428,12 +21428,12 @@ class FilterableList extends Component<FilterProps, FilterState> {
         return null;
     }
 
-    handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFilterChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         const filterText = e.target.value;
         this.setState({
             filterText,
             // 手动重新筛选
-            filteredItems: this.props.items.filter(item =>
+            filteredItems: this.props.items.filter(item =&gt;
                 item.includes(filterText)
             ),
         });
@@ -21441,18 +21441,18 @@ class FilterableList extends Component<FilterProps, FilterState> {
 
     render() {
         return (
-            <div>
-                <input
+            &lt;div&gt;
+                &lt;input
                     value={this.state.filterText}
                     onChange={this.handleFilterChange}
                     placeholder="输入筛选文本"
-                />
-                <ul>
-                    {this.state.filteredItems.map((item, i) => (
-                        <li key={i}>{item}</li>
+                /&gt;
+                &lt;ul&gt;
+                    {this.state.filteredItems.map((item, i) =&gt; (
+                        &lt;li key={i}&gt;{item}&lt;/li&gt;
                     ))}
-                </ul>
-            </div>
+                &lt;/ul&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -21558,7 +21558,7 @@ interface ItemProps {
     count: number;
 }
 
-class ExpensiveItem extends Component<ItemProps> {
+class ExpensiveItem extends Component&lt;ItemProps&gt; {
     // 手动实现渲染控制
     shouldComponentUpdate(nextProps: ItemProps): boolean {
         // 只有当 name 或 count 变化时才重新渲染
@@ -21576,26 +21576,26 @@ class ExpensiveItem extends Component<ItemProps> {
         console.log(`ExpensiveItem ${this.props.name} 渲染了`);
         // 假设这里有复杂的计算或大量 DOM
         return (
-            <div style={{ padding: 12, border: "1px solid #ddd", margin: 4 }}>
-                <h3>{this.props.name}</h3>
-                <p>数量: {this.props.count}</p>
-            </div>
+            &lt;div style=&lbrace;&lbrace; padding: 12, border: "1px solid #ddd", margin: 4 &rbrace;&rbrace;&gt;
+                &lt;h3&gt;{this.props.name}&lt;/h3&gt;
+                &lt;p&gt;数量: {this.props.count}&lt;/p&gt;
+            &lt;/div&gt;
         );
     }
 }
 
 // 使用 PureComponent 替代手动 shouldComponentUpdate
-class PureItem extends React.PureComponent<ItemProps> {
+class PureItem extends React.PureComponent&lt;ItemProps&gt; {
     // PureComponent 自动对所有 props 和 state 做浅比较
     // 等价于 shouldComponentUpdate 中对每个字段做 === 比较
 
     render() {
         console.log(`PureItem ${this.props.name} 渲染了`);
         return (
-            <div style={{ padding: 12, border: "1px solid #ddd", margin: 4 }}>
-                <h3>{this.props.name}</h3>
-                <p>数量: {this.props.count}</p>
-            </div>
+            &lt;div style=&lbrace;&lbrace; padding: 12, border: "1px solid #ddd", margin: 4 &rbrace;&rbrace;&gt;
+                &lt;h3&gt;{this.props.name}&lt;/h3&gt;
+                &lt;p&gt;数量: {this.props.count}&lt;/p&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -21671,7 +21671,7 @@ interface DashboardState {
     count: number;
 }
 
-class Dashboard extends Component<{}, DashboardState> {
+class Dashboard extends Component&lt;{}, DashboardState&gt; {
     state: DashboardState = {
         activeTab: "overview",
         count: 0,
@@ -21683,40 +21683,40 @@ class Dashboard extends Component<{}, DashboardState> {
         const { activeTab, count } = this.state;
 
         return (
-            <div>
+            &lt;div&gt;
                 {/* 导航栏：每次 render 都返回，但如果 activeTab 没变，DOM 不更新 */}
-                <nav>
-                    <button
-                        onClick={() => this.setState({ activeTab: "overview" })}
-                        style={{ fontWeight: activeTab === "overview" ? "bold" : "normal" }}
-                    >
+                &lt;nav&gt;
+                    &lt;button
+                        onClick={() =&gt; this.setState({ activeTab: "overview" })}
+                        style=&lbrace;&lbrace; fontWeight: activeTab === "overview" ? "bold" : "normal" &rbrace;&rbrace;
+                    &gt;
                         概览
-                    </button>
-                    <button
-                        onClick={() => this.setState({ activeTab: "details" })}
-                        style={{ fontWeight: activeTab === "details" ? "bold" : "normal" }}
-                    >
+                    &lt;/button&gt;
+                    &lt;button
+                        onClick={() =&gt; this.setState({ activeTab: "details" })}
+                        style=&lbrace;&lbrace; fontWeight: activeTab === "details" ? "bold" : "normal" &rbrace;&rbrace;
+                    &gt;
                         详情
-                    </button>
-                    <button
-                        onClick={() => this.setState({ activeTab: "settings" })}
-                        style={{ fontWeight: activeTab === "settings" ? "bold" : "normal" }}
-                    >
+                    &lt;/button&gt;
+                    &lt;button
+                        onClick={() =&gt; this.setState({ activeTab: "settings" })}
+                        style=&lbrace;&lbrace; fontWeight: activeTab === "settings" ? "bold" : "normal" &rbrace;&rbrace;
+                    &gt;
                         设置
-                    </button>
-                </nav>
+                    &lt;/button&gt;
+                &lt;/nav&gt;
 
                 {/* 内容区：根据 activeTab 条件渲染 */}
-                {activeTab === "overview" && <p>概览内容</p>}
-                {activeTab === "details" && <p>详情内容</p>}
-                {activeTab === "settings" && <p>设置内容</p>}
+                {activeTab === "overview" && &lt;p&gt;概览内容&lt;/p&gt;}
+                {activeTab === "details" && &lt;p&gt;详情内容&lt;/p&gt;}
+                {activeTab === "settings" && &lt;p&gt;设置内容&lt;/p&gt;}
 
                 {/* 计数器：只有 count 变化时 span 的文本节点更新 */}
-                <div>
-                    <span>访问次数: {count}</span>
-                    <button onClick={() => this.setState({ count: count + 1 })}>+1</button>
-                </div>
-            </div>
+                &lt;div&gt;
+                    &lt;span&gt;访问次数: {count}&lt;/span&gt;
+                    &lt;button onClick={() =&gt; this.setState({ count: count + 1 })}&gt;+1&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -21738,8 +21738,8 @@ export default Dashboard;
   render()                                 → 返回新的 ReactElement 树
 
 Diff 对比：
-  旧树：<p>概览内容</p> 在 DOM 中
-  新树：<p>详情内容</p> 需要渲染
+  旧树：&lt;p&gt;概览内容&lt;/p&gt; 在 DOM 中
+  新树：&lt;p&gt;详情内容&lt;/p&gt; 需要渲染
 
   React Diff：
   → nav 元素 type 不变 → 复用，检查 style props 变化 → 更新
@@ -21815,13 +21815,13 @@ render 的开销主要在 JS 层面（生成 ReactElement、Diff 计算）
 
 ```typescript
 getSnapshotBeforeUpdate(
-    prevProps: Readonly<Props>,
-    prevState: Readonly<State>
+    prevProps: Readonly&lt;Props&gt;,
+    prevState: Readonly&lt;State&gt;
 ): SnapshotType | null
 
 componentDidUpdate(
-    prevProps: Readonly<Props>,
-    prevState: Readonly<State>,
+    prevProps: Readonly&lt;Props&gt;,
+    prevState: Readonly&lt;State&gt;,
     snapshot?: SnapshotType  // getSnapshotBeforeUpdate 的返回值
 ): void
 ```
@@ -21837,13 +21837,13 @@ interface ChatProps {
     messages: string[];
 }
 
-class ChatWindow extends Component<ChatProps> {
+class ChatWindow extends Component&lt;ChatProps&gt; {
     // 聊天容器的 ref
-    private listRef = createRef<HTMLDivElement>();
+    private listRef = createRef&lt;HTMLDivElement&gt;();
 
     getSnapshotBeforeUpdate(prevProps: ChatProps): number | null {
         // DOM 更新前：检查是否有新消息添加
-        if (prevProps.messages.length < this.props.messages.length) {
+        if (prevProps.messages.length &lt; this.props.messages.length) {
             const list = this.listRef.current;
             if (list) {
                 // 返回当前滚动距离底部的距离
@@ -21868,16 +21868,16 @@ class ChatWindow extends Component<ChatProps> {
 
     render() {
         return (
-            <div
+            &lt;div
                 ref={this.listRef}
-                style={{ height: 300, overflow: "auto", border: "1px solid #ccc" }}
-            >
-                {this.props.messages.map((msg, i) => (
-                    <div key={i} style={{ padding: 8, borderBottom: "1px solid #eee" }}>
+                style=&lbrace;&lbrace; height: 300, overflow: "auto", border: "1px solid #ccc" &rbrace;&rbrace;
+            &gt;
+                {this.props.messages.map((msg, i) =&gt; (
+                    &lt;div key={i} style=&lbrace;&lbrace; padding: 8, borderBottom: "1px solid #eee" &rbrace;&rbrace;&gt;
                         {msg}
-                    </div>
+                    &lt;/div&gt;
                 ))}
-            </div>
+            &lt;/div&gt;
         );
     }
 }
@@ -21937,7 +21937,7 @@ export default ChatWindow;
 //     const prevScrollHeight = useRef(0);
 //
 //     // useLayoutEffect 在 DOM 更新后、浏览器绘制前执行
-//     useLayoutEffect(() => {
+//     useLayoutEffect(() =&gt; {
 //         if (listRef.current) {
 //             const list = listRef.current;
 //             // 恢复滚动位置
@@ -21950,7 +21950,7 @@ export default ChatWindow;
 //         prevScrollHeight.current = listRef.current.scrollHeight - listRef.current.scrollTop;
 //     }
 //
-//     return <div ref={listRef}>...</div>;
+//     return &lt;div ref={listRef}&gt;...&lt;/div&gt;;
 // }
 ```
 
@@ -21996,7 +21996,7 @@ interface ProfileState {
     loading: boolean;
 }
 
-class UserProfile extends Component<ProfileProps, ProfileState> {
+class UserProfile extends Component&lt;ProfileProps, ProfileState&gt; {
     state: ProfileState = {
         user: null,
         loading: true,
@@ -22027,14 +22027,14 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
 
     render() {
         const { user, loading } = this.state;
-        if (loading) return <p>加载中...</p>;
-        if (!user) return <p>用户不存在</p>;
+        if (loading) return &lt;p&gt;加载中...&lt;/p&gt;;
+        if (!user) return &lt;p&gt;用户不存在&lt;/p&gt;;
 
         return (
-            <div>
-                <h2>{user.name}</h2>
-                <p>{user.email}</p>
-            </div>
+            &lt;div&gt;
+                &lt;h2&gt;{user.name}&lt;/h2&gt;
+                &lt;p&gt;{user.email}&lt;/p&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -22137,7 +22137,7 @@ interface LiveDataState {
     isConnected: boolean;
 }
 
-class LiveDataFeed extends Component<{}, LiveDataState> {
+class LiveDataFeed extends Component&lt;{}, LiveDataState&gt; {
     // 保存需要清理的引用
     private timerID: number | null = null;
     private abortController: AbortController | null = null;
@@ -22184,14 +22184,14 @@ class LiveDataFeed extends Component<{}, LiveDataState> {
     }
 
     startPolling() {
-        this.timerID = window.setInterval(async () => {
+        this.timerID = window.setInterval(async () =&gt; {
             this.abortController = new AbortController();
             try {
                 const response = await fetch("/api/data", {
                     signal: this.abortController.signal,
                 });
                 const newData = await response.json();
-                this.setState(prev => ({
+                this.setState(prev =&gt; ({
                     data: [...prev.data, ...newData],
                 }));
             } catch (err) {
@@ -22204,28 +22204,28 @@ class LiveDataFeed extends Component<{}, LiveDataState> {
 
     connectWebSocket() {
         this.ws = new WebSocket("wss://example.com/feed");
-        this.ws.onopen = () => this.setState({ isConnected: true });
-        this.ws.onclose = () => this.setState({ isConnected: false });
-        this.ws.onmessage = (event) => {
-            this.setState(prev => ({
+        this.ws.onopen = () =&gt; this.setState({ isConnected: true });
+        this.ws.onclose = () =&gt; this.setState({ isConnected: false });
+        this.ws.onmessage = (event) =&gt; {
+            this.setState(prev =&gt; ({
                 data: [...prev.data, event.data],
             }));
         };
     }
 
-    handleOnline = () => console.log("网络恢复");
-    handleOffline = () => console.log("网络断开");
+    handleOnline = () =&gt; console.log("网络恢复");
+    handleOffline = () =&gt; console.log("网络断开");
 
     render() {
         return (
-            <div>
-                <p>状态: {this.state.isConnected ? "已连接" : "未连接"}</p>
-                <ul>
-                    {this.state.data.map((item, i) => (
-                        <li key={i}>{item}</li>
+            &lt;div&gt;
+                &lt;p&gt;状态: {this.state.isConnected ? "已连接" : "未连接"}&lt;/p&gt;
+                &lt;ul&gt;
+                    {this.state.data.map((item, i) =&gt; (
+                        &lt;li key={i}&gt;{item}&lt;/li&gt;
                     ))}
-                </ul>
-            </div>
+                &lt;/ul&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -22309,7 +22309,7 @@ componentWillUnmount 在组件卸载前调用，负责清理所有副作用：�
 import React, { Component } from "react";
 
 // ===== 反模式1：无条件复制 props 到 state =====
-class AntiPattern1 extends Component<{ email: string }, { email: string }> {
+class AntiPattern1 extends Component&lt;{ email: string }, { email: string }&gt; {
     state = { email: this.props.email };
 
     // 错误：每次渲染都把 props 复制到 state
@@ -22320,12 +22320,12 @@ class AntiPattern1 extends Component<{ email: string }, { email: string }> {
 
     render() {
         return (
-            <input
+            &lt;input
                 value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
+                onChange={e =&gt; this.setState({ email: e.target.value })}
                 // 用户输入后 setState 更新 email
                 // 但下次渲染时 getDerivedStateFromProps 又把它覆盖回 props.email
-            />
+            /&gt;
         );
     }
 }
@@ -22334,30 +22334,30 @@ class AntiPattern1 extends Component<{ email: string }, { email: string }> {
 // 状态完全由父组件控制，子组件不维护自己的 state
 function ControlledEmailInput({ email, onChange }: {
     email: string;
-    onChange: (email: string) => void;
+    onChange: (email: string) =&gt; void;
 }) {
     return (
-        <input
+        &lt;input
             value={email}
-            onChange={e => onChange(e.target.value)}
-        />
+            onChange={e =&gt; onChange(e.target.value)}
+        /&gt;
     );
 }
 
 // ===== 替代方案2：带 key 的非受控组件 =====
 // 需要重置时通过改变 key 重新创建组件
-class UncontrolledEmailInput extends Component<
+class UncontrolledEmailInput extends Component&lt;
     { defaultEmail: string },
     { email: string }
-> {
+&gt; {
     state = { email: this.props.defaultEmail };
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
         this.setState({ email: e.target.value });
     };
 
     render() {
-        return <input value={this.state.email} onChange={this.handleChange} />;
+        return &lt;input value={this.state.email} onChange={this.handleChange} /&gt;;
     }
 }
 
@@ -22370,15 +22370,15 @@ function ParentComponent() {
     });
 
     return (
-        <div>
-            <button onClick={() => setUserId(1)}>用户1</button>
-            <button onClick={() => setUserId(2)}>用户2</button>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setUserId(1)}&gt;用户1&lt;/button&gt;
+            &lt;button onClick={() =&gt; setUserId(2)}&gt;用户2&lt;/button&gt;
             {/* key 变化时组件完全重建，state 自然重置 */}
-            <UncontrolledEmailInput
+            &lt;UncontrolledEmailInput
                 key={userId}
                 defaultEmail={users[userId as keyof typeof users]}
-            />
-        </div>
+            /&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -22474,7 +22474,7 @@ interface ClassState {
     count: number;
 }
 
-class ClassVersion extends Component<ClassProps, ClassState> {
+class ClassVersion extends Component&lt;ClassProps, ClassState&gt; {
     // constructor → 初始化 state
     constructor(props: ClassProps) {
         super(props);
@@ -22510,13 +22510,13 @@ class ClassVersion extends Component<ClassProps, ClassState> {
 
     render() {
         return (
-            <div>
-                <p>{this.state.user?.name}</p>
-                <p>计数: {this.state.count}</p>
-                <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+            &lt;div&gt;
+                &lt;p&gt;{this.state.user?.name}&lt;/p&gt;
+                &lt;p&gt;计数: {this.state.count}&lt;/p&gt;
+                &lt;button onClick={() =&gt; this.setState({ count: this.state.count + 1 })}&gt;
                     +1
-                </button>
-            </div>
+                &lt;/button&gt;
+            &lt;/div&gt;
         );
     }
 }
@@ -22524,12 +22524,12 @@ class ClassVersion extends Component<ClassProps, ClassState> {
 // ===== 函数组件 Hooks 写法 =====
 function HooksVersion({ userId }: { userId: number }) {
     // constructor → useState 初始化
-    const [user, setUser] = useState<{ name: string } | null>(null);
+    const [user, setUser] = useState&lt;{ name: string } | null&gt;(null);
     const [count, setCount] = useState(0);
 
     // componentDidMount + componentDidUpdate(userId 变化时)
     // + componentWillUnmount(清理)
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 相当于 componentDidMount 和 componentDidUpdate 中的数据请求
         const controller = new AbortController();
 
@@ -22543,27 +22543,27 @@ function HooksVersion({ userId }: { userId: number }) {
         fetchUser();
 
         // 返回清理函数：相当于 componentWillUnmount
-        return () => {
+        return () =&gt; {
             controller.abort();
         };
     }, [userId]);  // 依赖 userId，userId 变化时重新执行
 
     // componentDidMount + componentDidUpdate(count 变化时)
     // + componentWillUnmount(清理)
-    useEffect(() => {
+    useEffect(() =&gt; {
         document.title = `计数: ${count}`;
 
-        return () => {
+        return () =&gt; {
             document.title = "React App";  // 清理
         };
     }, [count]);
 
     return (
-        <div>
-            <p>{user?.name}</p>
-            <p>计数: {count}</p>
-            <button onClick={() => setCount(c => c + 1)}>+1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;{user?.name}&lt;/p&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;+1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -22611,7 +22611,7 @@ Hooks 思维模型（基于同步）：
 
 例如：
   类组件：componentDidMount + componentDidUpdate 中检查 userId
-  Hooks：useEffect(() => { fetchUser(userId) }, [userId])
+  Hooks：useEffect(() =&gt; { fetchUser(userId) }, [userId])
   → Hooks 不区分"挂载"和"更新"，只关注"userId 变了就重新获取"
 
 这种思维转变是从类组件迁移到 Hooks 的关键
@@ -22658,11 +22658,11 @@ interface AppState {
         name: string;
         isLoggedIn: boolean;
     };
-    todos: Array<{
+    todos: Array&lt;{
         id: number;
         text: string;
         completed: boolean;
-    }>;
+    }&gt;;
     ui: {
         theme: "light" | "dark";
         sidebarOpen: boolean;
@@ -22719,7 +22719,7 @@ console.log(store.getState());
 // 输出完整的状态对象：{ user: {...}, todos: [...], ui: {...} }
 
 // 订阅状态变化
-const unsubscribe = store.subscribe(() => {
+const unsubscribe = store.subscribe(() =&gt; {
     console.log("状态更新:", store.getState());
 });
 
@@ -22785,7 +22785,7 @@ subscribe(listener)
 import { combineReducers, createStore } from "redux";
 
 // 每个模块维护自己的 reducer
-const userReducer = (state = { name: "", isLoggedIn: false }, action: any) => {
+const userReducer = (state = { name: "", isLoggedIn: false }, action: any) =&gt; {
     switch (action.type) {
         case "LOGIN":
             return { name: action.payload, isLoggedIn: true };
@@ -22794,7 +22794,7 @@ const userReducer = (state = { name: "", isLoggedIn: false }, action: any) => {
     }
 };
 
-const todosReducer = (state: any[] = [], action: any) => {
+const todosReducer = (state: any[] = [], action: any) =&gt; {
     switch (action.type) {
         case "ADD_TODO":
             return [...state, { id: Date.now(), text: action.payload, completed: false }];
@@ -23045,7 +23045,7 @@ function todoReducer(state: TodoState = initialState, action: any): TodoState {
             return {
                 ...state,
                 // 用 map 创建新数组，修改目标项
-                items: state.items.map(todo =>
+                items: state.items.map(todo =&gt;
                     todo.id === action.payload.id
                         ? { ...todo, completed: !todo.completed }  // 创建新对象
                         : todo  // 未修改的直接返回原引用
@@ -23056,7 +23056,7 @@ function todoReducer(state: TodoState = initialState, action: any): TodoState {
             return {
                 ...state,
                 // 用 filter 创建不包含目标项的新数组
-                items: state.items.filter(todo => todo.id !== action.payload.id),
+                items: state.items.filter(todo =&gt; todo.id !== action.payload.id),
             };
 
         case "SET_FILTER":
@@ -23081,7 +23081,7 @@ function wrongReducer(state: TodoState = initialState, action: any): TodoState {
 
         case "TOGGLE_TODO":
             // 错误：直接修改了对象属性
-            // const todo = state.items.find(t => t.id === action.payload.id);
+            // const todo = state.items.find(t =&gt; t.id === action.payload.id);
             // todo.completed = !todo.completed;
             // return state;
 
@@ -23202,9 +23202,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // 假设已定义 Action Creator
-const increment = () => ({ type: "counter/increment" });
-const decrement = () => ({ type: "counter/decrement" });
-const incrementByAmount = (amount: number) => ({
+const increment = () =&gt; ({ type: "counter/increment" });
+const decrement = () =&gt; ({ type: "counter/decrement" });
+const incrementByAmount = (amount: number) =&gt; ({
     type: "counter/incrementByAmount",
     payload: amount,
 });
@@ -23217,16 +23217,16 @@ function Counter() {
     // useDispatch 获取 dispatch 函数
     const dispatch = useDispatch();
     // useSelector 从 Store 读取状态
-    const count = useSelector((state: RootState) => state.counter.value);
+    const count = useSelector((state: RootState) =&gt; state.counter.value);
 
     return (
-        <div>
-            <p>计数: {count}</p>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
             {/* 点击按钮时 dispatch 一个 Action */}
-            <button onClick={() => dispatch(increment())}>+1</button>
-            <button onClick={() => dispatch(decrement())}>-1</button>
-            <button onClick={() => dispatch(incrementByAmount(5))}>+5</button>
-        </div>
+            &lt;button onClick={() =&gt; dispatch(increment())}&gt;+1&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch(decrement())}&gt;-1&lt;/button&gt;
+            &lt;button onClick={() =&gt; dispatch(incrementByAmount(5))}&gt;+5&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -23257,7 +23257,7 @@ function createStore(reducer, initialState) {
         currentState = reducer(currentState, action);
 
         // 3. 通知所有订阅者
-        listeners.forEach(listener => listener());
+        listeners.forEach(listener =&gt; listener());
 
         // 4. 返回 action（方便链式调用）
         return action;
@@ -23265,8 +23265,8 @@ function createStore(reducer, initialState) {
 
     function subscribe(listener) {
         listeners.push(listener);
-        return () => {
-            listeners = listeners.filter(l => l !== listener);
+        return () =&gt; {
+            listeners = listeners.filter(l =&gt; l !== listener);
         };
     }
 
@@ -23305,7 +23305,7 @@ function createStore(reducer, initialState) {
 async function handleFetch() {
     dispatch({ type: "FETCH_START" });
     try {
-        const data = await fetch("/api/data").then(r => r.json());
+        const data = await fetch("/api/data").then(r =&gt; r.json());
         dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
         dispatch({ type: "FETCH_ERROR", payload: (error as Error).message });
@@ -23352,8 +23352,8 @@ Redux 中间件是一种在 dispatch 和 Reducer 之间插入自定义逻辑的�
 import { createStore, applyMiddleware, Middleware } from "redux";
 
 // 自定义日志中间件
-// 三层柯里化：store => next => action => result
-const loggerMiddleware: Middleware = (store) => (next) => (action) => {
+// 三层柯里化：store =&gt; next =&gt; action =&gt; result
+const loggerMiddleware: Middleware = (store) =&gt; (next) =&gt; (action) =&gt; {
     // dispatch 前：记录 action 和当前状态
     console.log("dispatching:", action.type);
     console.log("当前状态:", store.getState());
@@ -23370,7 +23370,7 @@ const loggerMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 // 自定义错误上报中间件
-const crashReporter: Middleware = (store) => (next) => (action) => {
+const crashReporter: Middleware = (store) =&gt; (next) =&gt; (action) =&gt; {
     try {
         return next(action);
     } catch (err) {
@@ -23413,7 +23413,7 @@ store.dispatch({ type: "INCREMENT" });
 ```javascript
 // applyMiddleware 简化实现
 function applyMiddleware(...middlewares) {
-    return (createStore) => (reducer, initialState) => {
+    return (createStore) =&gt; (reducer, initialState) =&gt; {
         // 创建原始 Store
         const store = createStore(reducer, initialState);
         let dispatch = store.dispatch;
@@ -23421,12 +23421,12 @@ function applyMiddleware(...middlewares) {
         // 传给中间件的 API（只暴露 getState 和 dispatch）
         const middlewareAPI = {
             getState: store.getState,
-            dispatch: (action) => dispatch(action),
+            dispatch: (action) =&gt; dispatch(action),
         };
 
         // 第一层调用：传入 store API
-        // 得到 [next => action => {...}, next => action => {...}, ...]
-        const chain = middlewares.map(middleware => middleware(middlewareAPI));
+        // 得到 [next =&gt; action =&gt; {...}, next =&gt; action =&gt; {...}, ...]
+        const chain = middlewares.map(middleware =&gt; middleware(middlewareAPI));
 
         // compose：从右到左组合中间件
         // dispatch = m1(m2(m3(store.dispatch)))
@@ -23441,16 +23441,16 @@ function applyMiddleware(...middlewares) {
 
 // compose 函数：从右到左组合函数
 function compose(...funcs) {
-    if (funcs.length === 0) return (arg) => arg;
+    if (funcs.length === 0) return (arg) =&gt; arg;
     if (funcs.length === 1) return funcs[0];
-    return funcs.reduce((a, b) => (...args) => a(b(...args)));
+    return funcs.reduce((a, b) =&gt; (...args) =&gt; a(b(...args)));
 }
 ```
 
 #### 中间件的三层柯里化
 
 ```
-middleware = store => next => action => { ... }
+middleware = store =&gt; next =&gt; action =&gt; { ... }
 
 store：{ getState, dispatch }
   → 中间件可以读取状态和分发新的 action
@@ -23539,7 +23539,7 @@ Redux 中间件的执行顺序遵循"洋葱模型"（Onion Model）：Action 从
 import { createStore, applyMiddleware, Middleware } from "redux";
 
 // 中间件A
-const middlewareA: Middleware = () => (next) => (action) => {
+const middlewareA: Middleware = () =&gt; (next) =&gt; (action) =&gt; {
     console.log("A 进入");   // 1. 第一个执行
     const result = next(action);  // 传递给下一个中间件
     console.log("A 返回");   // 6. 最后执行
@@ -23547,7 +23547,7 @@ const middlewareA: Middleware = () => (next) => (action) => {
 };
 
 // 中间件B
-const middlewareB: Middleware = () => (next) => (action) => {
+const middlewareB: Middleware = () =&gt; (next) =&gt; (action) =&gt; {
     console.log("B 进入");   // 2. 第二个执行
     const result = next(action);  // 传递给下一个中间件
     console.log("B 返回");   // 5. 倒数第二执行
@@ -23555,7 +23555,7 @@ const middlewareB: Middleware = () => (next) => (action) => {
 };
 
 // 中间件C
-const middlewareC: Middleware = () => (next) => (action) => {
+const middlewareC: Middleware = () =&gt; (next) =&gt; (action) =&gt; {
     console.log("C 进入");   // 3. 第三个执行
     const result = next(action);  // 传递给 Reducer
     console.log("C 返回");   // 4. Reducer 执行后第一个返回
@@ -23657,7 +23657,7 @@ dispatch(action)
 **解决方案：**
 
 ```typescript
-const blockMiddleware: Middleware = () => (next) => (action) => {
+const blockMiddleware: Middleware = () =&gt; (next) =&gt; (action) =&gt; {
     if (action.type === "BLOCKED_ACTION") {
         console.log("Action 被拦截，不传递给 Reducer");
         return;  // 不调用 next → action 不会到达 Reducer
@@ -23738,11 +23738,11 @@ const store = createStore(usersReducer, applyMiddleware(thunk));
 // ===== Thunk Action Creator =====
 // 返回一个函数而不是对象
 // 函数接收 dispatch 和 getState 作为参数
-function fetchUsers(): ThunkAction<Promise<void>, AppState, unknown, AppAction> {
-    return async (dispatch, getState) => {
+function fetchUsers(): ThunkAction&lt;Promise&lt;void&gt;, AppState, unknown, AppAction&gt; {
+    return async (dispatch, getState) =&gt; {
         // 可以读取当前状态
         const currentState = getState();
-        if (currentState.users.length > 0) {
+        if (currentState.users.length &gt; 0) {
             return;  // 已有数据，不重复请求
         }
 
@@ -23777,7 +23777,7 @@ store.dispatch(fetchUsers() as any);
 ```javascript
 // redux-thunk 的核心实现（完整源码就这么短）
 function createThunkMiddleware(extraArgument) {
-    return ({ dispatch, getState }) => (next) => (action) => {
+    return ({ dispatch, getState }) =&gt; (next) =&gt; (action) =&gt; {
         // 如果 action 是函数 → 调用它，传入 dispatch 和 getState
         if (typeof action === "function") {
             return action(dispatch, getState, extraArgument);
@@ -23819,23 +23819,23 @@ thunk.withExtraArgument = createThunkMiddleware;
 **解决方案：**
 
 ```typescript
-function fetchWithCancel(): ThunkAction<() => void, AppState, unknown, AppAction> {
-    return (dispatch) => {
+function fetchWithCancel(): ThunkAction&lt;() =&gt; void, AppState, unknown, AppAction&gt; {
+    return (dispatch) =&gt; {
         const controller = new AbortController();
 
         dispatch({ type: "FETCH_USERS_START" });
 
         fetch("/api/users", { signal: controller.signal })
-            .then(res => res.json())
-            .then(data => dispatch({ type: "FETCH_USERS_SUCCESS", payload: data }))
-            .catch(err => {
+            .then(res =&gt; res.json())
+            .then(data =&gt; dispatch({ type: "FETCH_USERS_SUCCESS", payload: data }))
+            .catch(err =&gt; {
                 if (err.name !== "AbortError") {
                     dispatch({ type: "FETCH_USERS_ERROR", payload: err.message });
                 }
             });
 
         // 返回取消函数
-        return () => controller.abort();
+        return () =&gt; controller.abort();
     };
 }
 
@@ -24067,7 +24067,7 @@ const todoSlice = createSlice({
     reducers: {
         // 每个方法自动生成对应的 action creator
         // action type 自动为 "todos/addTodo"
-        addTodo(state, action: PayloadAction<string>) {
+        addTodo(state, action: PayloadAction&lt;string&gt;) {
             // 可以直接"修改" state（Immer 处理不可变性）
             state.items.push({
                 id: Date.now().toString(),
@@ -24077,21 +24077,21 @@ const todoSlice = createSlice({
         },
 
         // action type: "todos/toggleTodo"
-        toggleTodo(state, action: PayloadAction<string>) {
-            const todo = state.items.find(t => t.id === action.payload);
+        toggleTodo(state, action: PayloadAction&lt;string&gt;) {
+            const todo = state.items.find(t =&gt; t.id === action.payload);
             if (todo) {
                 todo.completed = !todo.completed;  // 直接修改，Immer 处理
             }
         },
 
         // action type: "todos/deleteTodo"
-        deleteTodo(state, action: PayloadAction<string>) {
+        deleteTodo(state, action: PayloadAction&lt;string&gt;) {
             // 也可以返回新状态（替换整个 state）
-            state.items = state.items.filter(t => t.id !== action.payload);
+            state.items = state.items.filter(t =&gt; t.id !== action.payload);
         },
 
         // action type: "todos/setFilter"
-        setFilter(state, action: PayloadAction<"all" | "active" | "completed">) {
+        setFilter(state, action: PayloadAction&lt;"all" | "active" | "completed"&gt;) {
             state.filter = action.payload;
         },
     },
@@ -24114,7 +24114,7 @@ const store = configureStore({
     },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType&lt;typeof store.getState&gt;;
 export type AppDispatch = typeof store.dispatch;
 ```
 
@@ -24252,9 +24252,9 @@ interface UsersState {
 // 创建异步 thunk
 // 第一个参数：action type 前缀（自动生成 pending/fulfilled/rejected）
 // 第二个参数：异步回调函数（payload creator）
-const fetchUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
+const fetchUsers = createAsyncThunk&lt;User[], void, { rejectValue: string }&gt;(
     "users/fetchUsers",
-    async (_, { rejectWithValue, signal }) => {
+    async (_, { rejectWithValue, signal }) =&gt; {
         try {
             // signal 用于请求取消（自动传入 AbortController 的 signal）
             const response = await fetch("https://jsonplaceholder.typicode.com/users", {
@@ -24288,20 +24288,20 @@ const usersSlice = createSlice({
             state.items = [];
         },
     },
-    extraReducers: (builder) => {
+    extraReducers: (builder) =&gt; {
         builder
             // 请求开始
-            .addCase(fetchUsers.pending, (state) => {
+            .addCase(fetchUsers.pending, (state) =&gt; {
                 state.loading = true;
                 state.error = null;
             })
             // 请求成功
-            .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+            .addCase(fetchUsers.fulfilled, (state, action: PayloadAction&lt;User[]&gt;) =&gt; {
                 state.loading = false;
                 state.items = action.payload;
             })
             // 请求失败
-            .addCase(fetchUsers.rejected, (state, action) => {
+            .addCase(fetchUsers.rejected, (state, action) =&gt; {
                 state.loading = false;
                 state.error = action.payload ?? "未知错误";
             });
@@ -24313,7 +24313,7 @@ export const { clearUsers } = usersSlice.actions;
 export default usersSlice.reducer;
 
 // 组件中使用：
-// const dispatch = useDispatch<AppDispatch>();
+// const dispatch = useDispatch&lt;AppDispatch&gt;();
 // dispatch(fetchUsers());
 // 取消请求：const promise = dispatch(fetchUsers()); promise.abort();
 ```
@@ -24368,15 +24368,15 @@ const promise = dispatch(fetchUsers());
 promise.abort();
 
 // 在异步回调中通过 signal 监听取消
-const fetchUsers = createAsyncThunk("users/fetch", async (_, { signal }) => {
+const fetchUsers = createAsyncThunk("users/fetch", async (_, { signal }) =&gt; {
     const response = await fetch("/api/users", { signal });
     return response.json();
 });
 
 // 在 React 组件中：
-// useEffect(() => {
+// useEffect(() =&gt; {
 //     const promise = dispatch(fetchUsers());
-//     return () => promise.abort();  // 卸载时取消
+//     return () =&gt; promise.abort();  // 卸载时取消
 // }, [dispatch]);
 ```
 
@@ -24450,7 +24450,7 @@ const profileSlice = createSlice({
     initialState,
     reducers: {
         // Immer 写法：直接修改（看起来可变，实际不可变）
-        updateCity(state, action: PayloadAction<string>) {
+        updateCity(state, action: PayloadAction&lt;string&gt;) {
             // 直接赋值！Immer 处理不可变性
             state.address.city = action.payload;
         },
@@ -24469,12 +24469,12 @@ const profileSlice = createSlice({
             state.settings.notifications.email = !state.settings.notifications.email;
         },
 
-        addHobby(state, action: PayloadAction<string>) {
+        addHobby(state, action: PayloadAction&lt;string&gt;) {
             // 数组 push：直接用
             state.hobbies.push(action.payload);
         },
 
-        removeHobby(state, action: PayloadAction<number>) {
+        removeHobby(state, action: PayloadAction&lt;number&gt;) {
             // 数组 splice：直接用
             state.hobbies.splice(action.payload, 1);
         },
@@ -24511,7 +24511,7 @@ const baseState = {
 };
 
 // produce 接收原始状态和一个修改函数
-const nextState = produce(baseState, (draft) => {
+const nextState = produce(baseState, (draft) =&gt; {
     // draft 是 baseState 的 Proxy 代理
     // 所有对 draft 的修改被 Proxy 拦截记录
     draft.user.address.city = "上海";
@@ -24605,27 +24605,27 @@ interface CounterStore {
     count: number;
     name: string;
     // 操作方法直接定义在 Store 中
-    increment: () => void;
-    decrement: () => void;
-    incrementBy: (amount: number) => void;
-    setName: (name: string) => void;
-    reset: () => void;
+    increment: () =&gt; void;
+    decrement: () =&gt; void;
+    incrementBy: (amount: number) =&gt; void;
+    setName: (name: string) =&gt; void;
+    reset: () =&gt; void;
 }
 
 // 用 create 创建 Store（不需要 Provider）
-const useCounterStore = create<CounterStore>((set, get) => ({
+const useCounterStore = create&lt;CounterStore&gt;((set, get) =&gt; ({
     // 状态
     count: 0,
     name: "计数器",
 
     // 操作方法
-    increment: () => set((state) => ({ count: state.count + 1 })),
-    decrement: () => set((state) => ({ count: state.count - 1 })),
-    incrementBy: (amount) => set((state) => ({ count: state.count + amount })),
-    setName: (name) => set({ name }),
+    increment: () =&gt; set((state) =&gt; ({ count: state.count + 1 })),
+    decrement: () =&gt; set((state) =&gt; ({ count: state.count - 1 })),
+    incrementBy: (amount) =&gt; set((state) =&gt; ({ count: state.count + amount })),
+    setName: (name) =&gt; set({ name }),
 
     // get() 可以读取当前状态
-    reset: () => {
+    reset: () =&gt; {
         const currentName = get().name;
         console.log(`重置 ${currentName}`);
         set({ count: 0 });
@@ -24637,16 +24637,16 @@ import React from "react";
 
 function Counter() {
     // 直接使用 Hook，不需要 Provider
-    const count = useCounterStore((state) => state.count);
-    const increment = useCounterStore((state) => state.increment);
-    const decrement = useCounterStore((state) => state.decrement);
+    const count = useCounterStore((state) =&gt; state.count);
+    const increment = useCounterStore((state) =&gt; state.increment);
+    const decrement = useCounterStore((state) =&gt; state.decrement);
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <button onClick={increment}>+1</button>
-            <button onClick={decrement}>-1</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;button onClick={increment}&gt;+1&lt;/button&gt;
+            &lt;button onClick={decrement}&gt;-1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -24757,18 +24757,18 @@ interface AppStore {
     count: number;
     name: string;
     items: string[];
-    increment: () => void;
-    addItem: (item: string) => void;
-    setName: (name: string) => void;
+    increment: () =&gt; void;
+    addItem: (item: string) =&gt; void;
+    setName: (name: string) =&gt; void;
 }
 
-const useAppStore = create<AppStore>((set) => ({
+const useAppStore = create&lt;AppStore&gt;((set) =&gt; ({
     count: 0,
     name: "应用",
     items: [],
-    increment: () => set((s) => ({ count: s.count + 1 })),
-    addItem: (item) => set((s) => ({ items: [...s.items, item] })),
-    setName: (name) => set({ name }),
+    increment: () =&gt; set((s) =&gt; ({ count: s.count + 1 })),
+    addItem: (item) =&gt; set((s) =&gt; ({ items: [...s.items, item] })),
+    setName: (name) =&gt; set({ name }),
 }));
 
 // ===== 选择器用法对比 =====
@@ -24776,7 +24776,7 @@ const useAppStore = create<AppStore>((set) => ({
 // 不推荐：获取整个 Store（任何状态变化都重新渲染）
 function BadComponent() {
     const store = useAppStore();  // 订阅了所有状态
-    return <p>{store.count}</p>;
+    return &lt;p&gt;{store.count}&lt;/p&gt;;
     // count 变了 → 渲染（需要）
     // name 变了 → 也渲染（不需要）
     // items 变了 → 也渲染（不需要）
@@ -24784,8 +24784,8 @@ function BadComponent() {
 
 // 推荐：精确选择需要的状态
 function GoodComponent() {
-    const count = useAppStore((state) => state.count);  // 只订阅 count
-    return <p>{count}</p>;
+    const count = useAppStore((state) =&gt; state.count);  // 只订阅 count
+    return &lt;p&gt;{count}&lt;/p&gt;;
     // count 变了 → 渲染（需要）
     // name 变了 → 不渲染
     // items 变了 → 不渲染
@@ -24796,19 +24796,19 @@ function MultiValueComponent() {
     // useShallow 对返回的对象做浅比较
     // 只有 count 或 name 的值变化时才重新渲染
     const { count, name } = useAppStore(
-        useShallow((state) => ({ count: state.count, name: state.name }))
+        useShallow((state) =&gt; ({ count: state.count, name: state.name }))
     );
 
     return (
-        <p>{name}: {count}</p>
+        &lt;p&gt;{name}: {count}&lt;/p&gt;
     );
 }
 
 // 操作方法单独获取（方法引用不变，不触发重新渲染）
 function ActionComponent() {
-    const increment = useAppStore((state) => state.increment);
+    const increment = useAppStore((state) =&gt; state.increment);
     // increment 函数的引用不会变，所以这个组件不会因状态变化而重新渲染
-    return <button onClick={increment}>+1</button>;
+    return &lt;button onClick={increment}&gt;+1&lt;/button&gt;;
 }
 
 export { GoodComponent, MultiValueComponent, ActionComponent };
@@ -24831,7 +24831,7 @@ export { GoodComponent, MultiValueComponent, ActionComponent };
   6. 结果不同 → 触发重新渲染
 
 问题场景：
-  selector = (state) => ({ a: state.a, b: state.b })
+  selector = (state) =&gt; ({ a: state.a, b: state.b })
   每次调用都返回新对象 → Object.is 总是 false
   → 每次状态变化都重新渲染（即使 a 和 b 没变）
 
@@ -24867,15 +24867,15 @@ export { GoodComponent, MultiValueComponent, ActionComponent };
 function TodoStats() {
     // 派生计算：只在 items 变化时重新计算
     const completedCount = useAppStore(
-        (state) => state.items.filter(t => t.completed).length
+        (state) =&gt; state.items.filter(t =&gt; t.completed).length
     );
 
     // 注意：如果 selector 返回新数组/对象，需要 useShallow 或 memoize
     // 错误示例（每次返回新数组）：
-    // const completed = useAppStore(s => s.items.filter(t => t.completed));
+    // const completed = useAppStore(s =&gt; s.items.filter(t =&gt; t.completed));
 
     // 正确：返回原始值（number/string/boolean）不需要额外处理
-    return <p>已完成: {completedCount}</p>;
+    return &lt;p&gt;已完成: {completedCount}&lt;/p&gt;;
 }
 ```
 
@@ -24920,7 +24920,7 @@ const nameAtom = atom("张三");
 
 // ===== 派生 Atom（只读） =====
 // 从其他 atom 计算得出的值
-const doubleCountAtom = atom((get) => {
+const doubleCountAtom = atom((get) =&gt; {
     // get 读取其他 atom 的值
     const count = get(countAtom);
     return count * 2;
@@ -24928,7 +24928,7 @@ const doubleCountAtom = atom((get) => {
 });
 
 // 组合多个 atom
-const greetingAtom = atom((get) => {
+const greetingAtom = atom((get) =&gt; {
     const name = get(nameAtom);
     const count = get(countAtom);
     return `${name} 的计数是 ${count}`;
@@ -24938,9 +24938,9 @@ const greetingAtom = atom((get) => {
 // 既能读取又能写入的派生 atom
 const countWithLogAtom = atom(
     // 读取函数
-    (get) => get(countAtom),
+    (get) =&gt; get(countAtom),
     // 写入函数
-    (get, set, newValue: number) => {
+    (get, set, newValue: number) =&gt; {
         console.log(`计数从 ${get(countAtom)} 变为 ${newValue}`);
         set(countAtom, newValue);  // 更新底层 atom
     }
@@ -24960,19 +24960,19 @@ function Counter() {
     const setName = useSetAtom(nameAtom);
 
     return (
-        <div>
-            <p>计数: {count}</p>
-            <p>双倍: {doubleCount}</p>
-            <button onClick={() => setCount((c) => c + 1)}>+1</button>
-            <button onClick={() => setName("李四")}>改名</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;计数: {count}&lt;/p&gt;
+            &lt;p&gt;双倍: {doubleCount}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount((c) =&gt; c + 1)}&gt;+1&lt;/button&gt;
+            &lt;button onClick={() =&gt; setName("李四")}&gt;改名&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 显示问候语的组件：只在 greetingAtom 变化时渲染
 function Greeting() {
     const greeting = useAtomValue(greetingAtom);
-    return <p>{greeting}</p>;
+    return &lt;p&gt;{greeting}&lt;/p&gt;;
 }
 
 export default Counter;
@@ -24989,7 +24989,7 @@ export default Counter;
   → 被订阅时通知订阅者
 
 派生 atom：
-  doubleCountAtom = atom((get) => get(countAtom) * 2)
+  doubleCountAtom = atom((get) =&gt; get(countAtom) * 2)
   → 调用 get(countAtom) 时建立依赖关系
   → countAtom 变化 → doubleCountAtom 重新计算
   → 只有结果变化时才通知订阅 doubleCountAtom 的组件
@@ -25081,7 +25081,7 @@ import React from "react";
 
 // ===== Atom：状态的最小单元 =====
 // 每个 atom 需要全局唯一的 key
-const todoListState = atom<Array<{ id: number; text: string; completed: boolean }>>({
+const todoListState = atom&lt;Array&lt;{ id: number; text: string; completed: boolean }&gt;&gt;({
     key: "todoListState",  // 全局唯一标识
     default: [             // 默认值
         { id: 1, text: "学习 Recoil", completed: false },
@@ -25089,7 +25089,7 @@ const todoListState = atom<Array<{ id: number; text: string; completed: boolean 
     ],
 });
 
-const filterState = atom<"all" | "active" | "completed">({
+const filterState = atom&lt;"all" | "active" | "completed"&gt;({
     key: "filterState",
     default: "all",
 });
@@ -25098,16 +25098,16 @@ const filterState = atom<"all" | "active" | "completed">({
 // 从 Atom 或其他 Selector 派生出值
 const filteredTodoListState = selector({
     key: "filteredTodoListState",
-    get: ({ get }) => {
+    get: ({ get }) =&gt; {
         // get 读取其他 atom/selector 的值
         const filter = get(filterState);
         const list = get(todoListState);
 
         switch (filter) {
             case "active":
-                return list.filter((item) => !item.completed);
+                return list.filter((item) =&gt; !item.completed);
             case "completed":
-                return list.filter((item) => item.completed);
+                return list.filter((item) =&gt; item.completed);
             default:
                 return list;
         }
@@ -25117,10 +25117,10 @@ const filteredTodoListState = selector({
 // 统计信息 Selector
 const todoStatsState = selector({
     key: "todoStatsState",
-    get: ({ get }) => {
+    get: ({ get }) =&gt; {
         const list = get(todoListState);
         const total = list.length;
-        const completed = list.filter((t) => t.completed).length;
+        const completed = list.filter((t) =&gt; t.completed).length;
         const active = total - completed;
         const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
@@ -25136,34 +25136,34 @@ function TodoList() {
     const filteredList = useRecoilValue(filteredTodoListState);
     const stats = useRecoilValue(todoStatsState);
 
-    const addTodo = (text: string) => {
-        setTodoList((prev) => [
+    const addTodo = (text: string) =&gt; {
+        setTodoList((prev) =&gt; [
             ...prev,
             { id: Date.now(), text, completed: false },
         ]);
     };
 
     return (
-        <div>
-            <p>总计: {stats.total} | 完成: {stats.completed} | 进度: {stats.percent}%</p>
-            <ul>
-                {filteredList.map((todo) => (
-                    <li key={todo.id}>
+        &lt;div&gt;
+            &lt;p&gt;总计: {stats.total} | 完成: {stats.completed} | 进度: {stats.percent}%&lt;/p&gt;
+            &lt;ul&gt;
+                {filteredList.map((todo) =&gt; (
+                    &lt;li key={todo.id}&gt;
                         {todo.text} {todo.completed ? "(已完成)" : ""}
-                    </li>
+                    &lt;/li&gt;
                 ))}
-            </ul>
-            <button onClick={() => addTodo("新任务")}>添加</button>
-        </div>
+            &lt;/ul&gt;
+            &lt;button onClick={() =&gt; addTodo("新任务")}&gt;添加&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 根组件需要 RecoilRoot 包裹
 function App() {
     return (
-        <RecoilRoot>
-            <TodoList />
-        </RecoilRoot>
+        &lt;RecoilRoot&gt;
+            &lt;TodoList /&gt;
+        &lt;/RecoilRoot&gt;
     );
 }
 
@@ -25226,7 +25226,7 @@ export default App;
 
 迁移路径（Recoil → Jotai）：
   Recoil atom({ key, default }) → Jotai atom(default)
-  Recoil selector({ key, get }) → Jotai atom((get) => ...)
+  Recoil selector({ key, get }) → Jotai atom((get) =&gt; ...)
   useRecoilState → useAtom
   useRecoilValue → useAtomValue
 ```
@@ -25281,7 +25281,7 @@ const queryClient = new QueryClient({
 });
 
 // API 请求函数
-async function fetchUsers(): Promise<Array<{ id: number; name: string }>> {
+async function fetchUsers(): Promise&lt;Array&lt;{ id: number; name: string }&gt;&gt; {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     if (!response.ok) throw new Error("请求失败");
     return response.json();
@@ -25317,35 +25317,35 @@ function UserList() {
     // useMutation：处理数据变更（POST/PUT/DELETE）
     const mutation = useMutation({
         mutationFn: createUser,
-        onSuccess: () => {
+        onSuccess: () =&gt; {
             // 变更成功后，使 users 缓存失效 → 自动重新获取
             queryClient.invalidateQueries({ queryKey: ["users"] });
         },
     });
 
-    if (isLoading) return <p>首次加载中...</p>;
-    if (isError) return <p>错误: {(error as Error).message}</p>;
+    if (isLoading) return &lt;p&gt;首次加载中...&lt;/p&gt;;
+    if (isError) return &lt;p&gt;错误: {(error as Error).message}&lt;/p&gt;;
 
     return (
-        <div>
-            {isFetching && <p>后台刷新中...</p>}
-            <ul>
-                {users?.map((user) => (
-                    <li key={user.id}>{user.name}</li>
+        &lt;div&gt;
+            {isFetching && &lt;p&gt;后台刷新中...&lt;/p&gt;}
+            &lt;ul&gt;
+                {users?.map((user) =&gt; (
+                    &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
                 ))}
-            </ul>
-            <button onClick={() => mutation.mutate("新用户")}>添加用户</button>
-            <button onClick={() => refetch()}>手动刷新</button>
-        </div>
+            &lt;/ul&gt;
+            &lt;button onClick={() =&gt; mutation.mutate("新用户")}&gt;添加用户&lt;/button&gt;
+            &lt;button onClick={() =&gt; refetch()}&gt;手动刷新&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
 // 根组件
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <UserList />
-        </QueryClientProvider>
+        &lt;QueryClientProvider client={queryClient}&gt;
+            &lt;UserList /&gt;
+        &lt;/QueryClientProvider&gt;
     );
 }
 
@@ -25412,10 +25412,10 @@ export default App;
 useQuery({ queryKey: ["users"], queryFn: fetchUsers });
 
 // 带筛选的列表（不同筛选条件缓存独立）
-useQuery({ queryKey: ["users", { role: "admin" }], queryFn: () => fetchUsers({ role: "admin" }) });
+useQuery({ queryKey: ["users", { role: "admin" }], queryFn: () =&gt; fetchUsers({ role: "admin" }) });
 
 // 单个详情（不同 id 缓存独立）
-useQuery({ queryKey: ["users", userId], queryFn: () => fetchUser(userId) });
+useQuery({ queryKey: ["users", userId], queryFn: () =&gt; fetchUser(userId) });
 
 // 规则：
 // → queryKey 中包含所有影响请求结果的参数
@@ -25480,30 +25480,30 @@ async function fetchUserProfile(userId: number) {
 function StockPrice() {
     const { data } = useQuery({
         queryKey: ["stock", "AAPL"],
-        queryFn: () => fetch("/api/stock/AAPL").then(r => r.json()),
+        queryFn: () =&gt; fetch("/api/stock/AAPL").then(r =&gt; r.json()),
         staleTime: 1000 * 10,     // 10秒后变陈旧（频繁刷新）
         gcTime: 1000 * 60,        // 组件卸载后缓存保留1分钟
         refetchInterval: 1000 * 30, // 每30秒自动刷新
     });
 
-    return <p>股价: {data?.price}</p>;
+    return &lt;p&gt;股价: {data?.price}&lt;/p&gt;;
 }
 
 // 场景2：很少变化的数据（长 staleTime）
 function UserProfile({ userId }: { userId: number }) {
     const { data, isLoading, isFetching } = useQuery({
         queryKey: ["user", userId],
-        queryFn: () => fetchUserProfile(userId),
+        queryFn: () =&gt; fetchUserProfile(userId),
         staleTime: 1000 * 60 * 30,  // 30分钟内视为新鲜（用户信息很少变化）
         gcTime: 1000 * 60 * 60,     // 缓存保留1小时
     });
 
     return (
-        <div>
-            {isLoading && <p>加载中...</p>}
-            {isFetching && !isLoading && <p>后台刷新中...</p>}
-            {data && <p>用户: {data.name}</p>}
-        </div>
+        &lt;div&gt;
+            {isLoading && &lt;p&gt;加载中...&lt;/p&gt;}
+            {isFetching && !isLoading && &lt;p&gt;后台刷新中...&lt;/p&gt;}
+            {data && &lt;p&gt;用户: {data.name}&lt;/p&gt;}
+        &lt;/div&gt;
     );
 }
 
@@ -25511,21 +25511,21 @@ function UserProfile({ userId }: { userId: number }) {
 function AppConfig() {
     const { data } = useQuery({
         queryKey: ["config"],
-        queryFn: () => fetch("/api/config").then(r => r.json()),
+        queryFn: () =&gt; fetch("/api/config").then(r =&gt; r.json()),
         staleTime: Infinity,  // 永不过期（只请求一次）
         gcTime: Infinity,     // 永不清除缓存
     });
 
-    return <p>版本: {data?.version}</p>;
+    return &lt;p&gt;版本: {data?.version}&lt;/p&gt;;
 }
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <UserProfile userId={1} />
-            <StockPrice />
-            <AppConfig />
-        </QueryClientProvider>
+        &lt;QueryClientProvider client={queryClient}&gt;
+            &lt;UserProfile userId={1} /&gt;
+            &lt;StockPrice /&gt;
+            &lt;AppConfig /&gt;
+        &lt;/QueryClientProvider&gt;
     );
 }
 
@@ -25602,7 +25602,7 @@ export default App;
   → gcTime 控制"缓存是否保留"
   → 两者独立，没有先后依赖
 
-  推荐：gcTime >= staleTime
+  推荐：gcTime &gt;= staleTime
   → 否则数据还没变 stale 就被清除了
   → 组件重新挂载时需要重新请求（失去了缓存的意义）
 ```
@@ -25670,32 +25670,32 @@ function NotificationPanel() {
     });
 
     // 手动使缓存失效（触发重新获取）
-    const handleMarkAllRead = async () => {
+    const handleMarkAllRead = async () =&gt; {
         await fetch("/api/notifications/read-all", { method: "POST" });
         // 使 notifications 缓存失效 → 自动触发重新获取
         queryClient.invalidateQueries({ queryKey: ["notifications"] });
     };
 
     return (
-        <div>
+        &lt;div&gt;
             {/* 区分首次加载和后台刷新 */}
-            {isLoading && <p>加载通知...</p>}
-            {isRefetching && <span style={{ fontSize: 12, color: "#999" }}>刷新中...</span>}
+            {isLoading && &lt;p&gt;加载通知...&lt;/p&gt;}
+            {isRefetching && &lt;span style=&lbrace;&lbrace; fontSize: 12, color: "#999" &rbrace;&rbrace;&gt;刷新中...&lt;/span&gt;}
 
             {/* 展示最后更新时间 */}
-            <p style={{ fontSize: 12 }}>
+            &lt;p style=&lbrace;&lbrace; fontSize: 12 &rbrace;&rbrace;&gt;
                 最后更新: {new Date(dataUpdatedAt).toLocaleTimeString()}
-            </p>
+            &lt;/p&gt;
 
-            <ul>
-                {notifications?.map((n: any) => (
-                    <li key={n.id}>{n.message}</li>
+            &lt;ul&gt;
+                {notifications?.map((n: any) =&gt; (
+                    &lt;li key={n.id}&gt;{n.message}&lt;/li&gt;
                 ))}
-            </ul>
+            &lt;/ul&gt;
 
-            <button onClick={() => refetch()}>手动刷新</button>
-            <button onClick={handleMarkAllRead}>全部已读</button>
-        </div>
+            &lt;button onClick={() =&gt; refetch()}&gt;手动刷新&lt;/button&gt;
+            &lt;button onClick={handleMarkAllRead}&gt;全部已读&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -25818,18 +25818,18 @@ import React, { createContext, useContext, useState, useRef } from "react";
 interface AppContextValue {
     user: { name: string; age: number };
     theme: "light" | "dark";
-    setUser: (user: { name: string; age: number }) => void;
-    toggleTheme: () => void;
+    setUser: (user: { name: string; age: number }) =&gt; void;
+    toggleTheme: () =&gt; void;
 }
 
-const AppContext = createContext<AppContextValue | null>(null);
+const AppContext = createContext&lt;AppContextValue | null&gt;(null);
 
 // ===== Provider 组件 =====
 function AppProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState({ name: "张三", age: 25 });
-    const [theme, setTheme] = useState<"light" | "dark">("light");
+    const [theme, setTheme] = useState&lt;"light" | "dark"&gt;("light");
 
-    const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+    const toggleTheme = () =&gt; setTheme((t) =&gt; (t === "light" ? "dark" : "light"));
 
     // 注意：每次 AppProvider 渲染时，value 都是新对象
     // → 导致所有消费者都重新渲染
@@ -25840,7 +25840,7 @@ function AppProvider({ children }: { children: React.ReactNode }) {
         toggleTheme,
     };
 
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+    return &lt;AppContext.Provider value={value}&gt;{children}&lt;/AppContext.Provider&gt;;
 }
 
 // ===== 消费 Context 的组件 =====
@@ -25852,7 +25852,7 @@ function ThemeDisplay() {
     renderCount.current++;
     console.log(`ThemeDisplay 渲染次数: ${renderCount.current}`);
 
-    return <p>当前主题: {ctx.theme}</p>;
+    return &lt;p&gt;当前主题: {ctx.theme}&lt;/p&gt;;
     // 问题：setUser 更新 user 时，ThemeDisplay 也重新渲染
     // 因为 Context value 整体变化了
 }
@@ -25864,21 +25864,21 @@ function UserDisplay() {
     renderCount.current++;
     console.log(`UserDisplay 渲染次数: ${renderCount.current}`);
 
-    return <p>用户: {ctx.user.name}, {ctx.user.age}岁</p>;
+    return &lt;p&gt;用户: {ctx.user.name}, {ctx.user.age}岁&lt;/p&gt;;
     // 问题：toggleTheme 时，UserDisplay 也重新渲染
 }
 
 function App() {
     return (
-        <AppProvider>
-            <ThemeDisplay />
-            <UserDisplay />
-            <button onClick={() => {
+        &lt;AppProvider&gt;
+            &lt;ThemeDisplay /&gt;
+            &lt;UserDisplay /&gt;
+            &lt;button onClick={() =&gt; {
                 // 触发 user 更新 → ThemeDisplay 也重新渲染（不必要）
-            }}>
+            &rbrace;&rbrace;&gt;
                 修改用户
-            </button>
-        </AppProvider>
+            &lt;/button&gt;
+        &lt;/AppProvider&gt;
     );
 }
 
@@ -25941,7 +25941,7 @@ Context 的更新流程：
 // 即使用 React.memo 包裹，Context 变化时仍然渲染
 const MemoizedThemeDisplay = React.memo(function ThemeDisplay() {
     const ctx = useContext(AppContext)!;
-    return <p>{ctx.theme}</p>;
+    return &lt;p&gt;{ctx.theme}&lt;/p&gt;;
     // Context 变化 → 绕过 React.memo → 仍然渲染
 });
 
@@ -25987,50 +25987,50 @@ import React, { createContext, useContext, useState, useMemo, useCallback } from
 // 主题 Context（变化频率低）
 interface ThemeContextValue {
     theme: "light" | "dark";
-    toggleTheme: () => void;
+    toggleTheme: () =&gt; void;
 }
-const ThemeContext = createContext<ThemeContextValue | null>(null);
+const ThemeContext = createContext&lt;ThemeContextValue | null&gt;(null);
 
 // 用户 Context（变化频率低）
 interface UserContextValue {
     user: { name: string; age: number };
-    setUser: (user: { name: string; age: number }) => void;
+    setUser: (user: { name: string; age: number }) =&gt; void;
 }
-const UserContext = createContext<UserContextValue | null>(null);
+const UserContext = createContext&lt;UserContextValue | null&gt;(null);
 
 // 各自独立的 Provider
 function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<"light" | "dark">("light");
-    const toggleTheme = useCallback(() => {
-        setTheme((t) => (t === "light" ? "dark" : "light"));
+    const [theme, setTheme] = useState&lt;"light" | "dark"&gt;("light");
+    const toggleTheme = useCallback(() =&gt; {
+        setTheme((t) =&gt; (t === "light" ? "dark" : "light"));
     }, []);
 
     // useMemo 缓存 value，避免 Provider 重新渲染时创建新对象
-    const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+    const value = useMemo(() =&gt; ({ theme, toggleTheme }), [theme, toggleTheme]);
 
-    return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+    return &lt;ThemeContext.Provider value={value}&gt;{children}&lt;/ThemeContext.Provider&gt;;
 }
 
 function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState({ name: "张三", age: 25 });
 
-    const value = useMemo(() => ({ user, setUser }), [user]);
+    const value = useMemo(() =&gt; ({ user, setUser }), [user]);
 
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+    return &lt;UserContext.Provider value={value}&gt;{children}&lt;/UserContext.Provider&gt;;
 }
 
 // 消费组件：只订阅需要的 Context
 function ThemeDisplay() {
     const { theme } = useContext(ThemeContext)!;
     console.log("ThemeDisplay 渲染");
-    return <p>主题: {theme}</p>;
+    return &lt;p&gt;主题: {theme}&lt;/p&gt;;
     // user 变化 → ThemeContext 没变 → 不渲染
 }
 
 function UserDisplay() {
     const { user } = useContext(UserContext)!;
     console.log("UserDisplay 渲染");
-    return <p>用户: {user.name}</p>;
+    return &lt;p&gt;用户: {user.name}&lt;/p&gt;;
     // theme 变化 → UserContext 没变 → 不渲染
 }
 
@@ -26040,26 +26040,26 @@ function UserDisplay() {
 const CountStateContext = createContext(0);
 
 // 操作 Context（引用不变）
-const CountDispatchContext = createContext<{
-    increment: () => void;
-    decrement: () => void;
-} | null>(null);
+const CountDispatchContext = createContext&lt;{
+    increment: () =&gt; void;
+    decrement: () =&gt; void;
+} | null&gt;(null);
 
 function CountProvider({ children }: { children: React.ReactNode }) {
     const [count, setCount] = useState(0);
 
     // 操作函数用 useMemo 缓存，引用不变
-    const dispatch = useMemo(() => ({
-        increment: () => setCount((c) => c + 1),
-        decrement: () => setCount((c) => c - 1),
+    const dispatch = useMemo(() =&gt; ({
+        increment: () =&gt; setCount((c) =&gt; c + 1),
+        decrement: () =&gt; setCount((c) =&gt; c - 1),
     }), []);
 
     return (
-        <CountStateContext.Provider value={count}>
-            <CountDispatchContext.Provider value={dispatch}>
+        &lt;CountStateContext.Provider value={count}&gt;
+            &lt;CountDispatchContext.Provider value={dispatch}&gt;
                 {children}
-            </CountDispatchContext.Provider>
-        </CountStateContext.Provider>
+            &lt;/CountDispatchContext.Provider&gt;
+        &lt;/CountStateContext.Provider&gt;
     );
 }
 
@@ -26068,10 +26068,10 @@ function CountButtons() {
     const dispatch = useContext(CountDispatchContext)!;
     console.log("CountButtons 渲染");  // 只渲染一次
     return (
-        <div>
-            <button onClick={dispatch.increment}>+1</button>
-            <button onClick={dispatch.decrement}>-1</button>
-        </div>
+        &lt;div&gt;
+            &lt;button onClick={dispatch.increment}&gt;+1&lt;/button&gt;
+            &lt;button onClick={dispatch.decrement}&gt;-1&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -26079,22 +26079,22 @@ function CountButtons() {
 function CountDisplay() {
     const count = useContext(CountStateContext);
     console.log("CountDisplay 渲染");  // count 变化时渲染
-    return <p>计数: {count}</p>;
+    return &lt;p&gt;计数: {count}&lt;/p&gt;;
 }
 
 // ===== 组合使用 =====
 function App() {
     return (
-        <ThemeProvider>
-            <UserProvider>
-                <CountProvider>
-                    <ThemeDisplay />
-                    <UserDisplay />
-                    <CountDisplay />
-                    <CountButtons />
-                </CountProvider>
-            </UserProvider>
-        </ThemeProvider>
+        &lt;ThemeProvider&gt;
+            &lt;UserProvider&gt;
+                &lt;CountProvider&gt;
+                    &lt;ThemeDisplay /&gt;
+                    &lt;UserDisplay /&gt;
+                    &lt;CountDisplay /&gt;
+                    &lt;CountButtons /&gt;
+                &lt;/CountProvider&gt;
+            &lt;/UserProvider&gt;
+        &lt;/ThemeProvider&gt;
     );
 }
 
@@ -26115,18 +26115,18 @@ function CountProvider({ children }: { children: React.ReactNode }) {
     const [count, setCount] = useState(0);
     // children 是外部传入的，不随 count 变化重新创建
     return (
-        <CountStateContext.Provider value={count}>
+        &lt;CountStateContext.Provider value={count}&gt;
             {children}
             {/* children 中的组件不会因 count 变化而渲染 */}
             {/* 除非它们自己 useContext 了 CountStateContext */}
-        </CountStateContext.Provider>
+        &lt;/CountStateContext.Provider&gt;
     );
 }
 
 // 使用方式：
-// <CountProvider>
-//     <SomeChild />   ← 不消费 Context，不受 count 影响
-// </CountProvider>
+// &lt;CountProvider&gt;
+//     &lt;SomeChild /&gt;   ← 不消费 Context，不受 count 影响
+// &lt;/CountProvider&gt;
 ```
 
 ### 与相关API的对比
@@ -26154,34 +26154,34 @@ function CountProvider({ children }: { children: React.ReactNode }) {
 
 ```tsx
 // 问题：多个 Provider 嵌套层级很深
-// <ThemeProvider>
-//   <UserProvider>
-//     <LanguageProvider>
-//       <AuthProvider>
-//         <App />
-//       </AuthProvider>
-//     </LanguageProvider>
-//   </UserProvider>
-// </ThemeProvider>
+// &lt;ThemeProvider&gt;
+//   &lt;UserProvider&gt;
+//     &lt;LanguageProvider&gt;
+//       &lt;AuthProvider&gt;
+//         &lt;App /&gt;
+//       &lt;/AuthProvider&gt;
+//     &lt;/LanguageProvider&gt;
+//   &lt;/UserProvider&gt;
+// &lt;/ThemeProvider&gt;
 
 // 解决方案：compose 函数合并 Provider
 function ComposeProviders({
     providers,
     children,
 }: {
-    providers: Array<React.FC<{ children: React.ReactNode }>>;
+    providers: Array&lt;React.FC&lt;{ children: React.ReactNode }&gt;&gt;;
     children: React.ReactNode;
 }) {
     return providers.reduceRight(
-        (child, Provider) => <Provider>{child}</Provider>,
+        (child, Provider) =&gt; &lt;Provider&gt;{child}&lt;/Provider&gt;,
         children
     );
 }
 
 // 使用：
-// <ComposeProviders providers={[ThemeProvider, UserProvider, LanguageProvider, AuthProvider]}>
-//     <App />
-// </ComposeProviders>
+// &lt;ComposeProviders providers={[ThemeProvider, UserProvider, LanguageProvider, AuthProvider]}&gt;
+//     &lt;App /&gt;
+// &lt;/ComposeProviders&gt;
 ```
 
 ### 注意事项
@@ -26233,16 +26233,16 @@ async function HomePage() {
     const posts = await res.json();
 
     return (
-        <main>
-            <h1>文章列表</h1>
-            <ul>
-                {posts.map((post: any) => (
-                    <li key={post.id}>{post.title}</li>
+        &lt;main&gt;
+            &lt;h1&gt;文章列表&lt;/h1&gt;
+            &lt;ul&gt;
+                {posts.map((post: any) =&gt; (
+                    &lt;li key={post.id}&gt;{post.title}&lt;/li&gt;
                 ))}
-            </ul>
+            &lt;/ul&gt;
             {/* Client Component 需要 hydration */}
-            <LikeButton />
-        </main>
+            &lt;LikeButton /&gt;
+        &lt;/main&gt;
     );
 }
 
@@ -26259,12 +26259,12 @@ function LikeButton() {
     const [liked, setLiked] = useState(false);
 
     return (
-        <button onClick={() => setLiked(!liked)}>
+        &lt;button onClick={() =&gt; setLiked(!liked)}&gt;
             {liked ? "已点赞" : "点赞"}
-        </button>
+        &lt;/button&gt;
     );
     // 这个按钮会经历 hydration：
-    // 1. 服务端渲染为 <button>点赞</button> HTML
+    // 1. 服务端渲染为 &lt;button&gt;点赞&lt;/button&gt; HTML
     // 2. 客户端加载 JS 后绑定 onClick 事件
     // 3. 页面变得可交互
 }
@@ -26333,7 +26333,7 @@ export { LikeButton };
 hydration 不匹配的常见原因：
   → 服务端和客户端使用了不同的数据（如 Date.now()）
   → 条件渲染依赖了浏览器 API（如 window.innerWidth）
-  → HTML 标签嵌套不正确（如 <p> 内嵌套 <div>）
+  → HTML 标签嵌套不正确（如 &lt;p&gt; 内嵌套 &lt;div&gt;）
 
 React 的处理：
   → 开发环境会报警告
@@ -26376,12 +26376,12 @@ CSR 是传统 React 单页应用（SPA）的默认渲染模式，Create React Ap
 
 // ===== 纯 CSR 应用（如 Vite + React） =====
 // index.html - 几乎为空的 HTML
-// <html>
-//   <body>
-//     <div id="root"></div>
-//     <script src="/main.js"></script>
-//   </body>
-// </html>
+// &lt;html&gt;
+//   &lt;body&gt;
+//     &lt;div id="root"&gt;&lt;/div&gt;
+//     &lt;script src="/main.js"&gt;&lt;/script&gt;
+//   &lt;/body&gt;
+// &lt;/html&gt;
 
 // main.tsx - JavaScript 负责生成所有内容
 import { createRoot } from "react-dom/client";
@@ -26389,7 +26389,7 @@ import App from "./App";
 
 // React 在客户端创建整个 DOM 树
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(&lt;App /&gt;);
 
 // ===== Next.js 中的 CSR 场景 =====
 // 某些数据只在客户端获取（不需要 SSR）
@@ -26398,11 +26398,11 @@ root.render(<App />);
 import { useState, useEffect } from "react";
 
 function ClientOnlyDashboard() {
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState&lt;any&gt;(null);
     const [loading, setLoading] = useState(true);
 
     // useEffect 只在客户端执行
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 这个请求不在服务端执行
         // 适合需要用户认证 token 的接口
         fetch("/api/dashboard", {
@@ -26410,20 +26410,20 @@ function ClientOnlyDashboard() {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         })
-            .then((res) => res.json())
-            .then((data) => {
+            .then((res) =&gt; res.json())
+            .then((data) =&gt; {
                 setData(data);
                 setLoading(false);
             });
     }, []);
 
-    if (loading) return <p>加载中...</p>;
+    if (loading) return &lt;p&gt;加载中...&lt;/p&gt;;
 
     return (
-        <div>
-            <h2>仪表盘</h2>
-            <p>欢迎, {data.userName}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;仪表盘&lt;/h2&gt;
+            &lt;p&gt;欢迎, {data.userName}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -26439,7 +26439,7 @@ export default ClientOnlyDashboard;
 
 1. 浏览器请求 HTML
    → 服务器返回空的 HTML 骨架
-   → <div id="root"></div>
+   → &lt;div id="root"&gt;&lt;/div&gt;
    → 用户看到白屏
 
 2. 浏览器下载 JavaScript
@@ -26490,7 +26490,7 @@ export default ClientOnlyDashboard;
 import dynamic from "next/dynamic";
 
 const ClientOnlyComponent = dynamic(
-    () => import("../components/ClientOnly"),
+    () =&gt; import("../components/ClientOnly"),
     { ssr: false }  // 禁用服务端渲染
 );
 
@@ -26501,13 +26501,13 @@ import { useState, useEffect } from "react";
 function ClientOnly({ children }: { children: React.ReactNode }) {
     const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         setMounted(true);
     }, []);
 
     if (!mounted) return null;  // 服务端渲染时返回 null
 
-    return <>{children}</>;
+    return &lt;&gt;{children}&lt;/&gt;;
 }
 ```
 
@@ -26548,10 +26548,10 @@ SSG 的局限性在于数据是构建时的快照，页面部署后数据不会�
 // 没有动态数据，构建时自动生成静态 HTML
 function AboutPage() {
     return (
-        <main>
-            <h1>关于我们</h1>
-            <p>这是一个在构建时生成的静态页面</p>
-        </main>
+        &lt;main&gt;
+            &lt;h1&gt;关于我们&lt;/h1&gt;
+            &lt;p&gt;这是一个在构建时生成的静态页面&lt;/p&gt;
+        &lt;/main&gt;
     );
 }
 
@@ -26568,16 +26568,16 @@ async function BlogListPage() {
     const posts = await res.json();
 
     return (
-        <main>
-            <h1>博客文章</h1>
-            <ul>
-                {posts.map((post: any) => (
-                    <li key={post.id}>
-                        <a href={`/blog/${post.slug}`}>{post.title}</a>
-                    </li>
+        &lt;main&gt;
+            &lt;h1&gt;博客文章&lt;/h1&gt;
+            &lt;ul&gt;
+                {posts.map((post: any) =&gt; (
+                    &lt;li key={post.id}&gt;
+                        &lt;a href={`/blog/${post.slug}`}&gt;{post.title}&lt;/a&gt;
+                    &lt;/li&gt;
                 ))}
-            </ul>
-        </main>
+            &lt;/ul&gt;
+        &lt;/main&gt;
     );
 }
 
@@ -26593,22 +26593,22 @@ export async function generateStaticParams() {
     const posts = await res.json();
 
     // 返回参数数组，每个对象对应一个页面
-    return posts.map((post: any) => ({
+    return posts.map((post: any) =&gt; ({
         slug: post.slug,  // 对应 [slug] 动态段
     }));
 }
 
 // 每个参数对应的页面在构建时渲染
-async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+async function BlogPostPage({ params }: { params: Promise&lt;{ slug: string }&gt; }) {
     const { slug } = await params;
     const res = await fetch(`https://api.example.com/posts/${slug}`);
     const post = await res.json();
 
     return (
-        <article>
-            <h1>{post.title}</h1>
-            <p>{post.content}</p>
-        </article>
+        &lt;article&gt;
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;p&gt;{post.content}&lt;/p&gt;
+        &lt;/article&gt;
     );
 }
 
@@ -26638,7 +26638,7 @@ export default BlogPostPage;
   → 静态 HTML 文件放在 CDN
   → 用户请求 → CDN 直接返回 HTML
   → 不经过 Node.js 服务器
-  → 响应时间 < 50ms（CDN 边缘节点）
+  → 响应时间 &lt; 50ms（CDN 边缘节点）
 ```
 
 ### 与相关API的对比
@@ -26671,7 +26671,7 @@ export async function generateStaticParams() {
     const res = await fetch("https://api.example.com/posts?top=100");
     const posts = await res.json();
 
-    return posts.map((post: any) => ({
+    return posts.map((post: any) =&gt; ({
         slug: post.slug,
     }));
 }
@@ -26724,15 +26724,15 @@ async function ProductsPage() {
     const products = await res.json();
 
     return (
-        <main>
-            <h1>商品列表</h1>
-            <p>数据更新时间: {new Date().toLocaleString()}</p>
-            <ul>
-                {products.map((p: any) => (
-                    <li key={p.id}>{p.name} - ¥{p.price}</li>
+        &lt;main&gt;
+            &lt;h1&gt;商品列表&lt;/h1&gt;
+            &lt;p&gt;数据更新时间: {new Date().toLocaleString()}&lt;/p&gt;
+            &lt;ul&gt;
+                {products.map((p: any) =&gt; (
+                    &lt;li key={p.id}&gt;{p.name} - ¥{p.price}&lt;/li&gt;
                 ))}
-            </ul>
-        </main>
+            &lt;/ul&gt;
+        &lt;/main&gt;
     );
 }
 
@@ -26749,15 +26749,15 @@ async function NewsPage() {
     const news = await res.json();
 
     return (
-        <main>
-            <h1>新闻</h1>
-            {news.map((item: any) => (
-                <article key={item.id}>
-                    <h2>{item.title}</h2>
-                    <p>{item.summary}</p>
-                </article>
+        &lt;main&gt;
+            &lt;h1&gt;新闻&lt;/h1&gt;
+            {news.map((item: any) =&gt; (
+                &lt;article key={item.id}&gt;
+                    &lt;h2&gt;{item.title}&lt;/h2&gt;
+                    &lt;p&gt;{item.summary}&lt;/p&gt;
+                &lt;/article&gt;
             ))}
-        </main>
+        &lt;/main&gt;
     );
 }
 
@@ -26895,24 +26895,24 @@ import { Suspense } from "react";
 // 页面组件：快速返回框架 + 慢加载部分用 Suspense 包裹
 export default function DashboardPage() {
     return (
-        <main>
+        &lt;main&gt;
             {/* 这部分立即发送给浏览器 */}
-            <h1>仪表盘</h1>
-            <nav>导航栏内容（立即展示）</nav>
+            &lt;h1&gt;仪表盘&lt;/h1&gt;
+            &lt;nav&gt;导航栏内容（立即展示）&lt;/nav&gt;
 
             {/* 慢加载部分：先展示 fallback，数据到达后替换 */}
-            <Suspense fallback={<p>加载统计数据中...</p>}>
-                <StatsPanel />
-            </Suspense>
+            &lt;Suspense fallback={&lt;p&gt;加载统计数据中...&lt;/p&gt;}&gt;
+                &lt;StatsPanel /&gt;
+            &lt;/Suspense&gt;
 
-            <Suspense fallback={<p>加载图表中...</p>}>
-                <ChartSection />
-            </Suspense>
+            &lt;Suspense fallback={&lt;p&gt;加载图表中...&lt;/p&gt;}&gt;
+                &lt;ChartSection /&gt;
+            &lt;/Suspense&gt;
 
-            <Suspense fallback={<p>加载最近活动中...</p>}>
-                <RecentActivity />
-            </Suspense>
-        </main>
+            &lt;Suspense fallback={&lt;p&gt;加载最近活动中...&lt;/p&gt;}&gt;
+                &lt;RecentActivity /&gt;
+            &lt;/Suspense&gt;
+        &lt;/main&gt;
     );
 }
 
@@ -26921,14 +26921,14 @@ async function StatsPanel() {
     // 模拟1秒的数据获取
     const stats = await fetch("https://api.example.com/stats", {
         cache: "no-store",
-    }).then((r) => r.json());
+    }).then((r) =&gt; r.json());
 
     return (
-        <div>
-            <h2>统计概览</h2>
-            <p>用户数: {stats.userCount}</p>
-            <p>订单数: {stats.orderCount}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;统计概览&lt;/h2&gt;
+            &lt;p&gt;用户数: {stats.userCount}&lt;/p&gt;
+            &lt;p&gt;订单数: {stats.orderCount}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -26936,13 +26936,13 @@ async function ChartSection() {
     // 模拟3秒的数据获取（很慢）
     const chartData = await fetch("https://api.example.com/charts", {
         cache: "no-store",
-    }).then((r) => r.json());
+    }).then((r) =&gt; r.json());
 
     return (
-        <div>
-            <h2>数据图表</h2>
-            <p>数据点数: {chartData.points.length}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h2&gt;数据图表&lt;/h2&gt;
+            &lt;p&gt;数据点数: {chartData.points.length}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -26950,14 +26950,14 @@ async function RecentActivity() {
     // 模拟2秒的数据获取
     const activities = await fetch("https://api.example.com/activities", {
         cache: "no-store",
-    }).then((r) => r.json());
+    }).then((r) =&gt; r.json());
 
     return (
-        <ul>
-            {activities.map((a: any) => (
-                <li key={a.id}>{a.description}</li>
+        &lt;ul&gt;
+            {activities.map((a: any) =&gt; (
+                &lt;li key={a.id}&gt;{a.description}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 ```
@@ -27091,7 +27091,7 @@ app/
 // ===== 静态路由 =====
 // app/about/page.tsx
 export default function AboutPage() {
-    return <h1>关于我们</h1>;
+    return &lt;h1&gt;关于我们&lt;/h1&gt;;
 }
 
 // ===== 动态路由 =====
@@ -27100,11 +27100,11 @@ export default function AboutPage() {
 export default async function BlogPost({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: Promise&lt;{ slug: string }&gt;;
 }) {
     const { slug } = await params;
     // slug 的值来自 URL，如 /blog/hello → slug = "hello"
-    return <h1>文章: {slug}</h1>;
+    return &lt;h1&gt;文章: {slug}&lt;/h1&gt;;
 }
 
 // ===== 捕获所有路由 =====
@@ -27113,11 +27113,11 @@ export default async function BlogPost({
 export default async function ShopPage({
     params,
 }: {
-    params: Promise<{ categories: string[] }>;
+    params: Promise&lt;{ categories: string[] }&gt;;
 }) {
     const { categories } = await params;
     // /shop/clothes/men/shirts → categories = ["clothes", "men", "shirts"]
-    return <h1>分类: {categories.join(" > ")}</h1>;
+    return &lt;h1&gt;分类: {categories.join(" &gt; ")}&lt;/h1&gt;;
 }
 
 // ===== 路由组 =====
@@ -27125,7 +27125,7 @@ export default async function ShopPage({
 // (marketing) 文件夹不会出现在 URL 中
 // URL 是 /pricing 而不是 /marketing/pricing
 export default function PricingPage() {
-    return <h1>定价</h1>;
+    return &lt;h1&gt;定价&lt;/h1&gt;;
 }
 ```
 
@@ -27231,20 +27231,20 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="zh-CN">
-            <body>
+        &lt;html lang="zh-CN"&gt;
+            &lt;body&gt;
                 {/* 所有页面共享的全局导航 */}
-                <header>
-                    <nav>
-                        <a href="/">首页</a>
-                        <a href="/dashboard">仪表盘</a>
-                    </nav>
-                </header>
+                &lt;header&gt;
+                    &lt;nav&gt;
+                        &lt;a href="/"&gt;首页&lt;/a&gt;
+                        &lt;a href="/dashboard"&gt;仪表盘&lt;/a&gt;
+                    &lt;/nav&gt;
+                &lt;/header&gt;
                 {/* children 是子布局或页面 */}
-                <main>{children}</main>
-                <footer>版权所有 2026</footer>
-            </body>
-        </html>
+                &lt;main&gt;{children}&lt;/main&gt;
+                &lt;footer&gt;版权所有 2026&lt;/footer&gt;
+            &lt;/body&gt;
+        &lt;/html&gt;
     );
 }
 
@@ -27256,45 +27256,45 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div style={{ display: "flex" }}>
+        &lt;div style=&lbrace;&lbrace; display: "flex" &rbrace;&rbrace;&gt;
             {/* 仪表盘侧边栏：导航时不会重新挂载 */}
-            <aside style={{ width: 200 }}>
-                <nav>
-                    <a href="/dashboard">概览</a>
-                    <a href="/dashboard/settings">设置</a>
-                    <a href="/dashboard/analytics">分析</a>
-                </nav>
-            </aside>
+            &lt;aside style=&lbrace;&lbrace; width: 200 &rbrace;&rbrace;&gt;
+                &lt;nav&gt;
+                    &lt;a href="/dashboard"&gt;概览&lt;/a&gt;
+                    &lt;a href="/dashboard/settings"&gt;设置&lt;/a&gt;
+                    &lt;a href="/dashboard/analytics"&gt;分析&lt;/a&gt;
+                &lt;/nav&gt;
+            &lt;/aside&gt;
             {/* 内容区域：导航时只有这部分变化 */}
-            <section style={{ flex: 1 }}>{children}</section>
-        </div>
+            &lt;section style=&lbrace;&lbrace; flex: 1 &rbrace;&rbrace;&gt;{children}&lt;/section&gt;
+        &lt;/div&gt;
     );
 }
 
 // ===== Dashboard 页面 =====
 // app/dashboard/page.tsx
 export default function DashboardPage() {
-    return <h2>仪表盘概览</h2>;
+    return &lt;h2&gt;仪表盘概览&lt;/h2&gt;;
 }
 
 // ===== Dashboard/Settings 页面 =====
 // app/dashboard/settings/page.tsx
 export default function SettingsPage() {
-    return <h2>设置页面</h2>;
+    return &lt;h2&gt;设置页面&lt;/h2&gt;;
 }
 
 // 渲染结果（访问 /dashboard/settings）：
 // RootLayout
-//   └── <header>全局导航</header>
-//   └── <main>
+//   └── &lt;header&gt;全局导航&lt;/header&gt;
+//   └── &lt;main&gt;
 //         DashboardLayout
-//           └── <aside>侧边栏</aside>
-//           └── <section>
+//           └── &lt;aside&gt;侧边栏&lt;/aside&gt;
+//           └── &lt;section&gt;
 //                 SettingsPage
-//                   └── <h2>设置页面</h2>
-//               </section>
-//       </main>
-//   └── <footer>版权</footer>
+//                   └── &lt;h2&gt;设置页面&lt;/h2&gt;
+//               &lt;/section&gt;
+//       &lt;/main&gt;
+//   └── &lt;footer&gt;版权&lt;/footer&gt;
 ```
 
 ### 内部原理
@@ -27408,11 +27408,11 @@ Next.js App Router 中的 `loading.tsx` 是一个特殊文件，用于定义路�
 export default function DashboardLoading() {
     // 当 dashboard/page.tsx 正在加载数据时展示
     return (
-        <div>
-            <div style={{ height: 32, width: 200, background: "#eee", marginBottom: 16 }} />
-            <div style={{ height: 200, background: "#f5f5f5" }} />
-            <p>加载仪表盘数据...</p>
-        </div>
+        &lt;div&gt;
+            &lt;div style=&lbrace;&lbrace; height: 32, width: 200, background: "#eee", marginBottom: 16 &rbrace;&rbrace; /&gt;
+            &lt;div style=&lbrace;&lbrace; height: 200, background: "#f5f5f5" &rbrace;&rbrace; /&gt;
+            &lt;p&gt;加载仪表盘数据...&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -27426,11 +27426,11 @@ async function DashboardPage() {
     const data = await res.json();
 
     return (
-        <div>
-            <h1>仪表盘</h1>
-            <p>用户数: {data.userCount}</p>
-            <p>收入: {data.revenue}</p>
-        </div>
+        &lt;div&gt;
+            &lt;h1&gt;仪表盘&lt;/h1&gt;
+            &lt;p&gt;用户数: {data.userCount}&lt;/p&gt;
+            &lt;p&gt;收入: {data.revenue}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -27442,19 +27442,19 @@ import { Suspense } from "react";
 
 export default function ProductsPage() {
     return (
-        <div>
-            <h1>商品页面</h1>
+        &lt;div&gt;
+            &lt;h1&gt;商品页面&lt;/h1&gt;
 
             {/* 商品列表：独立的加载状态 */}
-            <Suspense fallback={<p>加载商品列表...</p>}>
-                <ProductList />
-            </Suspense>
+            &lt;Suspense fallback={&lt;p&gt;加载商品列表...&lt;/p&gt;}&gt;
+                &lt;ProductList /&gt;
+            &lt;/Suspense&gt;
 
             {/* 推荐商品：独立的加载状态 */}
-            <Suspense fallback={<p>加载推荐...</p>}>
-                <Recommendations />
-            </Suspense>
-        </div>
+            &lt;Suspense fallback={&lt;p&gt;加载推荐...&lt;/p&gt;}&gt;
+                &lt;Recommendations /&gt;
+            &lt;/Suspense&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -27466,11 +27466,11 @@ async function ProductList() {
     const products = await res.json();
 
     return (
-        <ul>
-            {products.map((p: any) => (
-                <li key={p.id}>{p.name} - ¥{p.price}</li>
+        &lt;ul&gt;
+            {products.map((p: any) =&gt; (
+                &lt;li key={p.id}&gt;{p.name} - ¥{p.price}&lt;/li&gt;
             ))}
-        </ul>
+        &lt;/ul&gt;
     );
 }
 
@@ -27481,12 +27481,12 @@ async function Recommendations() {
     const items = await res.json();
 
     return (
-        <div>
-            <h2>为你推荐</h2>
-            {items.map((item: any) => (
-                <span key={item.id}>{item.name} </span>
+        &lt;div&gt;
+            &lt;h2&gt;为你推荐&lt;/h2&gt;
+            {items.map((item: any) =&gt; (
+                &lt;span key={item.id}&gt;{item.name} &lt;/span&gt;
             ))}
-        </div>
+        &lt;/div&gt;
     );
 }
 ```
@@ -27505,20 +27505,20 @@ Next.js 内部对 loading.tsx 的处理：
     └── page.tsx
 
 等价于手写：
-  <Layout>
-    <Suspense fallback={<Loading />}>
-      <Page />
-    </Suspense>
-  </Layout>
+  &lt;Layout&gt;
+    &lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+      &lt;Page /&gt;
+    &lt;/Suspense&gt;
+  &lt;/Layout&gt;
 
 嵌套时的组件树：
   RootLayout
     └── DashboardLayout
-        └── <Suspense fallback={<DashboardLoading />}>
+        └── &lt;Suspense fallback={&lt;DashboardLoading /&gt;}&gt;
             └── DashboardPage
-                └── <Suspense fallback={<ProductListSkeleton />}>
+                └── &lt;Suspense fallback={&lt;ProductListSkeleton /&gt;}&gt;
                     └── ProductList
-                └── <Suspense fallback={<RecommendationsSkeleton />}>
+                └── &lt;Suspense fallback={&lt;RecommendationsSkeleton /&gt;}&gt;
                     └── Recommendations
 
 导航时的行为：
@@ -27615,22 +27615,22 @@ export default function DashboardError({
     reset,
 }: {
     error: Error & { digest?: string };  // digest 是服务端错误的哈希标识
-    reset: () => void;                    // 重试函数
+    reset: () =&gt; void;                    // 重试函数
 }) {
     // 记录错误日志
-    useEffect(() => {
+    useEffect(() =&gt; {
         console.error("Dashboard 错误:", error);
         // 可以上报到错误监控平台
         // reportError(error);
     }, [error]);
 
     return (
-        <div style={{ padding: 20, border: "1px solid red", borderRadius: 8 }}>
-            <h2>仪表盘加载出错</h2>
-            <p>{error.message}</p>
+        &lt;div style=&lbrace;&lbrace; padding: 20, border: "1px solid red", borderRadius: 8 &rbrace;&rbrace;&gt;
+            &lt;h2&gt;仪表盘加载出错&lt;/h2&gt;
+            &lt;p&gt;{error.message}&lt;/p&gt;
             {/* reset 会尝试重新渲染出错的路由段 */}
-            <button onClick={() => reset()}>重试</button>
-        </div>
+            &lt;button onClick={() =&gt; reset()}&gt;重试&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -27645,7 +27645,7 @@ async function DashboardPage() {
     }
 
     const data = await res.json();
-    return <h1>仪表盘: {data.title}</h1>;
+    return &lt;h1&gt;仪表盘: {data.title}&lt;/h1&gt;;
 }
 
 export default DashboardPage;
@@ -27660,16 +27660,16 @@ export default function GlobalError({
     reset,
 }: {
     error: Error & { digest?: string };
-    reset: () => void;
+    reset: () =&gt; void;
 }) {
     return (
-        <html>
-            <body>
-                <h2>应用出现严重错误</h2>
-                <p>{error.message}</p>
-                <button onClick={() => reset()}>重试</button>
-            </body>
-        </html>
+        &lt;html&gt;
+            &lt;body&gt;
+                &lt;h2&gt;应用出现严重错误&lt;/h2&gt;
+                &lt;p&gt;{error.message}&lt;/p&gt;
+                &lt;button onClick={() =&gt; reset()}&gt;重试&lt;/button&gt;
+            &lt;/body&gt;
+        &lt;/html&gt;
     );
 }
 ```
@@ -27689,13 +27689,13 @@ Next.js 内部对 error.tsx 的处理：
     └── page.tsx
 
 等价于：
-  <Layout>
-    <ErrorBoundary fallback={<Error />}>
-      <Suspense fallback={<Loading />}>
-        <Page />
-      </Suspense>
-    </ErrorBoundary>
-  </Layout>
+  &lt;Layout&gt;
+    &lt;ErrorBoundary fallback={&lt;Error /&gt;}&gt;
+      &lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+        &lt;Page /&gt;
+      &lt;/Suspense&gt;
+    &lt;/ErrorBoundary&gt;
+  &lt;/Layout&gt;
 
 错误捕获范围：
   error.tsx 捕获 → Page 和 Loading 中的错误
@@ -27747,11 +27747,11 @@ export default function DashboardError({
     reset,
 }: {
     error: Error;
-    reset: () => void;
+    reset: () =&gt; void;
 }) {
     const router = useRouter();
 
-    const handleRetry = () => {
+    const handleRetry = () =&gt; {
         // 先刷新服务端缓存
         router.refresh();
         // 再重新渲染组件
@@ -27759,10 +27759,10 @@ export default function DashboardError({
     };
 
     return (
-        <div>
-            <p>出错了: {error.message}</p>
-            <button onClick={handleRetry}>重试</button>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;出错了: {error.message}&lt;/p&gt;
+            &lt;button onClick={handleRetry}&gt;重试&lt;/button&gt;
+        &lt;/div&gt;
     );
 }
 ```
@@ -27812,24 +27812,24 @@ async function PostsPage() {
     // 直接在组件中获取数据（服务端执行）
     const posts = await fetch("https://api.example.com/posts", {
         cache: "no-store",
-    }).then((r) => r.json());
+    }).then((r) =&gt; r.json());
 
     // 可以访问服务端环境变量
     const apiKey = process.env.API_SECRET_KEY;
     console.log("服务端日志，不会出现在浏览器控制台");
 
     return (
-        <main>
-            <h1>文章列表</h1>
-            {posts.map((post: any) => (
-                <article key={post.id}>
-                    <h2>{post.title}</h2>
-                    <p>{post.excerpt}</p>
+        &lt;main&gt;
+            &lt;h1&gt;文章列表&lt;/h1&gt;
+            {posts.map((post: any) =&gt; (
+                &lt;article key={post.id}&gt;
+                    &lt;h2&gt;{post.title}&lt;/h2&gt;
+                    &lt;p&gt;{post.excerpt}&lt;/p&gt;
                     {/* Server Component 可以渲染 Client Component */}
-                    <LikeButton postId={post.id} />
-                </article>
+                    &lt;LikeButton postId={post.id} /&gt;
+                &lt;/article&gt;
             ))}
-        </main>
+        &lt;/main&gt;
     );
 }
 
@@ -27847,17 +27847,17 @@ export function LikeButton({ postId }: { postId: number }) {
     const [liked, setLiked] = useState(false);
     const [count, setCount] = useState(0);
 
-    const handleLike = async () => {
+    const handleLike = async () =&gt; {
         setLiked(!liked);
-        setCount((c) => (liked ? c - 1 : c + 1));
+        setCount((c) =&gt; (liked ? c - 1 : c + 1));
         // 客户端发起请求
         await fetch(`/api/posts/${postId}/like`, { method: "POST" });
     };
 
     return (
-        <button onClick={handleLike}>
+        &lt;button onClick={handleLike}&gt;
             {liked ? "取消点赞" : "点赞"} ({count})
-        </button>
+        &lt;/button&gt;
     );
 }
 
@@ -27867,13 +27867,13 @@ import { ClientWrapper } from "./ClientWrapper";
 
 // Server Component 通过 children 传递给 Client Component
 async function Page() {
-    const data = await fetch("https://api.example.com/data").then((r) => r.json());
+    const data = await fetch("https://api.example.com/data").then((r) =&gt; r.json());
 
     return (
-        <ClientWrapper>
+        &lt;ClientWrapper&gt;
             {/* 这个部分在服务端渲染，作为 children 传给 ClientWrapper */}
-            <p>服务端数据: {data.value}</p>
-        </ClientWrapper>
+            &lt;p&gt;服务端数据: {data.value}&lt;/p&gt;
+        &lt;/ClientWrapper&gt;
     );
 }
 
@@ -27884,10 +27884,10 @@ export default Page;
 export function ClientWrapper({ children }: { children: React.ReactNode }) {
     const [open, setOpen] = useState(true);
     return (
-        <div>
-            <button onClick={() => setOpen(!open)}>切换</button>
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setOpen(!open)}&gt;切换&lt;/button&gt;
             {open && children}
-        </div>
+        &lt;/div&gt;
     );
 }
 ```
@@ -27954,16 +27954,16 @@ Server Component 的生命周期：
 import { Chart } from "./Chart";
 
 export default async function Page() {
-    const data = await fetch("/api/stats").then(r => r.json());
+    const data = await fetch("/api/stats").then(r =&gt; r.json());
     // 将数据作为 props 传递（数据必须可序列化）
-    return <Chart data={data} />;
+    return &lt;Chart data={data} /&gt;;
 }
 
 // Chart.tsx (Client Component)
 "use client";
 export function Chart({ data }: { data: any }) {
     // 使用客户端图表库渲染
-    return <div>{/* 用 data 渲染图表 */}</div>;
+    return &lt;div&gt;{/* 用 data 渲染图表 */}&lt;/div&gt;;
 }
 
 // 方案2：通过 children 模式
@@ -28020,7 +28020,7 @@ interface BlogPageProps {
 }
 
 // getStaticProps：构建时在服务端执行
-export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
+export const getStaticProps: GetStaticProps&lt;BlogPageProps&gt; = async () =&gt; {
     // 可以访问数据库（服务端执行，不打包到客户端）
     const res = await fetch("https://api.example.com/posts");
     const posts: Post[] = await res.json();
@@ -28044,20 +28044,20 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
 export default function BlogPage({
     posts,
     generatedAt,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetStaticPropsType&lt;typeof getStaticProps&gt;) {
     return (
-        <main>
-            <h1>博客文章</h1>
-            <p>页面生成时间: {generatedAt}</p>
-            <ul>
-                {posts.map((post) => (
-                    <li key={post.id}>
-                        <h2>{post.title}</h2>
-                        <p>{post.excerpt}</p>
-                    </li>
+        &lt;main&gt;
+            &lt;h1&gt;博客文章&lt;/h1&gt;
+            &lt;p&gt;页面生成时间: {generatedAt}&lt;/p&gt;
+            &lt;ul&gt;
+                {posts.map((post) =&gt; (
+                    &lt;li key={post.id}&gt;
+                        &lt;h2&gt;{post.title}&lt;/h2&gt;
+                        &lt;p&gt;{post.excerpt}&lt;/p&gt;
+                    &lt;/li&gt;
                 ))}
-            </ul>
-        </main>
+            &lt;/ul&gt;
+        &lt;/main&gt;
     );
 }
 ```
@@ -28172,7 +28172,7 @@ interface ProfilePageProps {
 }
 
 // getServerSideProps：每次请求时在服务端执行
-export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps&lt;ProfilePageProps&gt; = async (context) =&gt; {
     // context 包含请求的完整信息
     const { req, res, query, params, resolvedUrl } = context;
 
@@ -28225,15 +28225,15 @@ export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async (c
 export default function ProfilePage({
     user,
     serverTime,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetServerSidePropsType&lt;typeof getServerSideProps&gt;) {
     return (
-        <main>
-            <h1>个人资料</h1>
-            <p>姓名: {user.name}</p>
-            <p>邮箱: {user.email}</p>
-            <p>角色: {user.role}</p>
-            <p>服务器时间: {serverTime}</p>
-        </main>
+        &lt;main&gt;
+            &lt;h1&gt;个人资料&lt;/h1&gt;
+            &lt;p&gt;姓名: {user.name}&lt;/p&gt;
+            &lt;p&gt;邮箱: {user.email}&lt;/p&gt;
+            &lt;p&gt;角色: {user.role}&lt;/p&gt;
+            &lt;p&gt;服务器时间: {serverTime}&lt;/p&gt;
+        &lt;/main&gt;
     );
 }
 ```
@@ -28288,7 +28288,7 @@ export default function ProfilePage({
 **解决方案：**
 
 ```typescript
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) =&gt; {
     // 可以通过 res 设置缓存头
     // 让 CDN 缓存10秒，过期后后台刷新
     context.res.setHeader(
@@ -28296,7 +28296,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         "public, s-maxage=10, stale-while-revalidate=59"
     );
 
-    const data = await fetch("https://api.example.com/data").then(r => r.json());
+    const data = await fetch("https://api.example.com/data").then(r =&gt; r.json());
 
     return { props: { data } };
 };
@@ -28349,14 +28349,14 @@ interface Post {
 }
 
 // getStaticPaths：告诉 Next.js 需要预生成哪些路径
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () =&gt; {
     // 从 API 获取所有文章
     const res = await fetch("https://api.example.com/posts");
     const posts: Post[] = await res.json();
 
     // 生成路径参数数组
     // 每个对象的 params 对应动态路由的参数
-    const paths = posts.map((post) => ({
+    const paths = posts.map((post) =&gt; ({
         params: { slug: post.slug },  // [slug] 对应的参数
     }));
 
@@ -28368,7 +28368,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 // getStaticProps：每个路径对应的数据获取
-export const getStaticProps: GetStaticProps<{ post: Post }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps&lt;{ post: Post }&gt; = async ({ params }) =&gt; {
     const slug = params?.slug as string;
 
     const res = await fetch(`https://api.example.com/posts/${slug}`);
@@ -28388,12 +28388,12 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async ({ params })
 // 页面组件
 export default function BlogPostPage({
     post,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetStaticPropsType&lt;typeof getStaticProps&gt;) {
     return (
-        <article>
-            <h1>{post.title}</h1>
-            <div>{post.content}</div>
-        </article>
+        &lt;article&gt;
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;div&gt;{post.content}&lt;/div&gt;
+        &lt;/article&gt;
     );
 }
 ```
@@ -28465,14 +28465,14 @@ export default function PostPage({ post }: { post: Post }) {
     // 页面组件会在 getStaticProps 完成前就渲染
     // 此时 props 还不可用，router.isFallback 为 true
     if (router.isFallback) {
-        return <p>加载中...</p>;
+        return &lt;p&gt;加载中...&lt;/p&gt;;
     }
 
     return (
-        <article>
-            <h1>{post.title}</h1>
-            <p>{post.content}</p>
-        </article>
+        &lt;article&gt;
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;p&gt;{post.content}&lt;/p&gt;
+        &lt;/article&gt;
     );
 }
 
@@ -28522,25 +28522,25 @@ function BadTimestamp() {
     // 服务端渲染时是服务器时间
     // 客户端 hydration 时是浏览器时间
     // 两者可能相差几毫秒到几秒
-    return <p>当前时间: {new Date().toLocaleString()}</p>;
+    return &lt;p&gt;当前时间: {new Date().toLocaleString()}&lt;/p&gt;;
     // 警告：Text content did not match
 }
 
 // 正确写法：延迟到客户端渲染
 function GoodTimestamp() {
-    const [time, setTime] = useState<string>("");
+    const [time, setTime] = useState&lt;string&gt;("");
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         // useEffect 只在客户端执行
         setTime(new Date().toLocaleString());
-        const timer = setInterval(() => {
+        const timer = setInterval(() =&gt; {
             setTime(new Date().toLocaleString());
         }, 1000);
-        return () => clearInterval(timer);
+        return () =&gt; clearInterval(timer);
     }, []);
 
     // 服务端渲染空字符串，客户端 hydration 后展示时间
-    return <p>当前时间: {time || "加载中..."}</p>;
+    return &lt;p&gt;当前时间: {time || "加载中..."}&lt;/p&gt;;
 }
 
 // ===== 场景2：使用浏览器 API =====
@@ -28548,8 +28548,8 @@ function GoodTimestamp() {
 function BadWindowCheck() {
     // 服务端：typeof window === "undefined" → 渲染 "移动端"
     // 客户端：window.innerWidth 可能是 1024 → 渲染 "桌面端"
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    return <p>{isMobile ? "移动端" : "桌面端"}</p>;
+    const isMobile = typeof window !== "undefined" && window.innerWidth &lt; 768;
+    return &lt;p&gt;{isMobile ? "移动端" : "桌面端"}&lt;/p&gt;;
     // 不匹配！
 }
 
@@ -28557,36 +28557,36 @@ function BadWindowCheck() {
 function GoodWindowCheck() {
     const [isMobile, setIsMobile] = useState(false);
 
-    useEffect(() => {
-        setIsMobile(window.innerWidth < 768);
-        const handleResize = () => setIsMobile(window.innerWidth < 768);
+    useEffect(() =&gt; {
+        setIsMobile(window.innerWidth &lt; 768);
+        const handleResize = () =&gt; setIsMobile(window.innerWidth &lt; 768);
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return () =&gt; window.removeEventListener("resize", handleResize);
     }, []);
 
-    return <p>{isMobile ? "移动端" : "桌面端"}</p>;
+    return &lt;p&gt;{isMobile ? "移动端" : "桌面端"}&lt;/p&gt;;
 }
 
 // ===== 场景3：HTML 嵌套错误 =====
 // 错误写法：p 标签内嵌套 div（HTML 规范不允许）
 function BadNesting() {
     return (
-        <p>
+        &lt;p&gt;
             段落文本
             {/* div 不能嵌套在 p 内，浏览器会自动修正 DOM 结构 */}
             {/* 导致服务端和客户端的 DOM 结构不同 */}
-            {/* <div>嵌套内容</div> */}
-        </p>
+            {/* &lt;div&gt;嵌套内容&lt;/div&gt; */}
+        &lt;/p&gt;
     );
 }
 
 // 正确写法：使用正确的 HTML 嵌套
 function GoodNesting() {
     return (
-        <div>
-            <p>段落文本</p>
-            <div>独立内容</div>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;段落文本&lt;/p&gt;
+            &lt;div&gt;独立内容&lt;/div&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -28601,10 +28601,10 @@ export { GoodTimestamp, GoodWindowCheck, GoodNesting };
 React hydration 的对比过程：
 
 1. 服务端生成 HTML：
-   <p>时间: 2026-01-01 10:00:00</p>
+   &lt;p&gt;时间: 2026-01-01 10:00:00&lt;/p&gt;
 
 2. 客户端 React 运行组件：
-   <p>时间: 2026-01-01 10:00:03</p>
+   &lt;p&gt;时间: 2026-01-01 10:00:03&lt;/p&gt;
 
 3. React 对比发现不一致：
    → 开发环境：console.error 警告
@@ -28655,7 +28655,7 @@ import { useState, useEffect } from "react";
 function useHasMounted() {
     const [hasMounted, setHasMounted] = useState(false);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         setHasMounted(true);
     }, []);
 
@@ -28668,16 +28668,16 @@ function ClientOnlyContent() {
 
     if (!hasMounted) {
         // 服务端渲染和客户端首次渲染返回相同内容
-        return <p>加载中...</p>;
+        return &lt;p&gt;加载中...&lt;/p&gt;;
     }
 
     // 只在客户端挂载后渲染（不会出现不匹配）
     return (
-        <div>
-            <p>屏幕宽度: {window.innerWidth}px</p>
-            <p>主题: {localStorage.getItem("theme") || "light"}</p>
-            <p>时间: {new Date().toLocaleString()}</p>
-        </div>
+        &lt;div&gt;
+            &lt;p&gt;屏幕宽度: {window.innerWidth}px&lt;/p&gt;
+            &lt;p&gt;主题: {localStorage.getItem("theme") || "light"}&lt;/p&gt;
+            &lt;p&gt;时间: {new Date().toLocaleString()}&lt;/p&gt;
+        &lt;/div&gt;
     );
 }
 
@@ -28720,14 +28720,14 @@ Hydration 不匹配是服务端和客户端渲染结果不一致导致的问题�
 // ===== 合理使用：时间戳展示 =====
 function Timestamp() {
     return (
-        <time
+        &lt;time
             dateTime={new Date().toISOString()}
             // 服务端和客户端的时间一定不同
             // 这种不匹配是预期行为
             suppressHydrationWarning={true}
-        >
+        &gt;
             {new Date().toLocaleString("zh-CN")}
-        </time>
+        &lt;/time&gt;
     );
     // 服务端渲染: "2026/1/1 10:00:00"
     // 客户端 hydration: "2026/1/1 10:00:03"
@@ -28741,35 +28741,35 @@ import { useState, useEffect } from "react";
 function ThemeIndicator() {
     const [theme, setTheme] = useState("light");
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         // 客户端读取 localStorage
         const savedTheme = localStorage.getItem("theme") || "light";
         setTheme(savedTheme);
     }, []);
 
     return (
-        <span
+        &lt;span
             // 服务端始终渲染 "light"
             // 客户端可能立即变为 "dark"（useEffect 后）
             // 首次 hydration 不会不匹配（都是 "light"）
             // 但如果需要在服务端也展示正确的主题
             // 可以用 suppressHydrationWarning 处理过渡
             suppressHydrationWarning={true}
-        >
+        &gt;
             当前主题: {theme}
-        </span>
+        &lt;/span&gt;
     );
 }
 
 // ===== 合理使用：第三方内容注入 =====
 function ThirdPartyWidget() {
     return (
-        <div
+        &lt;div
             id="third-party-container"
             // 第三方脚本可能在 hydration 前修改了 DOM
             // 导致 React 检测到不匹配
             suppressHydrationWarning={true}
-        />
+        /&gt;
     );
 }
 
@@ -28778,9 +28778,9 @@ function BadUsage() {
     // 不要用 suppressHydrationWarning 掩盖逻辑错误
     // const data = typeof window !== "undefined" ? window.__DATA__ : null;
     // return (
-    //     <div suppressHydrationWarning>
+    //     &lt;div suppressHydrationWarning&gt;
     //         {data ? data.name : "loading"}
-    //     </div>
+    //     &lt;/div&gt;
     // );
     // 正确做法：用 useEffect 在客户端获取数据
     return null;
@@ -28797,14 +28797,14 @@ export { Timestamp, ThemeIndicator, ThirdPartyWidget };
 suppressHydrationWarning 的行为：
 
 1. 只抑制当前元素的文本内容警告
-   <p suppressHydrationWarning>
+   &lt;p suppressHydrationWarning&gt;
        服务端文本 vs 客户端文本  → 不警告
-       <span>子元素不匹配</span> → 仍然警告
-   </p>
+       &lt;span&gt;子元素不匹配&lt;/span&gt; → 仍然警告
+   &lt;/p&gt;
 
 2. 不会阻止 React 的修复行为
-   → 服务端: <p>10:00:00</p>
-   → 客户端: <p>10:00:03</p>
+   → 服务端: &lt;p&gt;10:00:00&lt;/p&gt;
+   → 客户端: &lt;p&gt;10:00:03&lt;/p&gt;
    → React 仍会用客户端内容替换
    → 只是不输出 console.error
 
