@@ -22,6 +22,9 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' }
     ],
+    outline: {
+      level: [2, 3]
+    },
     sidebar: [
       {
         text: '目录',

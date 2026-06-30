@@ -134,11 +134,54 @@ function adjustHeadingLevel(content, level = 2) {
     const match = line.match(/^(#+)\s/);
     if (match) {
       const currentLevel = match[1].length;
-      const newLevel = '#'.repeat(currentLevel + level - 1);
-      result.push(line.replace(/^#+\s/, newLevel + ' '));
+      let newLevel = currentLevel + level - 1;
+      
+      const headingText = line.replace(/^#+\s/, '');
+      if (/^\d+\.\d+/.test(headingText)) {
+        newLevel = Math.max(2, newLevel);
+      } else {
+        newLevel = Math.max(3, newLevel);
+      }
+      
+      result.push('#'.repeat(newLevel) + ' ' + headingText);
     } else {
       result.push(line);
     }
+  }
+  
+  return result.join('\n');
+}
+
+function addCollapsibleSections(content) {
+  const lines = content.split('\n');
+  const result = [];
+  let inCollapse = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const match = line.match(/^(#{4,})\s/);
+    
+    if (match) {
+      const level = match[1].length;
+      const headingText = line.replace(/^#+\s/, '');
+      
+      if (inCollapse) {
+        result.push('</details>');
+      }
+      
+      result.push(`<details><summary>${'#'.repeat(level)} ${headingText}</summary>`);
+      inCollapse = true;
+    } else {
+      if (line.match(/^#{1,3}\s/) && inCollapse) {
+        result.push('</details>');
+        inCollapse = false;
+      }
+      result.push(line);
+    }
+  }
+  
+  if (inCollapse) {
+    result.push('</details>');
   }
   
   return result.join('\n');
@@ -170,6 +213,9 @@ function mergeChapter(chapterName) {
       
       // 转义 HTML 标签
       content = escapeHtmlTags(content);
+      
+      // 添加折叠功能
+      content = addCollapsibleSections(content);
       
       chapterContent += content + '\n\n';
     }
