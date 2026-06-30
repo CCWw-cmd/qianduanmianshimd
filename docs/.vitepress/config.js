@@ -8,7 +8,7 @@ export default defineConfig({
   vue: {
     template: {
       compilerOptions: {
-        isCustomElement: (tag) => ['img', 'script', 'style', 'template', 'details', 'summary'].includes(tag)
+        isCustomElement: (tag) => ['img', 'script', 'style', 'template'].includes(tag)
       }
     }
   },

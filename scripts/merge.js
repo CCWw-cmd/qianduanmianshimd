@@ -152,41 +152,6 @@ function adjustHeadingLevel(content, level = 2) {
   return result.join('\n');
 }
 
-function addCollapsibleSections(content) {
-  const lines = content.split('\n');
-  const result = [];
-  let inCollapse = false;
-  
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const match = line.match(/^(#{4,})\s/);
-    
-    if (match) {
-      const level = match[1].length;
-      const headingText = line.replace(/^#+\s/, '');
-      
-      if (inCollapse) {
-        result.push('</details>');
-      }
-      
-      result.push(`<details><summary>${'#'.repeat(level)} ${headingText}</summary>`);
-      inCollapse = true;
-    } else {
-      if (line.match(/^#{1,3}\s/) && inCollapse) {
-        result.push('</details>');
-        inCollapse = false;
-      }
-      result.push(line);
-    }
-  }
-  
-  if (inCollapse) {
-    result.push('</details>');
-  }
-  
-  return result.join('\n');
-}
-
 // 合并章节
 function mergeChapter(chapterName) {
   const chapterPath = path.join(CHAPTERS_DIR, chapterName);
@@ -213,9 +178,6 @@ function mergeChapter(chapterName) {
       
       // 转义 HTML 标签
       content = escapeHtmlTags(content);
-      
-      // 添加折叠功能
-      content = addCollapsibleSections(content);
       
       chapterContent += content + '\n\n';
     }
